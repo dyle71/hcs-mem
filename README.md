@@ -59,7 +59,7 @@ Stream in and out is provided.
 ```
 .
 ├── 3rd                         3rd party libraries needed (as git submodules).
-├── include                     Header files.
+├── include                     Header files. Add the path to this folder to your C++ search path.
 │   └── memtool                 Include this!
 ├── test                        Tests.
 ├── Changes.md                  Changes file.
