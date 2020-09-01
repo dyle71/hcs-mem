@@ -12,6 +12,7 @@
 #include <cstddef>
 #include <cstring>
 #include <iomanip>
+#include <map>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -24,7 +25,7 @@ namespace headcode::memtool {
  * @param   b       The Byte.
  * @return  The hex value of this byte.
  */
-static std::string ByteToHex(std::byte b) {
+inline std::string ByteToHex(std::byte b) {
     std::stringstream ss;
     ss << std::setfill('0') << std::setw(2) << std::hex << std::noshowbase << std::to_integer<int>(b);
     return ss.str();
@@ -35,7 +36,7 @@ static std::string ByteToHex(std::byte b) {
  * @param   sv      the string view
  * @return  the byte identified by the string.
  */
-static std::byte HexToByte(std::string_view const & sv) {
+inline std::byte HexToByte(std::string_view const & sv) {
 
     static std::map<char, unsigned char> const hex_to_byte{
             {'0', 0x0}, {'1', 0x1}, {'2', 0x2}, {'3', 0x3}, {'4', 0x4}, {'5', 0x5}, {'6', 0x6}, {'7', 0x7},
@@ -61,8 +62,9 @@ static std::byte HexToByte(std::string_view const & sv) {
     return std::byte{value};
 }
 
+}
 
-std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * array, std::uint64_t size) {
+inline std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * array, std::uint64_t size) {
 
     std::vector<std::byte> res{size};
     if (array) {
@@ -72,7 +74,7 @@ std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * array, 
 }
 
 
-std::vector<std::byte> headcode::memtool::HexToMemory(std::string const & hex) {
+inline std::vector<std::byte> headcode::memtool::HexToMemory(std::string const & hex) {
 
     if (hex.empty()) {
         return {};
@@ -87,7 +89,7 @@ std::vector<std::byte> headcode::memtool::HexToMemory(std::string const & hex) {
 }
 
 
-std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> const & memory, 
+inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> const & memory,
                                                        std::string const & indent) {
 
     auto ascii_char = [](std::byte b) -> char {
@@ -105,7 +107,7 @@ std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> co
 
         std::stringstream ss_hex;
         std::stringstream ss_ascii;
-        
+
         // TODO: Refactor to simplify this
 
         // lower 8 bytes
@@ -142,7 +144,7 @@ std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> co
 }
 
 
-std::string headcode::memtool::MemoryToHex(std::vector<std::byte> const & memory) {
+inline std::string headcode::memtool::MemoryToHex(std::vector<std::byte> const & memory) {
 
     static std::map<std::byte, std::string> byte_to_hex;
     if (byte_to_hex.empty()) {
@@ -160,13 +162,10 @@ std::string headcode::memtool::MemoryToHex(std::vector<std::byte> const & memory
 }
 
 
-std::vector<std::byte> headcode::memtool::StringToMemory(std::string const & str) {
+inline std::vector<std::byte> headcode::memtool::StringToMemory(std::string const & str) {
     std::vector<std::byte> res{str.size()};
     std::memcpy(res.data(), str.data(), res.size());
     return res;
-}
-
-
 }
 
 

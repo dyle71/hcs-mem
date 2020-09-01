@@ -22,7 +22,7 @@
  * @brief   Version check for 0.1.0
  * @return  A value, representing the version.
  */
-std::uint32_t GetHCSMemtoolVersion_0_1_0() {
+inline std::uint32_t GetHCSMemtoolVersion_0_1_0() {
     return MAKE_VERSION(0, 1, 0);
 }
 
@@ -32,7 +32,7 @@ namespace headcode::memtool {
  * @brief   Returns the current version of the libait-memory.
  * @return  A value, representing the current version.
  */
-std::uint32_t GetCurrentVersion() {
+inline std::uint32_t GetCurrentVersion() {
     return GetHCSMemtoolVersion_0_1_0();
 }
 
@@ -40,7 +40,7 @@ std::uint32_t GetCurrentVersion() {
  * @brief   Returns a version as string
  * @return  a string holding the current version.
  */
-std::string GetVersionString() {
+inline std::string GetVersionString() {
     return "0.1.0";
 }
 

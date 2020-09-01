@@ -12,7 +12,7 @@ set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES}")
 
 set(UNIT_TEST_SRC
     #test_buffer.cpp
-    #test_memory.cpp
+    test_memory.cpp
     test_version.cpp
 )
 

@@ -6,8 +6,6 @@
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#include <cstdint>
-
 #include <gtest/gtest.h>
 
 #include <headcode/memtool/version.hpp>

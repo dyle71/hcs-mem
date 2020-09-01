@@ -21,7 +21,7 @@ namespace headcode::memtool {
  * @param   size        size of the char array.
  * @return  A memory block based on this hex string.
  */
-std::vector<std::byte> CharArrayToMemory(char const * array, std::uint64_t size);
+inline std::vector<std::byte> CharArrayToMemory(char const * array, std::uint64_t size);
 
 /**
  * @brief   Converts a hex string to a memory.
@@ -31,7 +31,7 @@ std::vector<std::byte> CharArrayToMemory(char const * array, std::uint64_t size)
  * @param   hex     the hex string describing a memory.
  * @return  A memory block based on this hex string.
  */
-std::vector<std::byte> HexToMemory(std::string const & hex);
+inline std::vector<std::byte> HexToMemory(std::string const & hex);
 
 /**
  * @brief   Gives a canonical representation of the memory.
@@ -48,14 +48,14 @@ std::vector<std::byte> HexToMemory(std::string const & hex);
  * @param   indent      indent of each line
  * @return  a string containing the canonical representation of the memory.
  */
-std::string MemoryToCanonicalString(std::vector<std::byte> const & memory, std::string const & indent = {});
+inline std::string MemoryToCanonicalString(std::vector<std::byte> const & memory, std::string const & indent = {});
 
 /**
  * @brief   Converts a memory area to a hex-string.
  * @param   memory      the memory to convert.
  * @return  A hex string representing this memory.
  */
-std::string MemoryToHex(std::vector<std::byte> const & memory);
+inline std::string MemoryToHex(std::vector<std::byte> const & memory);
 
 /**
  * @brief   Convenient function to quickly convert a string to a memory block.
@@ -63,7 +63,7 @@ std::string MemoryToHex(std::vector<std::byte> const & memory);
  * @param   size        size of the char array.
  * @return  A memory block based on this hex string.
  */
-std::vector<std::byte> StringToMemory(std::string const & str);
+inline std::vector<std::byte> StringToMemory(std::string const & str);
 
 }
 
