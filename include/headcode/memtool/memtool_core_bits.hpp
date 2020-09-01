@@ -55,7 +55,7 @@ inline std::byte HexToByte(std::string_view const & sv) {
 
     auto iter_first = hex_to_byte.find(sv[0]);
     if (iter_first != hex_to_byte.end()) {
-        value = iter_first->second << 4;
+        value = iter_first->second << 4u;
     }
 
     auto iter_second = hex_to_byte.find(sv[1]);

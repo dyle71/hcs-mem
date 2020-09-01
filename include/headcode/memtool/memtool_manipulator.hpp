@@ -54,7 +54,7 @@ public:
      * @param   minimum_growth      the minimum growth in bytes (must be > 0).
      */
     explicit MemoryManipulator(std::vector<std::byte> & memory, float growth_fraction = 0.1f,
-                      std::uint64_t minimum_growth = 1024)
+                               std::uint64_t minimum_growth = 1024)
             : memory_{memory}, growth_fraction_{growth_fraction}, minimum_growth_{minimum_growth} {
 
         if (growth_fraction_ <= 0.0f) {
@@ -176,7 +176,7 @@ public:
     /**
      * @brief   Reads a bool from the current read/write position.
      * @param   b       the bool to read
-     * @return  b
+     * @return  b read
      */
     bool const & Read(bool & b) const {
         Pick(&b, sizeof(b));
@@ -186,7 +186,7 @@ public:
     /**
      * @brief   Reads a byte from the current read/write position.
      * @param   b       the byte to read
-     * @return  b
+     * @return  b read
      */
     std::byte const & Read(std::byte & b) const {
         Pick(&b, sizeof(b));
@@ -196,6 +196,7 @@ public:
     /**
      * @brief   Reads a char from the current read/write position.
      * @param   c       the char to read
+     * @return  c read
      */
     char const & Read(char & c) const {
         Pick(&c, sizeof(c));
@@ -205,6 +206,7 @@ public:
     /**
      * @brief   Reads an unsigned char from the current read/write position.
      * @param   c       the char to read
+     * @return  c
      */
     unsigned char const & Read(unsigned char & c) const {
         Pick(&c, sizeof(c));
@@ -214,6 +216,7 @@ public:
     /**
      * @brief   Reads an int16_t from the current read/write position.
      * @param   i       the int16_t to read
+     * @return  i read
      */
     std::int16_t const & Read(std::int16_t & i) const {
         Pick(&i, sizeof(i));
@@ -226,6 +229,7 @@ public:
     /**
      * @brief   Reads an uint16_t from the current read/write position.
      * @param   u       the uint16_t to read
+     * @return  u read
      */
     std::uint16_t const & Read(std::uint16_t & u) const {
         Pick(&u, sizeof(u));
@@ -238,6 +242,7 @@ public:
     /**
      * @brief   Reads an int32_t from the current read/write position.
      * @param   i       the int32_t to read
+     * @return  i read
      */
     std::int32_t const & Read(int32_t & i) const {
         Pick(&i, sizeof(i));
@@ -250,6 +255,7 @@ public:
     /**
      * @brief   Reads an uint32_t from the current read/write position.
      * @param   u       the uint32_t to read
+     * @return  u read
      */
     std::uint32_t const & Read(std::uint32_t & u) const {
         Pick(&u, sizeof(u));
@@ -262,6 +268,7 @@ public:
     /**
      * @brief   Reads an int64_t from the current read/write position.
      * @param   i       the int64_t to read
+     * @return  i read
      */
     std::int64_t const & Read(std::int64_t & i) const {
         Pick(&i, sizeof(i));
@@ -274,6 +281,7 @@ public:
     /**
      * @brief   Reads an uint64_t from the current read/write position.
      * @param   u       the uint64_t to read
+     * @return  u read
      */
     std::uint64_t const & Read(std::uint64_t & u) const {
         Pick(&u, sizeof(u));
@@ -286,6 +294,7 @@ public:
     /**
      * @brief   Reads an float from the current read/write position.
      * @param   f       the float to read
+     * @return  f read
      */
     float const & Read(float & f) const {
         Pick(&f, sizeof(f));
@@ -295,6 +304,7 @@ public:
     /**
      * @brief   Reads an double from the current read/write position.
      * @param   d       the double to read
+     * @return  d read
      */
     double const & Read(double & d) const {
         Pick(&d, sizeof(d));
@@ -303,7 +313,8 @@ public:
 
     /**
      * @brief   Gets a memory from the current read/write position.
-     * @param   m      the memory to get (out)
+     * @param   m      the memory to get
+     * @return  m read
      */
     std::vector<std::byte> const & Read(std::vector<std::byte> & m) const {
         std::uint64_t size{0};
@@ -314,13 +325,14 @@ public:
 
         m.resize(size);
         Pick(m.data(), size);
-        
+
         return m;
     }
 
     /**
      * @brief   Gets a string from the current read/write position.
-     * @param   s       the string to get (out)
+     * @param   s       the string to get
+     * @return  s read
      */
     std::string const & Read(std::string & s) const {
         std::uint64_t size{0};
@@ -336,7 +348,8 @@ public:
 
     /**
      * @brief   Gets a list of items.
-     * @param   b       the list to get
+     * @param   l       the list to get
+     * @return  l read
      */
     template <class T>
     std::list<T> const & Read(std::list<T> & l) const {
@@ -352,7 +365,8 @@ public:
 
     /**
      * @brief   Gets a set of items.
-     * @param   b       the set to get
+     * @param   s       the set to get
+     * @return  s read
      */
     template <class T>
     std::set<T> const & Read(std::set<T> & s) const {
@@ -368,7 +382,8 @@ public:
 
     /**
      * @brief   Gets a valarray of items.
-     * @param   b       the valarray to get
+     * @param   v       the valarray to get
+     * @return  v read
      */
     template <class T>
     std::valarray<T> const & Read(std::valarray<T> & v) const {
@@ -386,6 +401,7 @@ public:
     /**
      * @brief   Gets a vector of items.
      * @param   v       the vector to get
+     * @return  v read
      */
     template <class T>
     std::vector<T> const & Read(std::vector<T> & v) const {
