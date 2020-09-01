@@ -53,7 +53,7 @@ public:
      * @param   growth_fraction     the fraction to grow the capacity of the memory if needed (must be > 0.0).
      * @param   minimum_growth      the minimum growth in bytes (must be > 0).
      */
-    MemoryManipulator(std::vector<std::byte> & memory, float growth_fraction = 0.1f,
+    explicit MemoryManipulator(std::vector<std::byte> & memory, float growth_fraction = 0.1f,
                       std::uint64_t minimum_growth = 1024)
             : memory_{memory}, growth_fraction_{growth_fraction}, minimum_growth_{minimum_growth} {
 
@@ -380,7 +380,7 @@ public:
      * This does not discard, free or delete any memory already held within the manipulator.
      * It just repositions the read/write header to the beginning of the manipulator.
      */
-    void Reset() {
+    void Reset() const {
         SetPosition(0);
     }
 

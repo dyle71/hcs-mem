@@ -9,6 +9,10 @@
 #ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_BITS_HPP
 #define HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_BITS_HPP
 
+#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_HPP
+#error "Do not include this file directly."
+#endif
+
 #include <cstddef>
 #include <cstring>
 #include <iomanip>
@@ -90,7 +94,7 @@ inline std::vector<std::byte> headcode::memtool::HexToMemory(std::string const &
 
 
 inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> const & memory,
-                                                       std::string const & indent) {
+                                                              std::string const & indent) {
 
     auto ascii_char = [](std::byte b) -> char {
         auto c = std::to_integer<char>(b);
