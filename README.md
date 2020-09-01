@@ -120,6 +120,9 @@ $ cd build
 $ make test
 ```
 
+_Note: Please check the test files for documentation. 
+The tests are easy to read and tell you how the code is intended to be used._ 
+
 ## Notable guidelines
 
 * Coding Guidelines: https://google.github.io/styleguide/cppguide.html
