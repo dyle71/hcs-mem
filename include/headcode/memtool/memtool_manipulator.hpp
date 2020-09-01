@@ -87,26 +87,30 @@ public:
      * @brief   Puts another data particle on top of the manipulator at the read/write position.
      * @param   data        pointer to data
      * @param   size        size of data
+     * @return  new position index value after add
      */
-    void Add(void const * data, std::uint64_t size) {
+    std::uint64_t Add(void const * data, std::uint64_t size) {
         Grow(size);
         if (GetFree() >= size) {
             std::memcpy(GetPositionPointer(), data, size);
             position_ += size;
         }
+        return position_;
     }
 
     /**
      * @brief   Advances read position by some bytes.
      * This will move to eof if the new position is out of bounds.
      * @param   bytes       number of bytes to advance the read position
+     * @return  new position index value
      */
-    void Advance(std::uint64_t bytes) const {
+    std::uint64_t Advance(std::uint64_t bytes) const {
         if (GetPosition() + bytes > memory_.size()) {
             position_ = memory_.size();
         } else {
             position_ += bytes;
         }
+        return position_;
     }
 
     /**
@@ -172,122 +176,136 @@ public:
     /**
      * @brief   Reads a bool from the current read/write position.
      * @param   b       the bool to read
+     * @return  b
      */
-    void Read(bool & b) const {
+    bool const & Read(bool & b) const {
         Pick(&b, sizeof(b));
+        return b;
     }
 
     /**
      * @brief   Reads a byte from the current read/write position.
      * @param   b       the byte to read
+     * @return  b
      */
-    void Read(std::byte & b) const {
+    std::byte const & Read(std::byte & b) const {
         Pick(&b, sizeof(b));
+        return b;
     }
 
     /**
      * @brief   Reads a char from the current read/write position.
      * @param   c       the char to read
      */
-    void Read(char & c) const {
+    char const & Read(char & c) const {
         Pick(&c, sizeof(c));
+        return c;
     }
 
     /**
      * @brief   Reads an unsigned char from the current read/write position.
      * @param   c       the char to read
      */
-    void Read(unsigned char & c) const {
+    unsigned char const & Read(unsigned char & c) const {
         Pick(&c, sizeof(c));
+        return c;
     }
 
     /**
      * @brief   Reads an int16_t from the current read/write position.
      * @param   i       the int16_t to read
      */
-    void Read(std::int16_t & i) const {
+    std::int16_t const & Read(std::int16_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
             i = be16toh(i);
         }
+        return i;
     }
 
     /**
      * @brief   Reads an uint16_t from the current read/write position.
      * @param   u       the uint16_t to read
      */
-    void Read(std::uint16_t & u) const {
+    std::uint16_t const & Read(std::uint16_t & u) const {
         Pick(&u, sizeof(u));
         if (IsEndianAware()) {
             u = be16toh(u);
         }
+        return u;
     }
 
     /**
      * @brief   Reads an int32_t from the current read/write position.
      * @param   i       the int32_t to read
      */
-    void Read(int32_t & i) const {
+    std::int32_t const & Read(int32_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
             i = be32toh(i);
         }
+        return i;
     }
 
     /**
      * @brief   Reads an uint32_t from the current read/write position.
      * @param   u       the uint32_t to read
      */
-    void Read(std::uint32_t & u) const {
+    std::uint32_t const & Read(std::uint32_t & u) const {
         Pick(&u, sizeof(u));
         if (IsEndianAware()) {
             u = be32toh(u);
         }
+        return u;
     }
 
     /**
      * @brief   Reads an int64_t from the current read/write position.
      * @param   i       the int64_t to read
      */
-    void Read(std::int64_t & i) const {
+    std::int64_t const & Read(std::int64_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
             i = be64toh(i);
         }
+        return i;
     }
 
     /**
      * @brief   Reads an uint64_t from the current read/write position.
      * @param   u       the uint64_t to read
      */
-    void Read(std::uint64_t & u) const {
+    std::uint64_t const & Read(std::uint64_t & u) const {
         Pick(&u, sizeof(u));
         if (IsEndianAware()) {
             u = be64toh(u);
         }
+        return u;
     }
 
     /**
      * @brief   Reads an float from the current read/write position.
      * @param   f       the float to read
      */
-    void Read(float & f) const {
+    float const & Read(float & f) const {
         Pick(&f, sizeof(f));
+        return f;
     }
 
     /**
      * @brief   Reads an double from the current read/write position.
      * @param   d       the double to read
      */
-    void Read(double & d) const {
+    double const & Read(double & d) const {
         Pick(&d, sizeof(d));
+        return d;
     }
 
     /**
      * @brief   Gets a memory from the current read/write position.
      * @param   m      the memory to get (out)
      */
-    void Read(std::vector<std::byte> & m) const {
+    std::vector<std::byte> const & Read(std::vector<std::byte> & m) const {
         std::uint64_t size{0};
         Read(size);
         if (GetRemaining() < size) {
@@ -296,13 +314,15 @@ public:
 
         m.resize(size);
         Pick(m.data(), size);
+        
+        return m;
     }
 
     /**
      * @brief   Gets a string from the current read/write position.
      * @param   s       the string to get (out)
      */
-    void Read(std::string & s) const {
+    std::string const & Read(std::string & s) const {
         std::uint64_t size{0};
         Read(size);
         if (GetRemaining() < size) {
@@ -311,6 +331,7 @@ public:
 
         s = std::string{GetPositionPointer(), size};
         Advance(size);
+        return s;
     }
 
     /**
@@ -318,7 +339,7 @@ public:
      * @param   b       the list to get
      */
     template <class T>
-    void Read(std::list<T> & l) const {
+    std::list<T> const & Read(std::list<T> & l) const {
         std::uint64_t size{0};
         Read(size);
         for (std::uint64_t i = 0; i < size; ++i) {
@@ -326,6 +347,7 @@ public:
             Read(e);
             l.push_back(e);
         }
+        return l;
     }
 
     /**
@@ -333,7 +355,7 @@ public:
      * @param   b       the set to get
      */
     template <class T>
-    void Read(std::set<T> & s) const {
+    std::set<T> const & Read(std::set<T> & s) const {
         std::uint64_t size{0};
         Read(size);
         for (std::uint64_t i = 0; i < size; ++i) {
@@ -341,6 +363,7 @@ public:
             Read(e);
             s.insert(e);
         }
+        return s;
     }
 
     /**
@@ -348,7 +371,7 @@ public:
      * @param   b       the valarray to get
      */
     template <class T>
-    void Read(std::valarray<T> & v) const {
+    std::valarray<T> const & Read(std::valarray<T> & v) const {
         std::uint64_t size{0};
         Read(size);
         v.resize(size);
@@ -357,6 +380,7 @@ public:
             Read(e);
             v[i] = e;
         }
+        return v;
     }
 
     /**
@@ -364,7 +388,7 @@ public:
      * @param   v       the vector to get
      */
     template <class T>
-    void Read(std::vector<T> & v) const {
+    std::vector<T> const & Read(std::vector<T> & v) const {
         std::uint64_t size{0};
         Read(size);
         v.reserve(size);
@@ -373,6 +397,7 @@ public:
             Read(e);
             v.push_back(e);
         }
+        return v;
     }
 
     /**
