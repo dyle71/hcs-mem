@@ -83,10 +83,14 @@ Stream in and out is provided.
 When cloning this project execute the following to clone submodules as well:
 
 ```bash
- $ git submodule init
- $ git submodule update
- ```
+$ git submodule init
+$ git submodule update
+```
 
+or simply clone with the `--recurse-submodule` option:
+```bash
+$ git clone --recurse-submodules
+```
 
 #### Native build
 
