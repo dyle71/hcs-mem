@@ -23,7 +23,6 @@
 
 namespace headcode::memtool {
 
-
 /**
  * @brief   This is a read/write mechanism of arbitrary data on a memory area which can handle endian encoding.
  * The MemoryManipulator **does not take ownership** of the memory area managed. It works like this:
@@ -644,9 +643,7 @@ private:
     }
 };
 
-
 }
-
 
 /**
  * @brief   Stream in

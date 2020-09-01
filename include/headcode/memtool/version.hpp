@@ -13,27 +13,33 @@
 #include <string>
 
 
+/**
+ * @brief   Version check for 0.1.0
+ * @return  A value, representing the version.
+ */
+std::uint32_t GetHCSMemtoolVersion_0_1_0() {
+    return (0 << 24 | 1 << 16 | 0);
+}
+
 namespace headcode::memtool {
 
 /**
  * @brief   Returns the current version of the libait-memory.
  * @return  A value, representing the current version.
  */
-std::uint32_t GetCurrentVersion();
+std::uint32_t GetCurrentVersion() {
+    return GetHCSMemtoolVersion_0_1_0();
+}
 
 /**
  * @brief   Returns a version as string
  * @return  a string holding the current version.
  */
-std::string GetVersionString();
-
+std::string GetVersionString() {
+    return "0.1.0";
 }
 
-/**
- * @brief   Version check for 0.1.0
- * @return  A value, representing the version.
- */
-std::uint32_t GetHCSMemtoolVersion_0_1_0();
+}
 
 
 #endif

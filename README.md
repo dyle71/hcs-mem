@@ -1,6 +1,6 @@
 # memtool
 
-This tiny header-only C++17 project to enhance working with memory as of `std::vectory<std::byte>`: 
+This tiny header-only C++17 project to enhance working with memory as of `std::vector<std::byte>`: 
 
 * for a hex to memory and vice versa conversion,
 * dump a canonical representation of the memory,
@@ -14,14 +14,14 @@ AIT, Austrian Institute of Technology
 
 A memtool comes along with these methods and functions:
 
-* `headcode::memtool::CharArrayToMemory` --> convert an old-school C character array to `std::vectory<std::byte>`
-* `headcode::memtool::HexToMemory` --> convert a hex string to `std::vectory<std::byte>` like
+* `headcode::memtool::CharArrayToMemory` --> convert an old-school C character array to `std::vector<std::byte>`
+* `headcode::memtool::HexToMemory` --> convert a hex string to `std::vector<std::byte>` like
     ```c++
-    std::vectory<std::byte> data = headcode::memtool::HexToMemory("dead1337");
+    std::vector<std::byte> data = headcode::memtool::HexToMemory("dead1337");
     ```
 * `headcode::memtool::MemoryToCanonicalString` --> dumps a canonical representation of the memory, like
     ```c++
-    std::vectory<std::byte> data;
+    std::vector<std::byte> data;
     std::cout << headcode::memtool::MemoryToCanonicalString(data) << std::endl;
     ```
     will give something similar to
@@ -39,7 +39,7 @@ ownership of the memory.
 
 Example:
 ```c++
-std::vectory<std::byte> data;
+std::vector<std::byte> data;
 headcode::memtool::MemoryManipulator buffer{data};
 
 buffer << std::string{"foo"};
