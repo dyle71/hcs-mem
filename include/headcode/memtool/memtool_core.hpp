@@ -68,4 +68,7 @@ std::vector<std::byte> StringToMemory(std::string const & str);
 }
 
 
+#include "memtool_core_bits.hpp"
+
+
 #endif
