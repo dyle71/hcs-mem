@@ -147,7 +147,6 @@ find_package(GTest REQUIRED)
 # ------------------------------------------------------------ 
 # Workload
 
-add_subdirectory(lib)
 add_subdirectory(test)
 
 

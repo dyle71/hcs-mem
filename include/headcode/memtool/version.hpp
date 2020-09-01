@@ -13,12 +13,17 @@
 #include <string>
 
 
+#ifndef MAKE_VERSION
+#define MAKE_VERSION(x, y, z) ((x) << 24 | (y) << 16 | (z))
+#endif
+
+
 /**
  * @brief   Version check for 0.1.0
  * @return  A value, representing the version.
  */
 std::uint32_t GetHCSMemtoolVersion_0_1_0() {
-    return (0 << 24 | 1 << 16 | 0);
+    return MAKE_VERSION(0, 1, 0);
 }
 
 namespace headcode::memtool {
