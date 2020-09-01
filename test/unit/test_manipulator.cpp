@@ -167,6 +167,31 @@ TEST_F(TestManipulatorFixture, list) {
 }
 
 
+TEST_F(TestManipulatorFixture, map) {
+    
+    std::map<std::string, std::string> map_src{
+            {"one", "eins"},
+            {"two", "zwei"},
+            {"three", "drei"},
+            {"four", "vier"}
+    };
+    std::map<std::string, std::string> map_dst;
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator buffer{memory};
+    
+    buffer.Write(map_src);
+    buffer.Reset();
+    buffer.Read(map_dst);
+    
+    EXPECT_EQ(map_src.size(), map_dst.size());
+    EXPECT_STREQ(map_src.at("one").c_str(), map_dst.at("one").c_str());
+    EXPECT_STREQ(map_src.at("two").c_str(), map_dst.at("two").c_str());
+    EXPECT_STREQ(map_src.at("three").c_str(), map_dst.at("three").c_str());
+    EXPECT_STREQ(map_src.at("four").c_str(), map_dst.at("four").c_str());
+}
+
+
 TEST_F(TestManipulatorFixture, set) {
     
     std::set<char> set_src{'q', 'k', 'd'};
@@ -247,6 +272,31 @@ TEST_F(TestManipulatorFixture, string) {
     buffer.SetPosition(0);
     EXPECT_STREQ(buffer.Read(s).c_str(), "The brown fox jumped over the lazy dog.");
     EXPECT_EQ(buffer.Read(f), 3.1514f);
+}
+
+
+TEST_F(TestManipulatorFixture, complex) {
+    
+    std::map<std::string, std::list<int>> complex_src{
+            {"abc", {1, 2, 3}},
+            {"def", {-1, -2, -3}},
+            {"odd", {1, 3, 5, 7, 9, 11}},
+            {"even", {2, 4, 6, 8, 10, 12}}
+    };
+    std::map<std::string, std::list<int>> complex_dst;
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator buffer{memory};
+    
+    buffer.Write(complex_src);
+    buffer.Reset();
+    buffer.Read(complex_dst);
+    
+    EXPECT_EQ(complex_src.size(), complex_dst.size());
+    EXPECT_EQ(complex_src.at("abc"), complex_dst.at("abc"));
+    EXPECT_EQ(complex_src.at("def"), complex_dst.at("def"));
+    EXPECT_EQ(complex_src.at("odd"), complex_dst.at("odd"));
+    EXPECT_EQ(complex_src.at("even"), complex_dst.at("even"));
 }
 
 

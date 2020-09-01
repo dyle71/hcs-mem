@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <cstring>
 #include <list>
+#include <map>
 #include <set>
 #include <string>
 #include <valarray>
@@ -322,7 +323,6 @@ public:
         if (GetRemaining() < size) {
             size = GetRemaining();
         }
-
         m.resize(size);
         Pick(m.data(), size);
 
@@ -340,7 +340,6 @@ public:
         if (GetRemaining() < size) {
             size = GetRemaining();
         }
-
         s = std::string{GetPositionPointer(), size};
         Advance(size);
         return s;
@@ -353,6 +352,7 @@ public:
      */
     template <class T>
     std::list<T> const & Read(std::list<T> & l) const {
+        l.clear();
         std::uint64_t size{0};
         Read(size);
         for (std::uint64_t i = 0; i < size; ++i) {
@@ -362,7 +362,27 @@ public:
         }
         return l;
     }
-
+    
+    /**
+     * @brief   Gets a map of items.
+     * @param   l       the list to get
+     * @return  l read
+     */
+    template <class K, class T>
+    std::map<K, T> const & Read(std::map<K, T> & m) const {
+        m.clear();
+        std::uint64_t size{0};
+        Read(size);
+        for (std::uint64_t i = 0; i < size; ++i) {
+            K key;
+            Read(key);
+            T value;
+            Read(value);
+            m[key] = value;
+        }
+        return m;
+    }
+    
     /**
      * @brief   Gets a set of items.
      * @param   s       the set to get
@@ -370,6 +390,7 @@ public:
      */
     template <class T>
     std::set<T> const & Read(std::set<T> & s) const {
+        s.clear();
         std::uint64_t size{0};
         Read(size);
         for (std::uint64_t i = 0; i < size; ++i) {
@@ -405,6 +426,7 @@ public:
      */
     template <class T>
     std::vector<T> const & Read(std::vector<T> & v) const {
+        v.clear();
         std::uint64_t size{0};
         Read(size);
         v.reserve(size);
@@ -589,7 +611,20 @@ public:
             Write(e);
         }
     }
-
+    
+    /**
+     * @brief   Writes a map of items.
+     * @param   m       the map to write
+     */
+    template <class K, class T>
+    void Write(std::map<K, T> const & m) {
+        Write(static_cast<std::uint64_t>(m.size()));
+        for (auto p : m) {
+            Write(p.first);
+            Write(p.second);
+        }
+    }
+    
     /**
      * @brief   Writes a set of items.
      * @param   s       the set to write
@@ -656,7 +691,7 @@ private:
 
     /**
      * @brief   Grows the memory managed by at least GetGrowStep() (if necessary).
-     * The idea is to enforce the internal size of the memory to be up to grow_step()
+     * The idea is to enforce the internal size of the memory to be up to GetGrowStep()
      * larger than necessary with an overzealous resize() call. Rationale: resize memory
      * operations are expensive. We want to avoid a large number of tiny resize calls.
      * @param   needed_space    amount of needed free size within the memory managed
@@ -668,8 +703,7 @@ private:
         }
 
         std::uint64_t new_size = position_ + needed_space;
-        std::uint64_t capacity = memory_.capacity();
-        if (capacity > new_size) {
+        if (memory_.capacity() > new_size) {
             memory_.resize(new_size);
             return;
         }
