@@ -9,4 +9,14 @@
 # ------------------------------------------------------------ 
 # Workload
 
-# -- no benchmark tests yet --
+include_directories(${CMAKE_SOURCE_DIR}/include ${GTEST_INCLUDE_DIR} ${CMAKE_BINARY_DIR})
+link_directories("${GTEST_LIBRARY_PATH};${GMOCK_LIBRARY_PATH}")
+set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES}")
+
+set(BENCHMARK_TEST_SRC
+    test_manipulator.cpp
+)
+
+add_executable(benchmark-tests ${BENCHMARK_TEST_SRC})
+target_link_libraries(benchmark-tests gtest gtest_main gmock gmock_main ${CMAKE_REQUIRED_LIBRARIES})
+gtest_add_tests(benchmark-tests "" AUTO)
