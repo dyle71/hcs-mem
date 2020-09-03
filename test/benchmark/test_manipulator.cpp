@@ -35,6 +35,7 @@ TEST(BenchmarkManipulator, Regular) {
     std::cout << "BenchmarkManipulator::Regular " << duration_ms << "ms" << std::endl;
 }
 
+
 TEST(BenchmarkManipulator, NoExtraGrowth) {
     
     std::vector<std::byte> data;
@@ -58,14 +59,14 @@ TEST(BenchmarkManipulator, MassiveGrowth) {
     
     auto time_start = std::chrono::high_resolution_clock::now();
     
-    headcode::memtool::MemoryManipulator manipulator{data, 0.5f, 100000};
+    headcode::memtool::MemoryManipulator manipulator{data, 0.5f, 1'000'000};
     for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
         manipulator << ipsum_lorem_text;
     }
     
     auto time_end = std::chrono::high_resolution_clock::now();
     auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    std::cout << "BenchmarkManipulator::NoExtraGrowth " << duration_ms << "ms" << std::endl;
+    std::cout << "BenchmarkManipulator::MassiveGrowth " << duration_ms << "ms" << std::endl;
 }
 
 
