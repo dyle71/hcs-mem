@@ -362,7 +362,7 @@ public:
         }
         return l;
     }
-    
+
     /**
      * @brief   Gets a map of items.
      * @param   l       the list to get
@@ -382,7 +382,7 @@ public:
         }
         return m;
     }
-    
+
     /**
      * @brief   Gets a set of items.
      * @param   s       the set to get
@@ -611,7 +611,7 @@ public:
             Write(e);
         }
     }
-    
+
     /**
      * @brief   Writes a map of items.
      * @param   m       the map to write
@@ -624,7 +624,7 @@ public:
             Write(p.second);
         }
     }
-    
+
     /**
      * @brief   Writes a set of items.
      * @param   s       the set to write
@@ -879,6 +879,19 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
 /**
  * @brief   Stream in
  * @param   lhs         left-hand-side manipulator
+ * @param   m           map
+ * @return  lhs
+ */
+template <class K, class T>
+headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+                                                  std::map<K, T> const & m) {
+    lhs.Write(m);
+    return lhs;
+}
+
+/**
+ * @brief   Stream in
+ * @param   lhs         left-hand-side manipulator
  * @param   s           set
  * @return  lhs
  */
@@ -1071,6 +1084,18 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
 template <class T>
 headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::list<T> & l) {
     lhs.Read(l);
+    return lhs;
+}
+
+/**
+ * @brief   Stream out
+ * @param   lhs         left-hand-side manipulator
+ * @param   m           map
+ * @return  lhs
+ */
+template <class K, class T>
+headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::map<K, T> & m) {
+    lhs.Read(m);
     return lhs;
 }
 
