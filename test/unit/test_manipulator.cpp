@@ -10,7 +10,7 @@
 
 #include <headcode/memtool/memtool.hpp>
 
-#include "ipsum_lorem.hpp"
+#include <shared/ipsum_lorem.hpp>
 
 using namespace headcode::memtool;
 
@@ -180,7 +180,7 @@ TEST(TestManipulator, StreamPOD) {
 
 TEST(TestManipulator, ReadWriteMemory) {
 
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_text);
+    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
     
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};
@@ -197,7 +197,7 @@ TEST(TestManipulator, ReadWriteMemory) {
 
 TEST(TestManipulator, StreamMemory) {
     
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_text);
+    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
     
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};

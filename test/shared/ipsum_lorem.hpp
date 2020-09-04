@@ -6,13 +6,13 @@
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef HEADCODE_SPACE_MEMTOOL_TEST_BENCHMARK_IPSUM_LOREM_HPP
-#define HEADCODE_SPACE_MEMTOOL_TEST_BENCHMARK_IPSUM_LOREM_HPP
+#ifndef HEADCODE_SPACE_MEMTOOL_TEST_SHARED_IPSUM_LOREM_HPP
+#define HEADCODE_SPACE_MEMTOOL_TEST_SHARED_IPSUM_LOREM_HPP
 
 #include <string>
 
 
-std::string const ipsum_lorem_text {"\n\
+std::string const ipsum_lorem_long_text{"\n\
 Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod \n\
 tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \n\
 quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi \n\

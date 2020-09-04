@@ -6,7 +6,7 @@
 # https://www.headcode.space, <info@headcode.space>
 # ------------------------------------------------------------
 
-include_directories(${CMAKE_SOURCE_DIR}/include ${GTEST_INCLUDE_DIR} ${CMAKE_BINARY_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/include ${TEST_BASE_DIR} ${GTEST_INCLUDE_DIR} ${CMAKE_BINARY_DIR})
 link_directories("${GTEST_LIBRARY_PATH};${GMOCK_LIBRARY_PATH}")
 set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES}")
 

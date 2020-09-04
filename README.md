@@ -60,8 +60,8 @@ Stream in and out is provided.
 .
 ├── 3rd                         3rd party libraries needed (as git submodules).
 ├── include                     Public header files. Add the path to this folder to your C++ search path.
-│   └── headcode                
-│       └── memtool             Include this: <headcode/memtool/memtool.hpp>
+│   └── headcode                
+│       └── memtool             Include this: <headcode/memtool/memtool.hpp>
 ├── test                        Tests.
 │   ├── benchmark               Benchmark tests.
 │   ├── integration             Integration tests.

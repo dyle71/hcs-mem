@@ -14,9 +14,9 @@
 
 #include <headcode/memtool/memtool.hpp>
 
-#include "ipsum_lorem.hpp"
+#include <shared/ipsum_lorem.hpp>
 
-std::uint64_t const LOOP_COUNT = 1'000'000u;
+std::uint64_t const LOOP_COUNT = 100'000u;
 
 
 TEST(BenchmarkManipulator, Regular) {
@@ -27,7 +27,7 @@ TEST(BenchmarkManipulator, Regular) {
     
     headcode::memtool::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
-        manipulator << ipsum_lorem_text;
+        manipulator << ipsum_lorem_long_text;
     }
     
     auto time_end = std::chrono::high_resolution_clock::now();
@@ -44,7 +44,7 @@ TEST(BenchmarkManipulator, NoExtraGrowth) {
     
     headcode::memtool::MemoryManipulator manipulator{data, 0.0f, 0};
     for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
-        manipulator << ipsum_lorem_text;
+        manipulator << ipsum_lorem_long_text;
     }
     
     auto time_end = std::chrono::high_resolution_clock::now();
@@ -61,7 +61,7 @@ TEST(BenchmarkManipulator, MassiveGrowth) {
     
     headcode::memtool::MemoryManipulator manipulator{data, 0.5f, 1'000'000};
     for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
-        manipulator << ipsum_lorem_text;
+        manipulator << ipsum_lorem_long_text;
     }
     
     auto time_end = std::chrono::high_resolution_clock::now();
