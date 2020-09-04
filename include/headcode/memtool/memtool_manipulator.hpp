@@ -22,6 +22,9 @@
 #include <endian.h>
 
 
+/**
+ * @brief   The headcode memtool namespace
+ */
 namespace headcode::memtool {
 
 /**
@@ -59,7 +62,7 @@ public:
     MemoryManipulator(MemoryManipulator const & rhs)
             : endian_aware_(rhs.endian_aware_), position_(0), memory_{rhs.memory_} {
     }
-
+    
     /**
      * @brief   Destructor
      */
@@ -346,8 +349,8 @@ public:
 
     /**
      * @brief   Gets a map of items.
-     * @param   l       the list to get
-     * @return  l read
+     * @param   m       the map to get
+     * @return  m read
      */
     template <class K, class T>
     std::map<K, T> const & Read(std::map<K, T> & m) const {
@@ -473,7 +476,7 @@ public:
 
     /**
      * @brief   Adds an unsigned char at the current read/write position.
-     * @param   b       the char to add
+     * @param   c       the char to add
      */
     void Write(unsigned char c) {
         Add(&c, sizeof(c));

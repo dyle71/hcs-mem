@@ -26,6 +26,9 @@ inline std::uint32_t GetHCSMemtoolVersion_0_1_0() {
     return MAKE_VERSION(0, 1, 0);
 }
 
+/**
+ * @brief   The headcode memtool namespace
+ */
 namespace headcode::memtool {
 
 /**

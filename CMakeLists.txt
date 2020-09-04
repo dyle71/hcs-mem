@@ -144,6 +144,24 @@ set(GMOCK_MAIN_LIBRARY  "${GTEST_LIBRARY_PATH}/libgmock_main.a")
 find_package(GTest REQUIRED)
 
 
+# ------------------------------------------------------------
+# Doxygen
+
+find_package(Doxygen)
+if (DOXYGEN_FOUND STREQUAL "NO")
+    message(FATAL_ERROR "Doxygen not found. Please get a copy http://www.doxygen.org")
+endif ()
+
+configure_file(${CMAKE_SOURCE_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
+add_custom_target(doxygen ALL
+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        COMMENT "Doxygen running ...")
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES api-doc)
+
+add_custom_target(doc)
+add_dependencies(doc doxygen)
+
+
 # ------------------------------------------------------------ 
 # Workload
 

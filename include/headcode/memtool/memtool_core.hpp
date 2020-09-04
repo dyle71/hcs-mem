@@ -14,6 +14,9 @@
 #include <vector>
 
 
+/**
+ * @brief   The headcode memtool namespace
+ */
 namespace headcode::memtool {
 
 /**
@@ -38,13 +41,14 @@ inline std::vector<std::byte> HexToMemory(std::string const & hex);
  * @brief   Gives a canonical representation of the memory.
  * The canonical representation is separated in different columns.
  *      - offset
- *      - first 8 bytes as hex <space> second 8 bytes as hex
+ *      - first 8 bytes as hex " " (space) second 8 bytes as hex
  *      - ASCII representation (if printable)
- * E.g:
+ * @code
  *       00000000   00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f   |........ ........|
  *       00000010   10 11 12 13 14 15 16 17  18 19 1a 1b 1c 1d 1e 1f   |........ ........|
  *       00000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
  *       ...
+ * @endcode
  * @param   memory      the memory to show.
  * @param   indent      indent of each line
  * @return  a string containing the canonical representation of the memory.
@@ -61,7 +65,6 @@ inline std::string MemoryToHex(std::vector<std::byte> const & memory);
 /**
  * @brief   Convenient function to quickly convert a string to a memory block.
  * @param   str         the string to convert
- * @param   size        size of the char array.
  * @return  A memory block based on this hex string.
  */
 inline std::vector<std::byte> StringToMemory(std::string const & str);

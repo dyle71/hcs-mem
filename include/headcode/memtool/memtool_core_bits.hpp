@@ -22,6 +22,10 @@
 #include <string_view>
 #include <vector>
 
+
+/**
+ * @brief   The headcode memtool namespace
+ */
 namespace headcode::memtool {
 
 /**
