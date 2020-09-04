@@ -506,3 +506,22 @@ TEST(TestManipulator, StreamComplexStructure) {
     EXPECT_EQ(complex_src.at("odd"), complex_dst.at("odd"));
     EXPECT_EQ(complex_src.at("even"), complex_dst.at("even"));
 }
+
+
+TEST(TestManipulator, EOFofManipulator) {
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator manipulator{memory};
+    
+    manipulator << ipsum_lorem_long_text;
+    
+    manipulator.Reset();
+    std::uint64_t i = 0;
+    while (!manipulator.IsEOF()) {
+        char c;
+        manipulator.Read(c);
+        ++i;
+    }
+    
+    EXPECT_EQ(i, ipsum_lorem_long_text.size() + sizeof(std::uint64_t));
+}
