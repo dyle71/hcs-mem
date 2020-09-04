@@ -16,57 +16,35 @@
 
 #include <shared/ipsum_lorem.hpp>
 
-std::uint64_t const LOOP_COUNT = 100'000u;
+#include "benchmark_tool.hpp"
 
 
-TEST(BenchmarkManipulator, Regular) {
+TEST(BenchmarkManipulator, IpsumLorem5000) {
     
     std::vector<std::byte> data;
 
     auto time_start = std::chrono::high_resolution_clock::now();
     
     headcode::memtool::MemoryManipulator manipulator{data};
-    for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
+    for (std::uint64_t i = 0; i < 1000u; ++i) {
         manipulator << ipsum_lorem_long_text;
     }
     
-    auto time_end = std::chrono::high_resolution_clock::now();
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    std::cout << "BenchmarkManipulator::Regular " << duration_ms << "ms" << std::endl;
+    std::cout << "BenchmarkManipulator::IpsumLorem " << GetElapsed(time_start).count() << "ms" << std::endl;
 }
 
 
-TEST(BenchmarkManipulator, NoExtraGrowth) {
+TEST(BenchmarkManipulator, IpsumLorem5000PreReserve) {
     
     std::vector<std::byte> data;
+    data.reserve(1000u * (ipsum_lorem_long_text.size() + sizeof(std::uint64_t)));
     
     auto time_start = std::chrono::high_resolution_clock::now();
     
-    headcode::memtool::MemoryManipulator manipulator{data, 0.0f, 0};
-    for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
+    headcode::memtool::MemoryManipulator manipulator{data};
+    for (std::uint64_t i = 0; i < 1000u; ++i) {
         manipulator << ipsum_lorem_long_text;
     }
     
-    auto time_end = std::chrono::high_resolution_clock::now();
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    std::cout << "BenchmarkManipulator::NoExtraGrowth " << duration_ms << "ms" << std::endl;
+    std::cout << "BenchmarkManipulator::IpsumLorem " << GetElapsed(time_start).count() << "ms" << std::endl;
 }
-
-
-TEST(BenchmarkManipulator, MassiveGrowth) {
-    
-    std::vector<std::byte> data;
-    
-    auto time_start = std::chrono::high_resolution_clock::now();
-    
-    headcode::memtool::MemoryManipulator manipulator{data, 0.5f, 1'000'000};
-    for (std::uint64_t i = 0; i < LOOP_COUNT; ++i) {
-        manipulator << ipsum_lorem_long_text;
-    }
-    
-    auto time_end = std::chrono::high_resolution_clock::now();
-    auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_end - time_start).count();
-    std::cout << "BenchmarkManipulator::MassiveGrowth " << duration_ms << "ms" << std::endl;
-}
-
-

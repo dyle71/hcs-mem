@@ -6,8 +6,8 @@
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef AIT_MEMORY_MEMORY_MANIPULATOR_HPP
-#define AIT_MEMORY_MEMORY_MANIPULATOR_HPP
+#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_MANIPULATOR_HPP
+#define HEADCODE_SPACE_MEMTOOL_MEMTOOL_MANIPULATOR_HPP
 
 #include <cstdint>
 #include <cstddef>
@@ -36,34 +36,19 @@ namespace headcode::memtool {
  *      }
  *      std::cout << blob.size() << std::end;       // yields 19 = 8 (size of uint64_t) + 3 ('foo') + 8 (size of ul)
  * @endcode
- * The managed memory will grow according to fraction and minimum_growth, i.e. the capacity of
- * the memory will grow by capacity() * fraction but at least with minimum_growth.
  */
 class MemoryManipulator {
 
-    bool endian_aware_ = false;                  //!< @brief Enforces endian conversion on POD input.
-    mutable std::uint64_t position_ = 0;         //!< @brief read/write position.
-    std::vector<std::byte> & memory_;            //!< @brief The memory we work on.
-    float growth_fraction_ = 0.1f;               //!< @brief Fraction to grow the capacity.
-    std::uint64_t minimum_growth_ = 1024;        //!< @brief Minimum growth value for the capacity of the memory.
+    bool endian_aware_ = false;                 //!< @brief Enforces endian conversion on POD input.
+    mutable std::uint64_t position_ = 0;        //!< @brief read/write position.
+    std::vector<std::byte> & memory_;           //!< @brief The memory we work on.
 
 public:
     /**
      * @brief   Constructor
      * @param   memory              the memory managed.
-     * @param   growth_fraction     the fraction to grow the capacity of the memory if needed (must be > 0.0).
-     * @param   minimum_growth      the minimum growth in bytes (must be > 0).
      */
-    explicit MemoryManipulator(std::vector<std::byte> & memory, float growth_fraction = 0.1f,
-                               std::uint64_t minimum_growth = 1024)
-            : memory_{memory}, growth_fraction_{growth_fraction}, minimum_growth_{minimum_growth} {
-
-        if (growth_fraction_ <= 0.0f) {
-            growth_fraction_ = 0.1f;
-        }
-        if (minimum_growth_ == 0) {
-            minimum_growth_ = 1;
-        }
+    explicit MemoryManipulator(std::vector<std::byte> & memory) : memory_{memory} {
     }
 
     /**
@@ -72,11 +57,7 @@ public:
      * @param   rhs         right hand side manipulator
      */
     MemoryManipulator(MemoryManipulator const & rhs)
-            : endian_aware_(rhs.endian_aware_),
-              position_(0),
-              memory_{rhs.memory_},
-              growth_fraction_{rhs.growth_fraction_},
-              minimum_growth_{rhs.minimum_growth_} {
+            : endian_aware_(rhs.endian_aware_), position_(0), memory_{rhs.memory_} {
     }
 
     /**
@@ -663,17 +644,6 @@ public:
 
 private:
     /**
-     * @brief   Gets the grow step.
-     * The grow step is a fraction of the reserved space (with a minimum).
-     * @param   fraction       the fraction to of growth
-     * @param   minimum        minimum growth
-     */
-    uint64_t GetGrowStep() const {
-        auto grow_step = static_cast<std::uint64_t>(memory_.capacity() * growth_fraction_);
-        return grow_step < minimum_growth_ ? minimum_growth_ : grow_step;
-    }
-
-    /**
      * @brief   Gets current read/write position as memory pointer.
      * @return  current read write position into memory
      */
@@ -690,10 +660,7 @@ private:
     }
 
     /**
-     * @brief   Grows the memory managed by at least GetGrowStep() (if necessary).
-     * The idea is to enforce the internal size of the memory to be up to GetGrowStep()
-     * larger than necessary with an overzealous resize() call. Rationale: resize memory
-     * operations are expensive. We want to avoid a large number of tiny resize calls.
+     * @brief   Grows the memory managed (if necessary).
      * @param   needed_space    amount of needed free size within the memory managed
      */
     void Grow(std::uint64_t needed_space) {
@@ -703,16 +670,9 @@ private:
         }
 
         std::uint64_t new_size = position_ + needed_space;
-        if (memory_.capacity() > new_size) {
-            memory_.resize(new_size);
-            return;
+        if (memory_.capacity() < new_size) {
+            memory_.reserve(new_size);
         }
-
-        std::uint64_t new_capacity = memory_.capacity() + GetGrowStep();
-        if (new_capacity < new_size) {
-            new_capacity = new_size;
-        }
-        memory_.reserve(new_capacity);
         memory_.resize(new_size);
     }
 };
