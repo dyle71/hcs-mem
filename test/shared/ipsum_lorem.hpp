@@ -12,7 +12,7 @@
 #include <string>
 
 
-std::string const ipsum_lorem_long_text{
+std::string const IPSUM_LOREM_TEXT{
         "\n\
 Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod \n\
 tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \n\

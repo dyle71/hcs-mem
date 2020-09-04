@@ -180,7 +180,7 @@ TEST(TestManipulator, StreamPOD) {
 
 TEST(TestManipulator, WriteReadMemory) {
 
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
+    auto ipsum_lorem_src = headcode::memtool::StringToMemory(IPSUM_LOREM_TEXT);
 
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};
@@ -197,7 +197,7 @@ TEST(TestManipulator, WriteReadMemory) {
 
 TEST(TestManipulator, StreamMemory) {
 
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
+    auto ipsum_lorem_src = headcode::memtool::StringToMemory(IPSUM_LOREM_TEXT);
 
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};
@@ -513,7 +513,7 @@ TEST(TestManipulator, EOFofManipulator) {
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
 
-    manipulator << ipsum_lorem_long_text;
+    manipulator << IPSUM_LOREM_TEXT;
 
     manipulator.Reset();
     std::uint64_t i = 0;
@@ -523,7 +523,7 @@ TEST(TestManipulator, EOFofManipulator) {
         ++i;
     }
 
-    EXPECT_EQ(i, ipsum_lorem_long_text.size() + sizeof(std::uint64_t));
+    EXPECT_EQ(i, IPSUM_LOREM_TEXT.size() + sizeof(std::uint64_t));
 }
 
 

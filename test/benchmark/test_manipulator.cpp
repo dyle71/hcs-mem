@@ -27,7 +27,7 @@ TEST(BenchmarkManipulator, IpsumLorem5000) {
 
     headcode::memtool::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < 1000u; ++i) {
-        manipulator << ipsum_lorem_long_text;
+        manipulator << IPSUM_LOREM_TEXT;
     }
 
     std::cout << "BenchmarkManipulator::IpsumLorem5000 " << GetElapsed(time_start).count() << "ms" << std::endl;
@@ -37,13 +37,13 @@ TEST(BenchmarkManipulator, IpsumLorem5000) {
 TEST(BenchmarkManipulator, IpsumLorem5000PreReserve) {
 
     std::vector<std::byte> data;
-    data.reserve(1000u * (ipsum_lorem_long_text.size() + sizeof(std::uint64_t)));
+    data.reserve(1000u * (IPSUM_LOREM_TEXT.size() + sizeof(std::uint64_t)));
 
     auto time_start = std::chrono::high_resolution_clock::now();
 
     headcode::memtool::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < 1000u; ++i) {
-        manipulator << ipsum_lorem_long_text;
+        manipulator << IPSUM_LOREM_TEXT;
     }
 
     std::cout << "BenchmarkManipulator::IpsumLorem5000PreReserve " << GetElapsed(time_start).count() << "ms"
