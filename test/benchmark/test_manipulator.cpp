@@ -19,7 +19,7 @@
 #include "benchmark_tool.hpp"
 
 
-TEST(BenchmarkManipulator, IpsumLorem5000) {
+TEST(BenchmarkManipulator, IpsumLorem1000) {
 
     std::vector<std::byte> data;
 
@@ -30,11 +30,11 @@ TEST(BenchmarkManipulator, IpsumLorem5000) {
         manipulator << IPSUM_LOREM_TEXT;
     }
 
-    std::cout << "BenchmarkManipulator::IpsumLorem5000 " << GetElapsed(time_start).count() << "ms" << std::endl;
+    std::cout << "BenchmarkManipulator::IpsumLorem1000 " << GetElapsed(time_start).count() << "ms" << std::endl;
 }
 
 
-TEST(BenchmarkManipulator, IpsumLorem5000PreReserve) {
+TEST(BenchmarkManipulator, IpsumLorem1000PreReserve) {
 
     std::vector<std::byte> data;
     data.reserve(1000u * (IPSUM_LOREM_TEXT.size() + sizeof(std::uint64_t)));
@@ -46,6 +46,6 @@ TEST(BenchmarkManipulator, IpsumLorem5000PreReserve) {
         manipulator << IPSUM_LOREM_TEXT;
     }
 
-    std::cout << "BenchmarkManipulator::IpsumLorem5000PreReserve " << GetElapsed(time_start).count() << "ms"
+    std::cout << "BenchmarkManipulator::IpsumLorem1000PreReserve " << GetElapsed(time_start).count() << "ms"
               << std::endl;
 }
