@@ -12,7 +12,8 @@
 #include <string>
 
 
-std::string const ipsum_lorem_long_text{"\n\
+std::string const ipsum_lorem_long_text{
+        "\n\
 Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod \n\
 tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, \n\
 quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi \n\

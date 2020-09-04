@@ -62,7 +62,7 @@ public:
     MemoryManipulator(MemoryManipulator const & rhs)
             : endian_aware_(rhs.endian_aware_), position_(0), memory_{rhs.memory_} {
     }
-    
+
     /**
      * @brief   Destructor
      */

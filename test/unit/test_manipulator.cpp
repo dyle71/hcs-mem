@@ -39,9 +39,9 @@ TEST(TestManipulator, ShallowCopy) {
 
 
 TEST(TestManipulator, WriteReadPOD) {
-    
+
     std::vector<std::byte> data{10};
-    
+
     char src_c = -98;
     unsigned char src_uc = 211;
     std::int16_t src_s = -9887;
@@ -53,7 +53,7 @@ TEST(TestManipulator, WriteReadPOD) {
     float src_f = 3.1415926535897932384626433832f;
     double src_d = 2.718281828459045235360287471352662497757247093699959;
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
-    
+
     headcode::memtool::MemoryManipulator manipulator{data};
 
     manipulator.Write(src_c);
@@ -67,7 +67,7 @@ TEST(TestManipulator, WriteReadPOD) {
     manipulator.Write(src_f);
     manipulator.Write(src_d);
     manipulator.Write(src_str);
-    
+
     char dst_c;
     unsigned char dst_uc;
     std::int16_t dst_s;
@@ -79,9 +79,9 @@ TEST(TestManipulator, WriteReadPOD) {
     float dst_f;
     double dst_d;
     std::string dst_str;
-    
+
     manipulator.Reset();
-    
+
     manipulator.Read(dst_c);
     manipulator.Read(dst_uc);
     manipulator.Read(dst_s);
@@ -93,7 +93,7 @@ TEST(TestManipulator, WriteReadPOD) {
     manipulator.Read(dst_f);
     manipulator.Read(dst_d);
     manipulator.Read(dst_str);
-    
+
     EXPECT_EQ(dst_c, src_c);
     EXPECT_EQ(dst_uc, src_uc);
     EXPECT_EQ(dst_s, src_s);
@@ -123,7 +123,7 @@ TEST(TestManipulator, StreamPOD) {
     float src_f = 3.1415926535897932384626433832f;
     double src_d = 2.718281828459045235360287471352662497757247093699959;
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
-    
+
     headcode::memtool::MemoryManipulator manipulator{data};
 
     manipulator << src_c;
@@ -151,7 +151,7 @@ TEST(TestManipulator, StreamPOD) {
     std::string dst_str;
 
     manipulator.Reset();
-    
+
     manipulator >> dst_c;
     manipulator >> dst_uc;
     manipulator >> dst_s;
@@ -163,7 +163,7 @@ TEST(TestManipulator, StreamPOD) {
     manipulator >> dst_f;
     manipulator >> dst_d;
     manipulator >> dst_str;
-    
+
     EXPECT_EQ(dst_c, src_c);
     EXPECT_EQ(dst_uc, src_uc);
     EXPECT_EQ(dst_s, src_s);
@@ -178,35 +178,35 @@ TEST(TestManipulator, StreamPOD) {
 }
 
 
-TEST(TestManipulator, ReadWriteMemory) {
+TEST(TestManipulator, WriteReadMemory) {
 
     auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
-    
+
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};
     manipulator.Write(ipsum_lorem_src);
-    
+
     headcode::memtool::MemoryManipulator manipulator_copy{manipulator};
     std::vector<std::byte> ipsum_lorem_dst;
     manipulator_copy.Read(ipsum_lorem_dst);
-    
+
     EXPECT_EQ(ipsum_lorem_src, ipsum_lorem_dst);
     EXPECT_NE(ipsum_lorem_src.data(), ipsum_lorem_dst.data());
 }
 
 
 TEST(TestManipulator, StreamMemory) {
-    
+
     auto ipsum_lorem_src = headcode::memtool::StringToMemory(ipsum_lorem_long_text);
-    
+
     std::vector<std::byte> data;
     headcode::memtool::MemoryManipulator manipulator{data};
     manipulator << ipsum_lorem_src;
-    
+
     manipulator.Reset();
     std::vector<std::byte> ipsum_lorem_dst;
     manipulator >> ipsum_lorem_dst;
-    
+
     EXPECT_EQ(ipsum_lorem_src, ipsum_lorem_dst);
     EXPECT_NE(ipsum_lorem_src.data(), ipsum_lorem_dst.data());
 }
@@ -234,17 +234,17 @@ TEST(TestManipulator, WriteReadList) {
 
 
 TEST(TestManipulator, StreamList) {
-    
+
     std::list<uint64_t> list_src{7, 1337, 0xdead, 9990999};
     std::list<uint64_t> list_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << list_src;
     manipulator.Reset();
     manipulator >> list_dst;
-    
+
     auto iter = list_dst.begin();
     EXPECT_EQ(*iter++, 7u);
     EXPECT_EQ(*iter++, 1337u);
@@ -275,17 +275,17 @@ TEST(TestManipulator, WriteReadMap) {
 
 
 TEST(TestManipulator, StreamMap) {
-    
+
     std::map<std::string, std::string> map_src{{"one", "eins"}, {"two", "zwei"}, {"three", "drei"}, {"four", "vier"}};
     std::map<std::string, std::string> map_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << map_src;
     manipulator.Reset();
     manipulator >> map_dst;
-    
+
     EXPECT_EQ(map_src.size(), map_dst.size());
     EXPECT_STREQ(map_src.at("one").c_str(), map_dst.at("one").c_str());
     EXPECT_STREQ(map_src.at("two").c_str(), map_dst.at("two").c_str());
@@ -317,17 +317,17 @@ TEST(TestManipulator, WriteReadSet) {
 
 
 TEST(TestManipulator, StreamSet) {
-    
+
     std::set<char> set_src{'d', 'y', 'l', 'e', '7', '1'};
     std::set<char> set_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << set_src;
     manipulator.Reset();
     manipulator >> set_dst;
-    
+
     EXPECT_NE(set_dst.find('d'), set_dst.end());
     EXPECT_NE(set_dst.find('y'), set_dst.end());
     EXPECT_NE(set_dst.find('l'), set_dst.end());
@@ -365,17 +365,17 @@ TEST(TestManipulator, WriteReadVector) {
 
 
 TEST(TestManipulator, StreamVector) {
-    
+
     std::vector<std::string> vector_src{"apple", "banana", "lemon", "orange", "pineapple", "sopophorous bean"};
     std::vector<std::string> vector_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << vector_src;
     manipulator.Reset();
     manipulator >> vector_dst;
-    
+
     auto iter = vector_dst.begin();
     EXPECT_EQ(*iter++, "apple");
     EXPECT_EQ(*iter++, "banana");
@@ -383,7 +383,7 @@ TEST(TestManipulator, StreamVector) {
     EXPECT_EQ(*iter++, "orange");
     EXPECT_EQ(*iter++, "pineapple");
     EXPECT_EQ(*iter++, "sopophorous bean");
-    
+
     auto item_size_sum = 0ul;
     std::for_each(vector_src.begin(), vector_src.end(), [&](auto const & s) { item_size_sum += s.size(); });
     EXPECT_EQ(memory.size(), sizeof(std::uint64_t) + sizeof(std::uint64_t) * vector_src.size() + item_size_sum);
@@ -411,17 +411,17 @@ TEST(TestManipulator, WriteReadValarray) {
 
 
 TEST(TestManipulator, StreamValarray) {
-    
+
     std::valarray<float> valarray_src{3.1415f, -0.00001f, 123456789.1234f, 2.7182818284590452f};
     std::valarray<float> valarray_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << valarray_src;
     manipulator.Reset();
     manipulator >> valarray_dst;
-    
+
     EXPECT_EQ(valarray_src.size(), valarray_dst.size());
     EXPECT_EQ(valarray_src[0], valarray_dst[0]);
     EXPECT_EQ(valarray_src[1], valarray_dst[1]);
@@ -449,17 +449,17 @@ TEST(TestManipulator, WriteReadStringAndFloat) {
 
 
 TEST(TestManipulator, StreamStringAndFloatAndRead) {
-    
+
     std::vector<std::byte> memory{128};
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator.SetPosition(0);
     manipulator << std::string{"The brown fox jumped over the lazy dog."};
     manipulator << 3.1514f;
-    
+
     std::string s;
     float f;
-    
+
     manipulator.SetPosition(0);
     EXPECT_STREQ(manipulator.Read(s).c_str(), "The brown fox jumped over the lazy dog.");
     EXPECT_EQ(manipulator.Read(f), 3.1514f);
@@ -488,18 +488,18 @@ TEST(TestManipulator, WriteReadComplexStructure) {
 
 
 TEST(TestManipulator, StreamComplexStructure) {
-    
+
     std::map<std::string, std::list<int>> complex_src{
             {"abc", {1, 2, 3}}, {"def", {-1, -2, -3}}, {"odd", {1, 3, 5, 7, 9, 11}}, {"even", {2, 4, 6, 8, 10, 12}}};
     std::map<std::string, std::list<int>> complex_dst;
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << complex_src;
     manipulator.Reset();
     manipulator >> complex_dst;
-    
+
     EXPECT_EQ(complex_src.size(), complex_dst.size());
     EXPECT_EQ(complex_src.at("abc"), complex_dst.at("abc"));
     EXPECT_EQ(complex_src.at("def"), complex_dst.at("def"));
@@ -509,12 +509,12 @@ TEST(TestManipulator, StreamComplexStructure) {
 
 
 TEST(TestManipulator, EOFofManipulator) {
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
-    
+
     manipulator << ipsum_lorem_long_text;
-    
+
     manipulator.Reset();
     std::uint64_t i = 0;
     while (!manipulator.IsEOF()) {
@@ -522,24 +522,24 @@ TEST(TestManipulator, EOFofManipulator) {
         manipulator.Read(c);
         ++i;
     }
-    
+
     EXPECT_EQ(i, ipsum_lorem_long_text.size() + sizeof(std::uint64_t));
 }
 
 
 TEST(TestManipulator, EndianAwareness) {
-    
+
     std::vector<std::byte> memory;
     headcode::memtool::MemoryManipulator manipulator{memory};
     manipulator.SetEndianAware(true);
-    
+
     union EndianTest {
         std::uint32_t v;
         unsigned char c[4];
     } endian_test{};
     endian_test.v = 0x1337dead;
     bool this_cpu_is_little_endian = (endian_test.c[3] == 0x13);
-    
+
     manipulator << static_cast<std::uint32_t>(0x1337dead);
     if (this_cpu_is_little_endian) {
         EXPECT_EQ(memory.at(0), static_cast<std::byte>(0x13));
@@ -552,11 +552,11 @@ TEST(TestManipulator, EndianAwareness) {
         EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
         EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
     }
-    
+
     manipulator.Reset();
     manipulator.SetEndianAware(false);
     manipulator << static_cast<std::uint32_t>(0x1337dead);
-    
+
     if (this_cpu_is_little_endian) {
         EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
         EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
