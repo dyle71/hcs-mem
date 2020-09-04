@@ -525,3 +525,47 @@ TEST(TestManipulator, EOFofManipulator) {
     
     EXPECT_EQ(i, ipsum_lorem_long_text.size() + sizeof(std::uint64_t));
 }
+
+
+TEST(TestManipulator, EndianAwareness) {
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator manipulator{memory};
+    manipulator.SetEndianAware(true);
+    
+    union EndianTest {
+        std::uint32_t v;
+        unsigned char c[4];
+    } endian_test{};
+    endian_test.v = 0x1337dead;
+    bool this_cpu_is_little_endian = (endian_test.c[3] == 0x13);
+    
+    manipulator << static_cast<std::uint32_t>(0x1337dead);
+    if (this_cpu_is_little_endian) {
+        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0x13));
+        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0xad));
+    } else {
+        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+    }
+    
+    manipulator.Reset();
+    manipulator.SetEndianAware(false);
+    manipulator << static_cast<std::uint32_t>(0x1337dead);
+    
+    if (this_cpu_is_little_endian) {
+        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+    } else {
+        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+    }
+}
