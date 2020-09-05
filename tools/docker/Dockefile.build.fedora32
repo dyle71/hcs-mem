@@ -1,0 +1,29 @@
+# ------------------------------------------------------------
+# This file is a Dockerfile of memtool of headcode.space
+#
+# The 'LICENSE.txt' file in the project root holds the software license.
+# Copyright (C) 2020 headcode.space
+# https://www.headcode.space, <info@headcode.space>
+# ------------------------------------------------------------
+
+FROM fedora:32
+
+RUN /bin/sh -c 'yum check-update || echo'
+RUN yum -y update
+RUN yum -y install \
+    gcc \
+    g++ \
+    cmake3 \
+    git \
+    rpm-build rpmdevtools \
+    doxygen \
+    unzip
+RUN yum clean all
+
+# install non repository packages
+#COPY build/*.deb /
+#COPY build/fedora32/*.rpm /
+#RUN rpm -iUh /*.rpm
+
+RUN mkdir -p /build
+WORKDIR /build

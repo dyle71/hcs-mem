@@ -1,0 +1,28 @@
+# ------------------------------------------------------------
+# This file is a Dockerfile of memtool of headcode.space
+#
+# The 'LICENSE.txt' file in the project root holds the software license.
+# Copyright (C) 2020 headcode.space
+# https://www.headcode.space, <info@headcode.space>
+# ------------------------------------------------------------
+
+FROM debian:10
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    gcc \
+    g++ \
+    git \
+    doxygen \
+    && rm -rf /var/lib/apt/lists/*
+
+# install non repository packages
+#COPY build/*.deb /
+#COPY build/bionic/*.deb /
+#RUN dpkg --install /*.deb
+
+RUN mkdir -p /build
+WORKDIR /build

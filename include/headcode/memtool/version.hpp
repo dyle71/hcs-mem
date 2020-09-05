@@ -32,7 +32,7 @@ inline std::uint32_t GetHCSMemtoolVersion_0_1_0() {
 namespace headcode::memtool {
 
 /**
- * @brief   Returns the current version of the libait-memory.
+ * @brief   Returns the current version of the headcode-memtool.
  * @return  A value, representing the current version.
  */
 inline std::uint32_t GetCurrentVersion() {
