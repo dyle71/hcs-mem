@@ -160,6 +160,10 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES api-doc)
 
 add_custom_target(doc)
 add_dependencies(doc doxygen)
+install(DIRECTORY ${CMAKE_BINARY_DIR}/html
+        DESTINATION share/doc/headcode-memtool-${VERSION_MAJOR}.${VERSION_MINOR}
+        COMPONENT documentation
+)
 
 
 # ------------------------------------------------------------ 
@@ -168,9 +172,15 @@ add_dependencies(doc doxygen)
 add_subdirectory(test)
 
 
+# ------------------------------------------------------------
+# Installing stuff
+
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/headcode/memtool DESTINATION include/headcode COMPONENT header)
+
+
 # ---- CPack global definitions ----
 
-set(CPACK_PACKAGE_NAME "hcs-memtool")
+set(CPACK_PACKAGE_NAME "headcode-memtool")
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
