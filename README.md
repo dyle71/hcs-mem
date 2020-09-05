@@ -134,5 +134,5 @@ The tests are easy to read and tell you how the code is intended to be used._
 ---
 
 (C)opyright 2020 headcode.space
-[https://headcode.space](https://headcode.space)
+[https://headcode.space](https://www.headcode.space)
 
