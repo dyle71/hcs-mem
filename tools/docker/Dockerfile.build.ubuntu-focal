@@ -27,3 +27,5 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /build
 WORKDIR /build
+
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"

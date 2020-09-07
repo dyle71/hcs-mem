@@ -6,25 +6,26 @@
 # https://www.headcode.space, <info@headcode.space>
 # ------------------------------------------------------------
 
-FROM fedora:32
+FROM ubuntu:18.04
 
-RUN /bin/sh -c 'yum check-update || echo'
-RUN yum -y update
-RUN yum -y install \
-    gcc \
-    g++ \
-    make \
-    cmake3 \
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    gcc-8 \
+    g++-8 \
     git \
-    rpm-build rpmdevtools \
     doxygen \
-    unzip
-RUN yum clean all
+    graphviz \
+    && rm -rf /var/lib/apt/lists/*
 
 # install non repository packages
 #COPY build/*.deb /
-#COPY build/fedora32/*.rpm /
-#RUN rpm -iUh /*.rpm
+#COPY build/ubuntu-bionic/*.deb /
+#RUN dpkg --install /*.deb
 
 RUN mkdir -p /build
 WORKDIR /build
+
+CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
