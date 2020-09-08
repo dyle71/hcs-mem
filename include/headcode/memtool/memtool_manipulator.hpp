@@ -16,7 +16,6 @@
 #include <map>
 #include <set>
 #include <string>
-#include <valarray>
 #include <vector>
 
 #include <endian.h>
@@ -386,24 +385,6 @@ public:
     }
 
     /**
-     * @brief   Gets a valarray of items.
-     * @param   v       the valarray to get
-     * @return  v read
-     */
-    template <class T>
-    std::valarray<T> const & Read(std::valarray<T> & v) const {
-        std::uint64_t size{0};
-        Read(size);
-        v.resize(size);
-        for (std::uint64_t i = 0; i < size; ++i) {
-            T e;
-            Read(e);
-            v[i] = e;
-        }
-        return v;
-    }
-
-    /**
      * @brief   Gets a vector of items.
      * @param   v       the vector to get
      * @return  v read
@@ -617,18 +598,6 @@ public:
     void Write(std::set<T> const & s) {
         Write(static_cast<std::uint64_t>(s.size()));
         for (auto e : s) {
-            Write(e);
-        }
-    }
-
-    /**
-     * @brief   Writes a valarray of items.
-     * @param   v       the valarray to write
-     */
-    template <class T>
-    void Write(std::valarray<T> const & v) {
-        Write(static_cast<std::uint64_t>(v.size()));
-        for (auto e : v) {
             Write(e);
         }
     }
@@ -867,19 +836,6 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
 /**
  * @brief   Stream in
  * @param   lhs         left-hand-side manipulator
- * @param   v           valarray
- * @return  lhs
- */
-template <class T>
-headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
-                                                  std::valarray<T> const & v) {
-    lhs.Write(v);
-    return lhs;
-}
-
-/**
- * @brief   Stream in
- * @param   lhs         left-hand-side manipulator
  * @param   v           vector
  * @return  lhs
  */
@@ -1071,18 +1027,6 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
 template <class T>
 headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::set<T> & s) {
     lhs.Read(s);
-    return lhs;
-}
-
-/**
- * @brief   Stream out
- * @param   lhs         left-hand-side manipulator
- * @param   v           valarray
- * @return  lhs
- */
-template <class T>
-headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::valarray<T> & v) {
-    lhs.Read(v);
     return lhs;
 }
 

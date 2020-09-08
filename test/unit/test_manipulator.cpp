@@ -390,46 +390,6 @@ TEST(TestManipulator, StreamVector) {
 }
 
 
-TEST(TestManipulator, WriteReadValarray) {
-
-    std::valarray<float> valarray_src{3.1415f, -0.00001f, 123456789.1234f, 2.7182818284590452f};
-    std::valarray<float> valarray_dst;
-
-    std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
-
-    manipulator.Write(valarray_src);
-    manipulator.Reset();
-    manipulator.Read(valarray_dst);
-
-    EXPECT_EQ(valarray_src.size(), valarray_dst.size());
-    EXPECT_EQ(valarray_src[0], valarray_dst[0]);
-    EXPECT_EQ(valarray_src[1], valarray_dst[1]);
-    EXPECT_EQ(valarray_src[2], valarray_dst[2]);
-    EXPECT_EQ(memory.size(), sizeof(std::uint64_t) + sizeof(float) * valarray_src.size());
-}
-
-
-TEST(TestManipulator, StreamValarray) {
-
-    std::valarray<float> valarray_src{3.1415f, -0.00001f, 123456789.1234f, 2.7182818284590452f};
-    std::valarray<float> valarray_dst;
-
-    std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
-
-    manipulator << valarray_src;
-    manipulator.Reset();
-    manipulator >> valarray_dst;
-
-    EXPECT_EQ(valarray_src.size(), valarray_dst.size());
-    EXPECT_EQ(valarray_src[0], valarray_dst[0]);
-    EXPECT_EQ(valarray_src[1], valarray_dst[1]);
-    EXPECT_EQ(valarray_src[2], valarray_dst[2]);
-    EXPECT_EQ(memory.size(), sizeof(std::uint64_t) + sizeof(float) * valarray_src.size());
-}
-
-
 TEST(TestManipulator, WriteReadStringAndFloat) {
 
     std::vector<std::byte> memory{128};
