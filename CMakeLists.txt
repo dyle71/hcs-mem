@@ -31,10 +31,6 @@ set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")
 set(VERSION_PATCH "0")
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
-add_compile_definitions(VERSION_MAJOR=${VERSION_MAJOR})
-add_compile_definitions(VERSION_MINOR=${VERSION_MINOR})
-add_compile_definitions(VERSION_PATCH=${VERSION_PATCH})
-add_compile_definitions(VERSION="${VERSION}")
 
 
 # ------------------------------------------------------------
@@ -71,6 +67,9 @@ endif ()
 # ------------------------------------------------------------
 # set global compiler flags
 
+add_definitions(-DVERSION_MAJOR=${VERSION_MAJOR})
+add_definitions(-DVERSION_MINOR=${VERSION_MINOR})
+add_definitions(-DVERSION_PATCH=${VERSION_PATCH})
 add_definitions(-DVERSION=\"${VERSION}\")
 add_definitions(-D_GNU_SOURCE)
 add_definitions(-D_DEFAULT_SOURCE)
