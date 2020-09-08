@@ -22,8 +22,8 @@
  * @brief   Version check for 0.1.0
  * @return  A value, representing the version.
  */
-inline std::uint32_t GetHCSMemtoolVersion_0_1_0() {
-    return MAKE_VERSION(0, 1, 0);
+inline std::uint32_t GetHCSMemtoolVersion_1_0_0() {
+    return MAKE_VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
 }
 
 /**
@@ -36,7 +36,7 @@ namespace headcode::memtool {
  * @return  A value, representing the current version.
  */
 inline std::uint32_t GetCurrentVersion() {
-    return GetHCSMemtoolVersion_0_1_0();
+    return GetHCSMemtoolVersion_1_0_0();
 }
 
 /**
@@ -44,7 +44,7 @@ inline std::uint32_t GetCurrentVersion() {
  * @return  a string holding the current version.
  */
 inline std::string GetVersionString() {
-    return "0.1.0";
+    return VERSION;
 }
 
 }

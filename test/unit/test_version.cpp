@@ -12,13 +12,14 @@
 
 
 TEST(Version, regular) {
-    std::uint32_t version = MAKE_VERSION(0, 1, 0);
+    std::uint32_t version = MAKE_VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
     EXPECT_EQ(headcode::memtool::GetCurrentVersion(), version);
     EXPECT_STREQ(headcode::memtool::GetVersionString().c_str(), VERSION);
 }
 
 
-TEST(Version, V0_1_0) {
-    std::uint32_t version = MAKE_VERSION(0, 1, 0);
-    EXPECT_EQ(GetHCSMemtoolVersion_0_1_0(), version);
+TEST(Version, V1_0_0) {
+    std::uint32_t version = MAKE_VERSION(VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH);
+    EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (0) << 16 | (0)), version);
+    EXPECT_EQ(GetHCSMemtoolVersion_1_0_0(), version);
 }
