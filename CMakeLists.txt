@@ -55,9 +55,9 @@ if (PROFILING_MODE_ENABLED)
         set(COMPILER_FLAGS_PROFILING "-pg --coverage")
         set(LINKER_FLAGS_PROFILING "-lgcov")
         add_custom_target(run-gcovr
-                COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -x -o ${CMAKE_BINARY_DIR}/report.xml
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                COMMENT "Running gcovr")
+            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -x -o ${CMAKE_BINARY_DIR}/gcovr-report.xml
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+            COMMENT "Running gcovr")
     endif ()
 else ()
     message(STATUS "Profiling mode disabled")
