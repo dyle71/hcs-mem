@@ -68,16 +68,16 @@ TEST(TestManipulator, WriteReadPOD) {
     manipulator.Write(src_d);
     manipulator.Write(src_str);
 
-    char dst_c;
-    unsigned char dst_uc;
-    std::int16_t dst_s;
-    std::uint16_t dst_us;
-    std::int32_t dst_i;
-    std::uint32_t dst_ui;
-    std::int64_t dst_l;
-    std::uint64_t dst_ul;
-    float dst_f;
-    double dst_d;
+    char dst_c{0};
+    unsigned char dst_uc{0};
+    std::int16_t dst_s{0};
+    std::uint16_t dst_us{0};
+    std::int32_t dst_i{0};
+    std::uint32_t dst_ui{0};
+    std::int64_t dst_l{0};
+    std::uint64_t dst_ul{0};
+    float dst_f{0.0f};
+    double dst_d{0.0};
     std::string dst_str;
 
     manipulator.Reset();
@@ -138,16 +138,16 @@ TEST(TestManipulator, StreamPOD) {
     manipulator << src_d;
     manipulator << src_str;
 
-    char dst_c;
-    unsigned char dst_uc;
-    std::int16_t dst_s;
-    std::uint16_t dst_us;
-    std::int32_t dst_i;
-    std::uint32_t dst_ui;
-    std::int64_t dst_l;
-    std::uint64_t dst_ul;
-    float dst_f;
-    double dst_d;
+    char dst_c{0};
+    unsigned char dst_uc{0};
+    std::int16_t dst_s{0};
+    std::uint16_t dst_us{0};
+    std::int32_t dst_i{0};
+    std::uint32_t dst_ui{0};
+    std::int64_t dst_l{0};
+    std::uint64_t dst_ul{0};
+    float dst_f{0.0f};
+    double dst_d{0.0};
     std::string dst_str;
 
     manipulator.Reset();
