@@ -33,6 +33,6 @@ SortIncludes: false
 SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
 SpacesBeforeTrailingComments: 8
-Standard: Cpp17
+Standard: Cpp11
 UseTab: Never
 ---
