@@ -123,6 +123,29 @@ $ make test
 _Note: Please check the test files for documentation. 
 The tests are easy to read and tell you how the code is intended to be used._ 
 
+### Test Coverage
+
+You may also run in-deep test coverage profiling. For this, you have to turn on profiling mode:
+```bash
+$ cd build
+$ cmake -D PROFILING_MODE_ENABLED=on ..
+```
+
+Then compile as usual and run the tests. After the tests make the `run-gcovr` target: 
+```bash
+$ make test
+$ make run-gcovr
+```
+
+This will give you the test coverage on stdout as well as:
+* `gcovr-coverage.info`:  this is the coverage info file created by gcovr
+* `gcovr-report.xml`: this is the gcovr report file in xml
+* `coverge-html`: this is the folder in which detailed html info of collected coverage resides
+  (open up the file `coverage-html/index.html` in a browser of your choice)
+
+in the build folder.
+
+
 ## Notable guidelines
 
 * Coding Guidelines: https://google.github.io/styleguide/cppguide.html

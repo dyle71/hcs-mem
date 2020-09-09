@@ -47,21 +47,30 @@ include(CheckLibraryExists)
 
 option(PROFILING_MODE_ENABLED "enable profiling mode" off)
 if (PROFILING_MODE_ENABLED)
+
     message(STATUS "Profiling mode enabled")
+
     set(CMAKE_BUILD_TYPE "Debug")
-    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-        set(COMPILER_FLAGS_PROFILING "-fprofile-instr-generate -fcoverage-mapping")
-    else ()
-        set(COMPILER_FLAGS_PROFILING "-pg --coverage")
-        set(LINKER_FLAGS_PROFILING "-lgcov")
-        add_custom_target(run-gcovr
-            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --branches -x -o ${CMAKE_BINARY_DIR}/gcovr-report.xml
-            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --branches
-            COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-coverage.info
-            COMMAND genhtml ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-coverage.info --output-directory coverage-html
-            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-            COMMENT "Running gcovr")
-    endif ()
+    set(COMPILER_FLAGS_PROFILING "-fprofile-instr-generate -fcoverage-mapping")
+
+    set(COMPILER_FLAGS_PROFILING "-pg --coverage")
+    set(LINKER_FLAGS_PROFILING "-lgcov")
+
+    set(COVERAGE_EXCLUDE_DIRS "'/usr/include/*' '/usr/lib/*' '${CMAKE_SOURCE_DIR}/3rd/*'")
+    set(COVERAGE_INFO_FILE ${CMAKE_BINARY_DIR}/gcovr-coverage.info)
+    set(COVERAGE_REPORT_FILE ${CMAKE_BINARY_DIR}/gcovr-report.xml)
+
+    add_custom_target(run-gcovr
+        COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/3rd -e ${CMAKE_SOURCE_DIR}/test -x -o ${COVERAGE_REPORT_FILE}
+        COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/3rd -e ${CMAKE_SOURCE_DIR}/test
+        COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} --output-file ${COVERAGE_INFO_FILE}
+        COMMAND lcov --remove ${COVERAGE_INFO_FILE} '/usr/include/*' --output-file ${COVERAGE_INFO_FILE} -q
+        COMMAND lcov --remove ${COVERAGE_INFO_FILE} '/usr/lib/*' --output-file ${COVERAGE_INFO_FILE} -q
+        COMMAND lcov --remove ${COVERAGE_INFO_FILE} '${CMAKE_SOURCE_DIR}/3rd/*' --output-file ${COVERAGE_INFO_FILE} -q
+        COMMAND genhtml ${COVERAGE_INFO_FILE} --output-directory coverage-html
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running gcovr"
+    )
 else ()
     message(STATUS "Profiling mode disabled")
 endif ()
