@@ -55,8 +55,10 @@ if (PROFILING_MODE_ENABLED)
         set(COMPILER_FLAGS_PROFILING "-pg --coverage")
         set(LINKER_FLAGS_PROFILING "-lgcov")
         add_custom_target(run-gcovr
-            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -x -o ${CMAKE_BINARY_DIR}/gcovr-report.xml
-            COMMAND gcovr -r ${CMAKE_SOURCE_DIR}
+            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --branches -x -o ${CMAKE_BINARY_DIR}/gcovr-report.xml
+            COMMAND gcovr -r ${CMAKE_SOURCE_DIR} --branches
+            COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-coverage.info
+            COMMAND genhtml ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-coverage.info --output-directory coverage-html
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             COMMENT "Running gcovr")
     endif ()
