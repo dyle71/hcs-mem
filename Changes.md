@@ -12,4 +12,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/memtool/-/tree/develop
-[1.0.0]: https://gitlab.com/headcode.space/memtool/-/tags/v1.0.0
+[1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0
