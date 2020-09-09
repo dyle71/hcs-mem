@@ -56,6 +56,7 @@ if (PROFILING_MODE_ENABLED)
         set(LINKER_FLAGS_PROFILING "-lgcov")
         add_custom_target(run-gcovr
             COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -x -o ${CMAKE_BINARY_DIR}/gcovr-report.xml
+            COMMAND gcovr -r ${CMAKE_SOURCE_DIR}
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             COMMENT "Running gcovr")
     endif ()

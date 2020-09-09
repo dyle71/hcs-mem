@@ -30,6 +30,7 @@ build:
       - build/*.tar.gz
       - build/gcovr-report.xml
     name: ${CI_PROJECT_NAME}-sources
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
 
 package-debian-buster:
   stage: package
