@@ -30,7 +30,7 @@ TEST(BenchmarkManipulator, IpsumLorem1000) {
         manipulator << IPSUM_LOREM_TEXT;
     }
 
-    std::cout << "BenchmarkManipulator::IpsumLorem1000 " << GetElapsed(time_start).count() << "ms" << std::endl;
+    std::cout << "BenchmarkManipulator::IpsumLorem1000 " << GetElapsed(time_start).count() << "us" << std::endl;
 }
 
 
@@ -46,6 +46,6 @@ TEST(BenchmarkManipulator, IpsumLorem1000PreReserve) {
         manipulator << IPSUM_LOREM_TEXT;
     }
 
-    std::cout << "BenchmarkManipulator::IpsumLorem1000PreReserve " << GetElapsed(time_start).count() << "ms"
+    std::cout << "BenchmarkManipulator::IpsumLorem1000PreReserve " << GetElapsed(time_start).count() << "us"
               << std::endl;
 }

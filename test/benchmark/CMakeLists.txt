@@ -14,6 +14,7 @@ link_directories("${GTEST_LIBRARY_PATH};${GMOCK_LIBRARY_PATH}")
 set(CMAKE_REQUIRED_LIBRARIES "${CMAKE_REQUIRED_LIBRARIES}")
 
 set(BENCHMARK_TEST_SRC
+    test_byte_to_hex.cpp
     test_manipulator.cpp
 )
 
