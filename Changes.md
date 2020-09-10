@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Improved performance at byte to hex conversion
+- Use hard-coded version numbers (as induced in a header only solution)
 
 ## [1.0.0] - 2020-09-09
 ### Added
