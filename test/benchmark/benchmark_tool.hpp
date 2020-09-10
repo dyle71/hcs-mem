@@ -15,10 +15,10 @@
 /**
  * @brief   Returns the elapsed milliseconds since a point in time.
  * @param   since       the reference point in time
- * @return  milliseconds passed since the reference point
+ * @return  microseconds passed since the reference point
  */
-inline std::chrono::milliseconds GetElapsed(std::chrono::high_resolution_clock::time_point const & since) {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - since);
+inline std::chrono::microseconds GetElapsed(std::chrono::high_resolution_clock::time_point const & since) {
+    return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - since);
 }
 
 

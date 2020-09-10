@@ -34,9 +34,11 @@ namespace headcode::memtool {
  * @return  The hex value of this byte.
  */
 inline std::string ByteToHex(std::byte b) {
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(2) << std::hex << std::noshowbase << std::to_integer<int>(b);
-    return ss.str();
+    std::string res{"00"};
+    static char const * table = "0123456789abcdef";
+    res[0] = table[static_cast<unsigned char>(b) >> 4];
+    res[1] = table[static_cast<unsigned char>(b) & 0x0f];
+    return res;
 }
 
 /**
@@ -105,6 +107,17 @@ inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::b
         return (c >= ' ') && (c <= '~') ? c : '.';
     };
 
+    auto stream_memory = [&](std::vector<std::byte> const & memory, std::uint64_t i, std::stringstream & ss_hex,
+                             std::stringstream & ss_ascii) {
+        if (i < memory.size()) {
+            ss_hex << ByteToHex(memory[i]) << ' ';
+            ss_ascii << ascii_char(memory[i]);
+        } else {
+            ss_hex << "   ";
+            ss_ascii << ' ';
+        }
+    };
+
     std::stringstream ss;
 
     for (std::uint64_t i = 0; i < memory.size(); i += 16) {
@@ -116,17 +129,9 @@ inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::b
         std::stringstream ss_hex;
         std::stringstream ss_ascii;
 
-        // TODO: Refactor to simplify this
-
         // lower 8 bytes
         for (std::uint64_t j = i; j < i + 8; ++j) {
-            if (j < memory.size()) {
-                ss_hex << ByteToHex(memory[j]) << ' ';
-                ss_ascii << ascii_char(memory[j]);
-            } else {
-                ss_hex << "   ";
-                ss_ascii << ' ';
-            }
+            stream_memory(memory, j, ss_hex, ss_ascii);
         }
 
         ss_hex << ' ';
@@ -134,14 +139,7 @@ inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::b
 
         // upper 8 bytes
         for (std::uint64_t j = i + 8; j < i + 16; ++j) {
-
-            if (j < memory.size()) {
-                ss_hex << ByteToHex(memory[j]) << ' ';
-                ss_ascii << ascii_char(memory[j]);
-            } else {
-                ss_hex << "   ";
-                ss_ascii << ' ';
-            }
+            stream_memory(memory, j, ss_hex, ss_ascii);
         }
 
         ss << indent << std::setfill('0') << std::setw(8) << std::hex << std::noshowbase << i;
