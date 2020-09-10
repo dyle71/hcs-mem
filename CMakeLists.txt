@@ -67,6 +67,7 @@ if (PROFILING_MODE_ENABLED)
         COMMAND lcov --remove ${COVERAGE_INFO_FILE} '/usr/include/*' --output-file ${COVERAGE_INFO_FILE} -q
         COMMAND lcov --remove ${COVERAGE_INFO_FILE} '/usr/lib/*' --output-file ${COVERAGE_INFO_FILE} -q
         COMMAND lcov --remove ${COVERAGE_INFO_FILE} '${CMAKE_SOURCE_DIR}/3rd/*' --output-file ${COVERAGE_INFO_FILE} -q
+        COMMAND lcov --remove ${COVERAGE_INFO_FILE} '${CMAKE_SOURCE_DIR}/test/*' --output-file ${COVERAGE_INFO_FILE} -q
         COMMAND genhtml ${COVERAGE_INFO_FILE} --output-directory coverage-html
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Running gcovr"

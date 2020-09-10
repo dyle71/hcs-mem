@@ -64,6 +64,8 @@ TEST(TestManipulator, WriteReadPOD) {
     float src_f = 3.1415926535897932384626433832f;
     double src_d = 2.718281828459045235360287471352662497757247093699959;
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
+    bool src_bool = false;
+    std::byte src_byte{42};
 
     headcode::memtool::MemoryManipulator manipulator{data};
 
@@ -78,6 +80,8 @@ TEST(TestManipulator, WriteReadPOD) {
     manipulator.Write(src_f);
     manipulator.Write(src_d);
     manipulator.Write(src_str);
+    manipulator.Write(src_bool);
+    manipulator.Write(src_byte);
 
     char dst_c{0};
     unsigned char dst_uc{0};
@@ -90,6 +94,8 @@ TEST(TestManipulator, WriteReadPOD) {
     float dst_f{0.0f};
     double dst_d{0.0};
     std::string dst_str;
+    bool dst_bool = true;
+    std::byte dst_byte{13};
 
     manipulator.Reset();
 
@@ -104,6 +110,8 @@ TEST(TestManipulator, WriteReadPOD) {
     manipulator.Read(dst_f);
     manipulator.Read(dst_d);
     manipulator.Read(dst_str);
+    manipulator.Read(dst_bool);
+    manipulator.Read(dst_byte);
 
     EXPECT_EQ(dst_c, src_c);
     EXPECT_EQ(dst_uc, src_uc);
@@ -116,6 +124,8 @@ TEST(TestManipulator, WriteReadPOD) {
     EXPECT_EQ(dst_f, src_f);
     EXPECT_EQ(dst_d, src_d);
     EXPECT_STREQ(dst_str.c_str(), src_str.c_str());
+    EXPECT_EQ(dst_bool, src_bool);
+    EXPECT_EQ(dst_byte, src_byte);
 }
 
 
@@ -134,6 +144,8 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     float src_f = 3.1415926535897932384626433832f;
     double src_d = 2.718281828459045235360287471352662497757247093699959;
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
+    bool src_bool = false;
+    std::byte src_byte{42};
 
     headcode::memtool::MemoryManipulator manipulator{data};
     manipulator.SetEndianAware(false);
@@ -149,6 +161,8 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     manipulator << src_f;
     manipulator << src_d;
     manipulator << src_str;
+    manipulator << src_bool;
+    manipulator << src_byte;
 
     char dst_c{0};
     unsigned char dst_uc{0};
@@ -161,6 +175,8 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     float dst_f{0.0f};
     double dst_d{0.0};
     std::string dst_str;
+    bool dst_bool = true;
+    std::byte dst_byte{13};
 
     manipulator.Reset();
 
@@ -175,6 +191,8 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     manipulator >> dst_f;
     manipulator >> dst_d;
     manipulator >> dst_str;
+    manipulator >> dst_bool;
+    manipulator >> dst_byte;
 
     EXPECT_EQ(dst_c, src_c);
     EXPECT_EQ(dst_uc, src_uc);
@@ -187,6 +205,8 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     EXPECT_EQ(dst_f, src_f);
     EXPECT_EQ(dst_d, src_d);
     EXPECT_STREQ(dst_str.c_str(), src_str.c_str());
+    EXPECT_EQ(dst_bool, src_bool);
+    EXPECT_EQ(dst_byte, src_byte);
 }
 
 

@@ -799,6 +799,18 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
 /**
  * @brief   Stream in
  * @param   lhs         left-hand-side manipulator
+ * @param   s           string
+ * @return  lhs
+ */
+inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+                                                         char const * s) {
+    lhs.Write(std::string{s});
+    return lhs;
+}
+
+/**
+ * @brief   Stream in
+ * @param   lhs         left-hand-side manipulator
  * @param   l           list
  * @return  lhs
  */
@@ -843,6 +855,17 @@ template <class T>
 headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
                                                   std::vector<T> const & v) {
     lhs.Write(v);
+    return lhs;
+}
+
+/**
+ * @brief   Stream in
+ * @param   lhs         left-hand-side manipulator
+ * @param   b           bool
+ * @return  lhs
+ */
+inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, bool b) {
+    lhs.Write(b);
     return lhs;
 }
 
@@ -1039,6 +1062,17 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
 template <class T>
 headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::vector<T> & v) {
     lhs.Read(v);
+    return lhs;
+}
+
+/**
+ * @brief   Stream out
+ * @param   lhs         left-hand-side manipulator
+ * @param   b           bool
+ * @return  lhs
+ */
+inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, bool & b) {
+    lhs.Read(b);
     return lhs;
 }
 
