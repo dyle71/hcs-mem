@@ -109,6 +109,12 @@ TEST(Memory, HexToMemory) {
 }
 
 
+TEST(Memory, HexToMemorySmall) {
+    std::string hex{"f"};
+    EXPECT_EQ(0, static_cast<unsigned char>(HexToByte(hex)));
+}
+
+
 TEST(Memory, HexToMemToHex) {
     std::string hex{"116f7f44bddc108129e6f95e7e5420da"};
     EXPECT_STREQ(hex.c_str(), MemoryToHex(HexToMemory(hex)).c_str());

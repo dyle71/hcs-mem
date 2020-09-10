@@ -38,6 +38,17 @@ TEST(TestManipulator, ShallowCopy) {
 }
 
 
+TEST(TestManipulator, AdvanceBeyondEOF) {
+    
+    std::vector<std::byte> data{20};
+    headcode::memtool::MemoryManipulator manipulator{data};
+    manipulator << "012345678";
+    EXPECT_EQ(manipulator.GetPosition(), sizeof(std::uint64_t) + 9u);
+    manipulator.Advance(10);
+    EXPECT_EQ(manipulator.GetPosition(), 20u);
+}
+
+
 TEST(TestManipulator, WriteReadPOD) {
 
     std::vector<std::byte> data{10};
@@ -108,7 +119,7 @@ TEST(TestManipulator, WriteReadPOD) {
 }
 
 
-TEST(TestManipulator, StreamPOD) {
+TEST(TestManipulator, StreamPODEndianIgnore) {
 
     std::vector<std::byte> data{10};
 
@@ -125,6 +136,7 @@ TEST(TestManipulator, StreamPOD) {
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
 
     headcode::memtool::MemoryManipulator manipulator{data};
+    manipulator.SetEndianAware(false);
 
     manipulator << src_c;
     manipulator << src_uc;
@@ -164,6 +176,77 @@ TEST(TestManipulator, StreamPOD) {
     manipulator >> dst_d;
     manipulator >> dst_str;
 
+    EXPECT_EQ(dst_c, src_c);
+    EXPECT_EQ(dst_uc, src_uc);
+    EXPECT_EQ(dst_s, src_s);
+    EXPECT_EQ(dst_us, src_us);
+    EXPECT_EQ(dst_i, src_i);
+    EXPECT_EQ(dst_ui, src_ui);
+    EXPECT_EQ(dst_l, src_l);
+    EXPECT_EQ(dst_ul, src_ul);
+    EXPECT_EQ(dst_f, src_f);
+    EXPECT_EQ(dst_d, src_d);
+    EXPECT_STREQ(dst_str.c_str(), src_str.c_str());
+}
+
+
+TEST(TestManipulator, StreamPODEndianAware) {
+    
+    std::vector<std::byte> data{10};
+    
+    char src_c = -98;
+    unsigned char src_uc = 211;
+    std::int16_t src_s = -9887;
+    std::uint16_t src_us = 1337;
+    std::int32_t src_i = -888912;
+    std::uint32_t src_ui = 19883563;
+    std::int64_t src_l = -913918938;
+    std::uint64_t src_ul = 132176734452;
+    float src_f = 3.1415926535897932384626433832f;
+    double src_d = 2.718281828459045235360287471352662497757247093699959;
+    std::string src_str{"The quick brown fox jumped over the lazy dog."};
+    
+    headcode::memtool::MemoryManipulator manipulator{data};
+    manipulator.SetEndianAware(true);
+    
+    manipulator << src_c;
+    manipulator << src_uc;
+    manipulator << src_s;
+    manipulator << src_us;
+    manipulator << src_i;
+    manipulator << src_ui;
+    manipulator << src_l;
+    manipulator << src_ul;
+    manipulator << src_f;
+    manipulator << src_d;
+    manipulator << src_str;
+    
+    char dst_c{0};
+    unsigned char dst_uc{0};
+    std::int16_t dst_s{0};
+    std::uint16_t dst_us{0};
+    std::int32_t dst_i{0};
+    std::uint32_t dst_ui{0};
+    std::int64_t dst_l{0};
+    std::uint64_t dst_ul{0};
+    float dst_f{0.0f};
+    double dst_d{0.0};
+    std::string dst_str;
+    
+    manipulator.Reset();
+    
+    manipulator >> dst_c;
+    manipulator >> dst_uc;
+    manipulator >> dst_s;
+    manipulator >> dst_us;
+    manipulator >> dst_i;
+    manipulator >> dst_ui;
+    manipulator >> dst_l;
+    manipulator >> dst_ul;
+    manipulator >> dst_f;
+    manipulator >> dst_d;
+    manipulator >> dst_str;
+    
     EXPECT_EQ(dst_c, src_c);
     EXPECT_EQ(dst_uc, src_uc);
     EXPECT_EQ(dst_s, src_s);
@@ -499,33 +582,87 @@ TEST(TestManipulator, EndianAwareness) {
     } endian_test{};
     endian_test.v = 0x1337dead;
     bool this_cpu_is_little_endian = (endian_test.c[3] == 0x13);
-
+    
+    manipulator << static_cast<std::uint16_t>(0xdead);
+    manipulator << static_cast<std::int16_t>(0xdead);
     manipulator << static_cast<std::uint32_t>(0x1337dead);
+    manipulator << static_cast<std::int32_t>(0x1337dead);
+    
     if (this_cpu_is_little_endian) {
-        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0x13));
-        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xad));
         EXPECT_EQ(memory.at(2), static_cast<std::byte>(0xde));
         EXPECT_EQ(memory.at(3), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(4), static_cast<std::byte>(0x13));
+        EXPECT_EQ(memory.at(5), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(6), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(7), static_cast<std::byte>(0xad));
     } else {
         EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
         EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
-        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
-        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(4), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(5), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(6), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(7), static_cast<std::byte>(0x13));
     }
 
     manipulator.Reset();
     manipulator.SetEndianAware(false);
+    
+    manipulator << static_cast<std::uint16_t>(0xdead);
+    manipulator << static_cast<std::int16_t>(0xdead);
     manipulator << static_cast<std::uint32_t>(0x1337dead);
+    manipulator << static_cast<std::int32_t>(0x1337dead);
 
     if (this_cpu_is_little_endian) {
         EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
         EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
-        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
-        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(4), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(5), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(6), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(7), static_cast<std::byte>(0x13));
     } else {
         EXPECT_EQ(memory.at(0), static_cast<std::byte>(0xad));
         EXPECT_EQ(memory.at(1), static_cast<std::byte>(0xde));
-        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0x37));
-        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0x13));
+        EXPECT_EQ(memory.at(2), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(3), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(4), static_cast<std::byte>(0xad));
+        EXPECT_EQ(memory.at(5), static_cast<std::byte>(0xde));
+        EXPECT_EQ(memory.at(6), static_cast<std::byte>(0x37));
+        EXPECT_EQ(memory.at(7), static_cast<std::byte>(0x13));
     }
+}
+
+
+TEST(TestManipulator, FailedReadVector) {
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator manipulator{memory};
+    
+    manipulator << std::uint64_t{32};
+    
+    std::vector<std::byte> data;
+    manipulator.Reset();
+    manipulator >> data;
+    EXPECT_EQ(data.size(), 0u);
+}
+
+
+TEST(TestManipulator, TruncatedReadString) {
+    
+    std::vector<std::byte> memory;
+    headcode::memtool::MemoryManipulator manipulator{memory};
+    
+    manipulator << std::uint64_t{32};
+    manipulator << 'a' << 'b' << 'c';
+    
+    manipulator.Reset();
+    std::string s;
+    manipulator >> s;
+    EXPECT_EQ(s.size(), 3u);
+    EXPECT_STREQ(s.c_str(), "abc");
 }
