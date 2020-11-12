@@ -61,12 +61,12 @@ public:
     MemoryManipulator(MemoryManipulator const & rhs)
             : endian_aware_(rhs.endian_aware_), position_(0), memory_{rhs.memory_} {
     }
-    
+
     /**
      * @brief   Destructor
      */
     virtual ~MemoryManipulator() = default;
-    
+
     /**
      * @brief   Puts another data particle on top of the manipulator at the read/write position.
      * @param   data        pointer to data
@@ -802,8 +802,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   s           string
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
-                                                         char const * s) {
+inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, char const * s) {
     lhs.Write(std::string{s});
     return lhs;
 }

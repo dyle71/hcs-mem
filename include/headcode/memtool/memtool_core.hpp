@@ -28,6 +28,25 @@ namespace headcode::memtool {
 inline std::vector<std::byte> CharArrayToMemory(char const * array, std::uint64_t size);
 
 /**
+ * @brief   Gives a canonical representation of the memory.
+ * The canonical representation is separated in different columns.
+ *      - offset
+ *      - first 8 bytes as hex " " (space) second 8 bytes as hex
+ *      - ASCII representation (if printable)
+ * @code
+ *       00000000   00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f   |........ ........|
+ *       00000010   10 11 12 13 14 15 16 17  18 19 1a 1b 1c 1d 1e 1f   |........ ........|
+ *       00000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
+ *       ...
+ * @endcode
+ * @param   array       the char array to show.
+ * @param   size        size of the char array.
+ * @param   indent      indent of each line
+ * @return  a string containing the canonical representation of the memory.
+ */
+inline std::string CharArrayToCanonicalString(char const * array, std::uint64_t size, std::string const & indent = {});
+
+/**
  * @brief   Converts a hex string to a memory.
  * All invalid characters in the given string will be set to 0,
  * e.g. 'feR2016X' will yield: 0xfe, 0x02, 0x01, 0x60.
