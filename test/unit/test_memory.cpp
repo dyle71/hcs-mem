@@ -157,7 +157,7 @@ TEST(Memory, CharArrayToMemory) {
             "\
 00000000   54 68 65 20 71 75 69 63  6b 20 62 72 6f 77 6e 20   |The quic k brown |\n\
 00000010   66 6f 78 20 6a 75 6d 70  73 20 6f 76 65 72 20 74   |fox jump s over t|\n\
-00000020   68 65 20 6c 61 7a 79 20  64 6f 67                  |he lazy  dog     |";
+00000020   68 65 20 6c 61 7a 79 20  64 6f 67                  |he lazy  dog     |\n";
 
     EXPECT_STREQ(canonical.c_str(), expected);
 }
@@ -173,7 +173,7 @@ TEST(Memory, StringToMemory) {
             "\
 00000000   54 68 65 20 71 75 69 63  6b 20 62 72 6f 77 6e 20   |The quic k brown |\n\
 00000010   66 6f 78 20 6a 75 6d 70  73 20 6f 76 65 72 20 74   |fox jump s over t|\n\
-00000020   68 65 20 6c 61 7a 79 20  64 6f 67                  |he lazy  dog     |";
+00000020   68 65 20 6c 61 7a 79 20  64 6f 67                  |he lazy  dog     |\n";
 
     EXPECT_STREQ(canonical.c_str(), expected);
 }

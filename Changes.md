@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.0.2] - 2020-11-12
+### Added
+- Added canonical output also for old-school memory (char * and size)
+### Changed
+- Improved performance at canonical output
+
 ## [1.0.1] - 2020-09-10
 ### Changed
 - Improved performance at byte to hex conversion
@@ -18,5 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/memtool/-/tree/develop
+[1.0.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.2
 [1.0.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.1
 [1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0

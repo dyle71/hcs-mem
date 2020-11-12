@@ -2,6 +2,7 @@
 -android-*
 -bugprone-bool-pointer-implicit-conversion
 -bugprone-exception-escape
+-bugprone-not-null-terminated-result
 -cert-dcl16-c
 -cert-dcl50-cpp
 -cert-dcl59-cpp
@@ -34,6 +35,7 @@
 -hicpp-no-array-decay
 -hicpp-no-assembler
 -hicpp-no-malloc
+-hicpp-signed-bitwise
 -hicpp-special-member-functions
 -hicpp-uppercase-literal-suffix
 -hicpp-vararg
