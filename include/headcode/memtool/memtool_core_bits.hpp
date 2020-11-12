@@ -114,19 +114,6 @@ inline std::string headcode::memtool::CharArrayToCanonicalString(char const * ar
 
     auto GetASCIIChar = [](char c) -> char { return (c >= ' ') && (c <= '~') ? c : '.'; };
 
-    /*
-        auto stream_memory = [&](std::vector<std::byte> const & memory, std::uint64_t i, std::stringstream & ss_hex,
-                                 std::stringstream & ss_ascii) {
-            if (i < memory.size()) {
-                ss_hex << ByteToHex(memory[i]) << ' ';
-                ss_ascii << GetASCIIChar(memory[i]);
-            } else {
-                ss_hex << "   ";
-                ss_ascii << ' ';
-            }
-        };
-    */
-
     // structure of a single line:
     // e.g.
     //   00000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
