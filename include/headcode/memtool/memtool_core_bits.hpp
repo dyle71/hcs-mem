@@ -136,9 +136,8 @@ inline void DumpHexLine(char * dst, char const * src, std::uint64_t src_size, st
     static char const * table = "0123456789abcdef";
 
     // places in the dst to write chars to (2 bytes each) including a space in between
-    std::uint64_t pos[16] = {
-            0x00, 0x03, 0x06, 0x09, 0x0c, 0x0f, 0x12, 0x15,
-            0x17, 0x1a, 0x1d, 0x20, 0x23, 0x26, 0x29, 0x2c};
+    std::uint64_t pos[16] = {0x00, 0x03, 0x06, 0x09, 0x0c, 0x0f, 0x12, 0x15,
+                             0x17, 0x1a, 0x1d, 0x20, 0x23, 0x26, 0x29, 0x2c};
 
     // add gap between the words
     if (src_size > 8) {
@@ -259,7 +258,8 @@ inline std::string headcode::memtool::CharArrayToCanonicalString(char const * ar
 
         auto to_offset = dst + indent.size();
         auto to_data = to_offset + offset_size + gap_to_data.size();
-        auto to_ascii = to_data + word_size + word_gap.size() + word_size + gap_to_ascii.size() + ascii_delimiter.size();
+        auto to_ascii = to_data + word_size + word_gap.size() + word_size;
+        to_ascii += gap_to_ascii.size() + ascii_delimiter.size();
 
         std::uint64_t pos = (l << 4);
         HexNumberToCharArray(to_offset + 2, pos);
