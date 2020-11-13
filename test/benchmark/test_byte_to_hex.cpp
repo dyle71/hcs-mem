@@ -20,14 +20,16 @@
 
 
 TEST(BenchmarkByteToHex, ByteToHex1000000) {
-    
-    auto time_start = std::chrono::high_resolution_clock::now();
-    
+
+    auto loop_count = 1'000'000u;
     std::string hex;
     std::byte value{42};
-    for (std::uint64_t i = 0; i < 1'000'000u; ++i) {
+
+    auto time_start = std::chrono::high_resolution_clock::now();
+    for (std::uint64_t i = 0; i < loop_count; ++i) {
         hex = headcode::memtool::ByteToHex(value);
     }
     
-    std::cout << "BenchmarkByteToHex::ByteToHex1000000 " << GetElapsed(time_start).count() << "us" << std::endl;
+    Throughput throughput{GetElapsedMicroSeconds(time_start), loop_count};
+    std::cout << StreamPerformanceIndicators(throughput, "BenchmarkByteToHex::ByteToHex1000000 ");
 }
