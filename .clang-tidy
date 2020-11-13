@@ -13,6 +13,7 @@
 -cppcoreguidelines-avoid-goto
 -cppcoreguidelines-avoid-magic-numbers
 -cppcoreguidelines-macro-usage
+-cppcoreguidelines-narrowing-conversions
 -cppcoreguidelines-no-malloc
 -cppcoreguidelines-non-private-member-variables-in-classes
 -cppcoreguidelines-owning-memory
@@ -40,6 +41,7 @@
 -hicpp-uppercase-literal-suffix
 -hicpp-vararg
 -llvm-*
+-llvmlibc-*
 -misc-bool-pointer-implicit-conversion
 -misc-definitions-in-headers
 -misc-non-private-member-variables-in-classes

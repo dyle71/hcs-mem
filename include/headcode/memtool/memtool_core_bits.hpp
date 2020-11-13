@@ -97,6 +97,86 @@ inline std::byte HexToByte(std::string_view const & sv) {
     return std::byte{value};
 }
 
+/**
+ * @brief   Write a single line of memory as ascii
+ * Writes a memory line like:
+ *      The quic k brown
+ * @param   dst             dst to write at least 16 bytes + gap_size large
+ * @param   src             the memory to write
+ * @param   src_size        size of memory to write
+ * @param   gap_size        size of the gap
+ */
+inline void DumpAsciiLine(char * dst, char const * src, std::uint64_t src_size, std::uint64_t gap_size) {
+
+    std::uint64_t pos = 0;
+    for (std::uint64_t i = 0; i < src_size; ++i) {
+
+        bool printable = ((src[i] & 0x80) == 0x00) && (src[i] >= 0x20);
+        dst[pos] = printable ? src[i] : '.';
+        pos++;
+
+        if (i == 7) {
+            pos += gap_size;
+        }
+    }
+}
+
+
+/**
+ * @brief   Write a single line of memory
+ * Writes a memory line like:
+ *      20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f
+ * @param   dst             dst to write at least 46 bytes + gap_size large
+ * @param   src             the memory to write
+ * @param   src_size        size of memory to write
+ * @param   gap_size        size of the gap
+ */
+inline void DumpHexLine(char * dst, char const * src, std::uint64_t src_size, std::uint64_t gap_size) {
+
+    static char const * table = "0123456789abcdef";
+
+    // places in the dst to write chars to (2 bytes each) including a space in between
+    std::uint64_t pos[16] = {
+            0x00, 0x03, 0x06, 0x09, 0x0c, 0x0f, 0x12, 0x15,
+            0x17, 0x1a, 0x1d, 0x20, 0x23, 0x26, 0x29, 0x2c};
+
+    // add gap between the words
+    if (src_size > 8) {
+        for (std::uint64_t i = 8; i < 16; ++i) {
+            pos[i] += gap_size;
+        }
+    }
+
+    for (std::uint64_t i = 0; i < src_size; ++i) {
+        dst[pos[i]] = table[(src[i] & 0xf0) >> 4];
+        dst[pos[i] + 1] = table[src[i] & 0x0f];
+    }
+}
+
+/**
+ * @brief   Convert a number to a hex presentation.
+ * @param   array       the char array to write must be a minimum of 16 bytes
+ * @param   number      the number to write
+ */
+inline void HexNumberToCharArray(char * array, std::uint64_t number) {
+    array[0xf] = static_cast<char>(number & 0x000000000000000ful) + '0';
+    array[0xe] = static_cast<char>((number & 0x00000000000000f0ul) >> 4) + '0';
+    array[0xd] = static_cast<char>((number & 0x0000000000000f00ul) >> 8) + '0';
+    array[0xc] = static_cast<char>((number & 0x000000000000f000ul) >> 12) + '0';
+    array[0xb] = static_cast<char>((number & 0x00000000000f0000ul) >> 16) + '0';
+    array[0xa] = static_cast<char>((number & 0x0000000000f00000ul) >> 20) + '0';
+    array[0x9] = static_cast<char>((number & 0x000000000f000000ul) >> 24) + '0';
+    array[0x8] = static_cast<char>((number & 0x00000000f0000000ul) >> 28) + '0';
+    array[0x7] = static_cast<char>((number & 0x0000000f00000000ul) >> 32) + '0';
+    array[0x6] = static_cast<char>((number & 0x000000f000000000ul) >> 34) + '0';
+    array[0x5] = static_cast<char>((number & 0x00000f0000000000ul) >> 38) + '0';
+    array[0x4] = static_cast<char>((number & 0x0000f00000000000ul) >> 42) + '0';
+    array[0x3] = static_cast<char>((number & 0x000f000000000000ul) >> 46) + '0';
+    array[0x2] = static_cast<char>((number & 0x00f0000000000000ul) >> 50) + '0';
+    array[0x1] = static_cast<char>((number & 0x0f00000000000000ul) >> 54) + '0';
+    array[0x0] = static_cast<char>((number & 0xf000000000000000ul) >> 60) + '0';
+}
+
 }
 
 inline std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * array, std::uint64_t size) {
@@ -112,15 +192,13 @@ inline std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * 
 inline std::string headcode::memtool::CharArrayToCanonicalString(char const * array, std::uint64_t size,
                                                                  std::string const & indent) {
 
-    auto GetASCIIChar = [](char c) -> char { return (c >= ' ') && (c <= '~') ? c : '.'; };
-
     // structure of a single line:
     // e.g.
-    //   00000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
+    //   0x0123456789012345   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
     //
     // from left to right
 
-    static unsigned int const offset_size = 8;
+    static unsigned int const offset_size = std::string{"0x"}.size() + 16;
     static std::string const gap_to_data{"   "};
     static unsigned int const word_size = 8 * 2 + 7;
     static std::string const word_gap{"  "};
@@ -137,51 +215,58 @@ inline std::string headcode::memtool::CharArrayToCanonicalString(char const * ar
 
     auto length_of_full_line = indent.size() + static_length_of_line;
 
-
-    auto lines = (size + 0x0ful) >> 4;
     std::string res;
+    auto lines = (size + 0x0ful) >> 4;
+    res.resize(lines * length_of_full_line);
 
-    // resize to needed space + 1 for the snprintf (this always adds a 0 as final char).
-    res.resize(lines * length_of_full_line + 1);
+    // prepare a template for each line
+    std::string templ;
+    templ.resize(length_of_full_line);
+    auto templ_pointer = templ.data();
+    std::memset(templ_pointer, ' ', length_of_full_line);
 
-
-    // memcpy each line
-    char * p = res.data();
-    std::memset(p, ' ', res.size());
-    for (std::uint64_t l = 0; l < lines; ++l) {
-
-        // pos is the current position in the data array
-        std::uint64_t pos = (l << 4);
-
-        std::array<std::string, 16> data;
-        std::array<char, 16> ascii;
-        for (std::uint64_t i = 0; i < 16; ++i) {
-            if (pos + i < size) {
-                data[i] = CharToHex(array[pos + i]);
-                ascii[i] = GetASCIIChar(array[pos + i]);
-            } else {
-                data[i] = "  ";
-                ascii[i] = ' ';
-            }
-        }
-
-        std::snprintf(p, length_of_full_line + 1,
-                      "%s%08lx%s"
-                      "%s %s %s %s %s %s %s %s%s%s %s %s %s %s %s %s %s%s"
-                      "%s%c%c%c%c%c%c%c%c%s%c%c%c%c%c%c%c%c%s\n",
-                      indent.data(), pos, gap_to_data.data(), data[0].data(), data[1].data(), data[2].data(),
-                      data[3].data(), data[4].data(), data[5].data(), data[6].data(), data[7].data(), word_gap.data(),
-                      data[8].data(), data[9].data(), data[10].data(), data[11].data(), data[12].data(),
-                      data[13].data(), data[14].data(), data[15].data(), gap_to_ascii.data(), ascii_delimiter.data(),
-                      ascii[0], ascii[1], ascii[2], ascii[3], ascii[4], ascii[5], ascii[6], ascii[7], ascii_gap.data(),
-                      ascii[8], ascii[9], ascii[10], ascii[11], ascii[12], ascii[13], ascii[14], ascii[15],
-                      ascii_delimiter.data());
-
-        p += length_of_full_line;
+    if (!indent.empty()) {
+        std::memcpy(templ_pointer, indent.c_str(), indent.size());
+        templ_pointer += indent.size();
     }
 
-    // shrink to correct size (-1, since the last 0 has been added by snprintf)
-    res.resize(lines * length_of_full_line);
+    templ_pointer[0] = '0';
+    templ_pointer[1] = 'x';
+    templ_pointer += offset_size;
+
+    std::memcpy(templ_pointer, gap_to_data.data(), gap_to_data.size());
+    templ_pointer += gap_to_data.size();
+    templ_pointer += word_size;
+    std::memcpy(templ_pointer, word_gap.data(), word_gap.size());
+    templ_pointer += word_gap.size();
+    templ_pointer += word_size;
+    std::memcpy(templ_pointer, gap_to_ascii.data(), gap_to_ascii.size());
+    templ_pointer += gap_to_ascii.size();
+    std::memcpy(templ_pointer, ascii_delimiter.data(), ascii_delimiter.size());
+    templ_pointer += ascii_delimiter.size();
+    templ_pointer += ascii_size;
+    std::memcpy(templ_pointer, ascii_gap.data(), ascii_gap.size());
+    templ_pointer += ascii_gap.size();
+    templ_pointer += ascii_size;
+    std::memcpy(templ_pointer, ascii_delimiter.data(), ascii_delimiter.size());
+    templ_pointer += ascii_delimiter.size();
+    *templ_pointer = '\n';
+
+    for (std::uint64_t l = 0; l < lines; ++l) {
+
+        auto dst = res.data() + length_of_full_line * l;
+        std::memcpy(dst, templ.data(), length_of_full_line);
+
+        auto to_offset = dst + indent.size();
+        auto to_data = to_offset + offset_size + gap_to_data.size();
+        auto to_ascii = to_data + word_size + word_gap.size() + word_size + gap_to_ascii.size() + ascii_delimiter.size();
+
+        std::uint64_t pos = (l << 4);
+        HexNumberToCharArray(to_offset + 2, pos);
+        DumpHexLine(to_data, array + pos, std::min<std::uint64_t>(16, size - pos), word_gap.size());
+        DumpAsciiLine(to_ascii, array + pos, std::min<std::uint64_t>(16, size - pos), ascii_gap.size());
+    }
+
     return res;
 }
 
