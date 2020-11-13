@@ -30,3 +30,17 @@ TEST(Version, V1_0_1) {
     EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (0) << 16 | (1)), version);
     EXPECT_EQ(GetHCSMemtoolVersion_1_0_1(), version);
 }
+
+
+TEST(Version, V1_0_2) {
+    std::uint32_t version = MAKE_VERSION(1, 0, 2);
+    EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (0) << 16 | (2)), version);
+    EXPECT_EQ(GetHCSMemtoolVersion_1_0_2(), version);
+}
+
+
+TEST(Version, V1_0_3) {
+    std::uint32_t version = MAKE_VERSION(1, 0, 3);
+    EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (0) << 16 | (3)), version);
+    EXPECT_EQ(GetHCSMemtoolVersion_1_0_3(), version);
+}

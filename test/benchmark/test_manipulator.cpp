@@ -21,20 +21,23 @@
 
 TEST(BenchmarkManipulator, IpsumLorem1000) {
 
+    auto loop_count = 1000u;
     std::vector<std::byte> data;
 
     auto time_start = std::chrono::high_resolution_clock::now();
-
     headcode::memtool::MemoryManipulator manipulator{data};
-    for (std::uint64_t i = 0; i < 1000u; ++i) {
+    for (std::uint64_t i = 0; i < loop_count; ++i) {
         manipulator << IPSUM_LOREM_TEXT;
     }
 
-    std::cout << "BenchmarkManipulator::IpsumLorem1000 " << GetElapsed(time_start).count() << "us" << std::endl;
+    Throughput throughput{GetElapsedMicroSeconds(time_start), IPSUM_LOREM_TEXT.size() * loop_count};
+    std::cout << StreamPerformanceIndicators(throughput, "BenchmarkManipulator::IpsumLorem1000 ");
 }
 
 
 TEST(BenchmarkManipulator, IpsumLorem1000PreReserve) {
+
+    auto loop_count = 1000u;
 
     std::vector<std::byte> data;
     data.reserve(1000u * (IPSUM_LOREM_TEXT.size() + sizeof(std::uint64_t)));
@@ -42,10 +45,9 @@ TEST(BenchmarkManipulator, IpsumLorem1000PreReserve) {
     auto time_start = std::chrono::high_resolution_clock::now();
 
     headcode::memtool::MemoryManipulator manipulator{data};
-    for (std::uint64_t i = 0; i < 1000u; ++i) {
+    for (std::uint64_t i = 0; i < loop_count; ++i) {
         manipulator << IPSUM_LOREM_TEXT;
     }
-
-    std::cout << "BenchmarkManipulator::IpsumLorem1000PreReserve " << GetElapsed(time_start).count() << "us"
-              << std::endl;
+    Throughput throughput{GetElapsedMicroSeconds(time_start), IPSUM_LOREM_TEXT.size() * loop_count};
+    std::cout << StreamPerformanceIndicators(throughput, "BenchmarkManipulator::IpsumLorem1000PreReserve ");
 }

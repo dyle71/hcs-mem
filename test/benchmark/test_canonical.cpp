@@ -8,6 +8,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <iomanip>
 #include <iostream>
 
 #include <gtest/gtest.h>
@@ -21,12 +22,14 @@
 
 TEST(BenchmarkCanonical, IpsumLorem1000) {
 
-    auto time_start = std::chrono::high_resolution_clock::now();
+    auto loop_count = 1000u;
 
+    auto time_start = std::chrono::high_resolution_clock::now();
     auto mem = headcode::memtool::StringToMemory(IPSUM_LOREM_TEXT);
-    for (std::uint64_t i = 0; i < 1000u; ++i) {
+    for (std::uint64_t i = 0; i < loop_count; ++i) {
         headcode::memtool::MemoryToCanonicalString(mem, "ipsum-lorem: ");
     }
 
-    std::cout << "BenchmarkCanonical::IpsumLorem1000 " << GetElapsed(time_start).count() << "us" << std::endl;
+    Throughput throughput{GetElapsedMicroSeconds(time_start), IPSUM_LOREM_TEXT.size() * loop_count};
+    std::cout << StreamPerformanceIndicators(throughput, "BenchmarkCanonical::IpsumLorem1000 ");
 }

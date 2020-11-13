@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2020-11-13
+### Changed
+- Improved performance at canonical output even more
+- Canonical output offset is now 64 bit hex value
+
 
 ## [1.0.2] - 2020-11-12
 ### Added
@@ -24,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/memtool/-/tree/develop
+[1.0.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.3
 [1.0.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.2
 [1.0.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.1
 [1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0
