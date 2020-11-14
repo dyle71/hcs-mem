@@ -32,6 +32,19 @@ A memtool comes along with these methods and functions:
     ```
 * `headcode::memtool::MemoryToHex` --> converts a memory to a hex string.
 * `headcode::memtool::StringToMemory` --> convenient method for quick conversion of a std::string.
+* Of course old-school C arrays are supported too:
+    ```c++
+    char * p = new char[1024];
+    ...
+    std::cout << headcode::memtool::CharArrayToCanonicalString(p, 1024, "foo: ") << std::endl;
+    ```
+    will give something similar to
+    ```
+    foo: 0x0000000000000010   10 11 12 13 14 15 16 17  18 19 1a 1b 1c 1d 1e 1f   |........ ........|
+    foo: 0x0000000000000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
+    ...
+    ```
+
 
 Additional memtool provides a `MemoryManipulator` class which can be used to
 stream in and out data into a memory. Hence, this `MemoryManipulator` does not take
