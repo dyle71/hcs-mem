@@ -1,5 +1,5 @@
 # ------------------------------------------------------------
-# This file defines the CMake RPM package creation for memtool
+# This file defines the CMake RPM package creation for mem
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020 headcode.space

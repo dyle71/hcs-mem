@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2020-11-16
+### Changed
+- Renamed whole project from 'memtool' to simply 'mem'
+
+
 ## [1.0.3] - 2020-11-13
 ### Changed
 - Improved performance at canonical output even more
@@ -28,8 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release.
 
 
-[Unreleased]: https://gitlab.com/headcode.space/memtool/-/tree/develop
-[1.0.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.3
-[1.0.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.2
-[1.0.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.1
-[1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0
+[Unreleased]: https://gitlab.com/headcode.space/mem/-/tree/develop
+[1.1.0]: https://gitlab.com/headcode.space/mem/-/releases/v1.1.0
+[1.0.3]: https://gitlab.com/headcode.space/mem/-/releases/v1.0.3
+[1.0.2]: https://gitlab.com/headcode.space/mem/-/releases/v1.0.2
+[1.0.1]: https://gitlab.com/headcode.space/mem/-/releases/v1.0.1
+[1.0.0]: https://gitlab.com/headcode.space/mem/-/releases/v1.0.0

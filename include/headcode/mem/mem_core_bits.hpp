@@ -1,15 +1,15 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_BITS_HPP
-#define HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_BITS_HPP
+#ifndef HEADCODE_SPACE_MEM_MEM_CORE_BITS_HPP
+#define HEADCODE_SPACE_MEM_MEM_CORE_BITS_HPP
 
-#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_HPP
+#ifndef HEADCODE_SPACE_MEM_MEM_CORE_HPP
 #error "Do not include this file directly."
 #endif
 
@@ -24,9 +24,9 @@
 
 
 /**
- * @brief   The headcode memtool namespace
+ * @brief   The headcode mem namespace
  */
-namespace headcode::memtool {
+namespace headcode::mem {
 
 /**
  * @brief   Converts a single byte to its hex representation.
@@ -178,7 +178,7 @@ inline void HexNumberToCharArray(char * array, std::uint64_t number) {
 
 }
 
-inline std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * array, std::uint64_t size) {
+inline std::vector<std::byte> headcode::mem::CharArrayToMemory(char const * array, std::uint64_t size) {
 
     std::vector<std::byte> res{size};
     if (array) {
@@ -188,7 +188,7 @@ inline std::vector<std::byte> headcode::memtool::CharArrayToMemory(char const * 
 }
 
 
-inline std::string headcode::memtool::CharArrayToCanonicalString(char const * array, std::uint64_t size,
+inline std::string headcode::mem::CharArrayToCanonicalString(char const * array, std::uint64_t size,
                                                                  std::string const & indent) {
 
     // structure of a single line:
@@ -271,7 +271,7 @@ inline std::string headcode::memtool::CharArrayToCanonicalString(char const * ar
 }
 
 
-inline std::vector<std::byte> headcode::memtool::HexToMemory(std::string const & hex) {
+inline std::vector<std::byte> headcode::mem::HexToMemory(std::string const & hex) {
 
     if (hex.empty()) {
         return {};
@@ -286,14 +286,14 @@ inline std::vector<std::byte> headcode::memtool::HexToMemory(std::string const &
 }
 
 
-inline std::string headcode::memtool::MemoryToCanonicalString(std::vector<std::byte> const & memory,
+inline std::string headcode::mem::MemoryToCanonicalString(std::vector<std::byte> const & memory,
                                                               std::string const & indent) {
 
     return CharArrayToCanonicalString(reinterpret_cast<char const *>(memory.data()), memory.size(), indent);
 }
 
 
-inline std::string headcode::memtool::MemoryToHex(std::vector<std::byte> const & memory) {
+inline std::string headcode::mem::MemoryToHex(std::vector<std::byte> const & memory) {
 
     static std::map<std::byte, std::string> byte_to_hex;
     if (byte_to_hex.empty()) {
@@ -311,7 +311,7 @@ inline std::string headcode::memtool::MemoryToHex(std::vector<std::byte> const &
 }
 
 
-inline std::vector<std::byte> headcode::memtool::StringToMemory(std::string const & str) {
+inline std::vector<std::byte> headcode::mem::StringToMemory(std::string const & str) {
     std::vector<std::byte> res{str.size()};
     std::memcpy(res.data(), str.data(), res.size());
     return res;

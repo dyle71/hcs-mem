@@ -1,4 +1,4 @@
-# memtool
+# mem
 
 This tiny header-only C++17 project to enhance working with memory as of `std::vector<std::byte>`: 
 
@@ -12,17 +12,17 @@ AIT, Austrian Institute of Technology
 
 ## Usage example
 
-A memtool comes along with these methods and functions:
+A mem comes along with these methods and functions:
 
-* `headcode::memtool::CharArrayToMemory` --> convert an old-school C character array to `std::vector<std::byte>`
-* `headcode::memtool::HexToMemory` --> convert a hex string to `std::vector<std::byte>` like
+* `headcode::mem::CharArrayToMemory` --> convert an old-school C character array to `std::vector<std::byte>`
+* `headcode::mem::HexToMemory` --> convert a hex string to `std::vector<std::byte>` like
     ```c++
-    std::vector<std::byte> data = headcode::memtool::HexToMemory("dead1337");
+    std::vector<std::byte> data = headcode::mem::HexToMemory("dead1337");
     ```
-* `headcode::memtool::MemoryToCanonicalString` --> dumps a canonical representation of the memory, like
+* `headcode::mem::MemoryToCanonicalString` --> dumps a canonical representation of the memory, like
     ```c++
     std::vector<std::byte> data;
-    std::cout << headcode::memtool::MemoryToCanonicalString(data) << std::endl;
+    std::cout << headcode::mem::MemoryToCanonicalString(data) << std::endl;
     ```
     will give something similar to
     ```
@@ -30,13 +30,13 @@ A memtool comes along with these methods and functions:
     0x0000000000000020   20 21 22 23 24 25 26 27  28 29 2a 2b 2c 2d 2e 2f   | !"#$%&' ()*+,-./|
     ...
     ```
-* `headcode::memtool::MemoryToHex` --> converts a memory to a hex string.
-* `headcode::memtool::StringToMemory` --> convenient method for quick conversion of a std::string.
+* `headcode::mem::MemoryToHex` --> converts a memory to a hex string.
+* `headcode::mem::StringToMemory` --> convenient method for quick conversion of a std::string.
 * Of course old-school C arrays are supported too:
     ```c++
     char * p = new char[1024];
     ...
-    std::cout << headcode::memtool::CharArrayToCanonicalString(p, 1024, "foo: ") << std::endl;
+    std::cout << headcode::mem::CharArrayToCanonicalString(p, 1024, "foo: ") << std::endl;
     ```
     will give something similar to
     ```
@@ -46,14 +46,14 @@ A memtool comes along with these methods and functions:
     ```
 
 
-Additional memtool provides a `MemoryManipulator` class which can be used to
+Additional mem provides a `MemoryManipulator` class which can be used to
 stream in and out data into a memory. Hence, this `MemoryManipulator` does not take
 ownership of the memory.
 
 Example:
 ```c++
 std::vector<std::byte> data;
-headcode::memtool::MemoryManipulator buffer{data};
+headcode::mem::MemoryManipulator buffer{data};
 
 buffer << std::string{"foo"};
 buffer << 3.1415 << 42 << 'b' << 'a' << 'r';
@@ -77,7 +77,7 @@ Stream in and out is provided.
 │   └── rpm-package.cmake       Building instructions for RPM packages.
 ├── include                     Public header files. Add the path to this folder to your C++ search path.
 │   └── headcode                
-│       └── memtool             Include this: <headcode/memtool/memtool.hpp>
+│       └── mem             Include this: <headcode/mem/mem.hpp>
 ├── test                        Tests.
 │   ├── benchmark               Benchmark tests.
 │   ├── integration             Integration tests.
@@ -116,7 +116,7 @@ $ git clone --recurse-submodules
 
 #### Native build
 
-memtool is a [cmake](https://cmake.org) project with out-of-source builds in
+mem is a [cmake](https://cmake.org) project with out-of-source builds in
 a dedicated folder, usually labeled "build".
 
 ```bash

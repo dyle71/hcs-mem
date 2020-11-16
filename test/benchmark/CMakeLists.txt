@@ -1,5 +1,5 @@
 # ------------------------------------------------------------
-# This file is the main CMakeLists of memtool of headcode.space
+# This file is the main CMakeLists of mem of headcode.space
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020 headcode.space
