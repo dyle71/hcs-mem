@@ -1,5 +1,5 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
@@ -8,18 +8,18 @@
 
 #include <gtest/gtest.h>
 
-#include <headcode/memtool/memtool.hpp>
+#include <headcode/mem/mem.hpp>
 
 #include <shared/ipsum_lorem.hpp>
 
-using namespace headcode::memtool;
+using namespace headcode::mem;
 
 
 TEST(TestManipulator, RegularStreamInto) {
 
     std::vector<std::byte> data{10};
 
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < data.size(); ++i) {
         manipulator << static_cast<std::byte>(i);
     }
@@ -32,8 +32,8 @@ TEST(TestManipulator, RegularStreamInto) {
 TEST(TestManipulator, ShallowCopy) {
 
     std::vector<std::byte> data{10};
-    headcode::memtool::MemoryManipulator manipulator{data};
-    headcode::memtool::MemoryManipulator buffer_copy{manipulator};
+    headcode::mem::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator buffer_copy{manipulator};
     EXPECT_EQ(buffer_copy.GetMemory().data(), manipulator.GetMemory().data());
 }
 
@@ -41,7 +41,7 @@ TEST(TestManipulator, ShallowCopy) {
 TEST(TestManipulator, AdvanceBeyondEOF) {
     
     std::vector<std::byte> data{20};
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     manipulator << "012345678";
     EXPECT_EQ(manipulator.GetPosition(), sizeof(std::uint64_t) + 9u);
     manipulator.Advance(10);
@@ -67,7 +67,7 @@ TEST(TestManipulator, WriteReadPOD) {
     bool src_bool = false;
     std::byte src_byte{42};
 
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
 
     manipulator.Write(src_c);
     manipulator.Write(src_uc);
@@ -147,7 +147,7 @@ TEST(TestManipulator, StreamPODEndianIgnore) {
     bool src_bool = false;
     std::byte src_byte{42};
 
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     manipulator.SetEndianAware(false);
 
     manipulator << src_c;
@@ -226,7 +226,7 @@ TEST(TestManipulator, StreamPODEndianAware) {
     double src_d = 2.718281828459045235360287471352662497757247093699959;
     std::string src_str{"The quick brown fox jumped over the lazy dog."};
     
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     manipulator.SetEndianAware(true);
     
     manipulator << src_c;
@@ -283,13 +283,13 @@ TEST(TestManipulator, StreamPODEndianAware) {
 
 TEST(TestManipulator, WriteReadMemory) {
 
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(IPSUM_LOREM_TEXT);
+    auto ipsum_lorem_src = headcode::mem::StringToMemory(IPSUM_LOREM_TEXT);
 
     std::vector<std::byte> data;
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     manipulator.Write(ipsum_lorem_src);
 
-    headcode::memtool::MemoryManipulator manipulator_copy{manipulator};
+    headcode::mem::MemoryManipulator manipulator_copy{manipulator};
     std::vector<std::byte> ipsum_lorem_dst;
     manipulator_copy.Read(ipsum_lorem_dst);
 
@@ -300,10 +300,10 @@ TEST(TestManipulator, WriteReadMemory) {
 
 TEST(TestManipulator, StreamMemory) {
 
-    auto ipsum_lorem_src = headcode::memtool::StringToMemory(IPSUM_LOREM_TEXT);
+    auto ipsum_lorem_src = headcode::mem::StringToMemory(IPSUM_LOREM_TEXT);
 
     std::vector<std::byte> data;
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     manipulator << ipsum_lorem_src;
 
     manipulator.Reset();
@@ -321,7 +321,7 @@ TEST(TestManipulator, WriteReadList) {
     std::list<uint64_t> list_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.Write(list_src);
     manipulator.Reset();
@@ -342,7 +342,7 @@ TEST(TestManipulator, StreamList) {
     std::list<uint64_t> list_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << list_src;
     manipulator.Reset();
@@ -363,7 +363,7 @@ TEST(TestManipulator, WriteReadMap) {
     std::map<std::string, std::string> map_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.Write(map_src);
     manipulator.Reset();
@@ -383,7 +383,7 @@ TEST(TestManipulator, StreamMap) {
     std::map<std::string, std::string> map_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << map_src;
     manipulator.Reset();
@@ -403,7 +403,7 @@ TEST(TestManipulator, WriteReadSet) {
     std::set<char> set_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.Write(set_src);
     manipulator.Reset();
@@ -425,7 +425,7 @@ TEST(TestManipulator, StreamSet) {
     std::set<char> set_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << set_src;
     manipulator.Reset();
@@ -447,7 +447,7 @@ TEST(TestManipulator, WriteReadVector) {
     std::vector<std::string> vector_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.Write(vector_src);
     manipulator.Reset();
@@ -473,7 +473,7 @@ TEST(TestManipulator, StreamVector) {
     std::vector<std::string> vector_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << vector_src;
     manipulator.Reset();
@@ -496,7 +496,7 @@ TEST(TestManipulator, StreamVector) {
 TEST(TestManipulator, WriteReadStringAndFloat) {
 
     std::vector<std::byte> memory{128};
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.SetPosition(0);
     manipulator.Write(std::string{"The brown fox jumped over the lazy dog."});
@@ -514,7 +514,7 @@ TEST(TestManipulator, WriteReadStringAndFloat) {
 TEST(TestManipulator, StreamStringAndFloatAndRead) {
 
     std::vector<std::byte> memory{128};
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.SetPosition(0);
     manipulator << std::string{"The brown fox jumped over the lazy dog."};
@@ -536,7 +536,7 @@ TEST(TestManipulator, WriteReadComplexStructure) {
     std::map<std::string, std::list<int>> complex_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator.Write(complex_src);
     manipulator.Reset();
@@ -557,7 +557,7 @@ TEST(TestManipulator, StreamComplexStructure) {
     std::map<std::string, std::list<int>> complex_dst;
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << complex_src;
     manipulator.Reset();
@@ -574,7 +574,7 @@ TEST(TestManipulator, StreamComplexStructure) {
 TEST(TestManipulator, EOFofManipulator) {
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
 
     manipulator << IPSUM_LOREM_TEXT;
 
@@ -593,7 +593,7 @@ TEST(TestManipulator, EOFofManipulator) {
 TEST(TestManipulator, EndianAwareness) {
 
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
     manipulator.SetEndianAware(true);
 
     union EndianTest {
@@ -661,7 +661,7 @@ TEST(TestManipulator, EndianAwareness) {
 TEST(TestManipulator, FailedReadVector) {
     
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
     
     manipulator << std::uint64_t{32};
     
@@ -675,7 +675,7 @@ TEST(TestManipulator, FailedReadVector) {
 TEST(TestManipulator, TruncatedReadString) {
     
     std::vector<std::byte> memory;
-    headcode::memtool::MemoryManipulator manipulator{memory};
+    headcode::mem::MemoryManipulator manipulator{memory};
     
     manipulator << std::uint64_t{32};
     manipulator << 'a' << 'b' << 'c';

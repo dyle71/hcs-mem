@@ -1,12 +1,12 @@
 # ------------------------------------------------------------
-# This file is the main CMakeLists of memtool of headcode.space
+# This file is the main CMakeLists of mem of headcode.space
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020 headcode.space
 # https://www.headcode.space, <info@headcode.space>
 # ------------------------------------------------------------
 
-project(memtool C CXX)
+project(hcs-mem C CXX)
 cmake_minimum_required(VERSION 3.10.2)
 
 cmake_policy(SET CMP0057 NEW)
@@ -28,8 +28,8 @@ ENABLE_TESTING()
 # Project Version
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "0")
-set(VERSION_PATCH "3")
+set(VERSION_MINOR "1")
+set(VERSION_PATCH "0")
 set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 
@@ -177,7 +177,7 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES api-doc)
 add_custom_target(doc)
 add_dependencies(doc doxygen)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/html
-        DESTINATION share/doc/headcode-memtool-${VERSION_MAJOR}.${VERSION_MINOR}
+        DESTINATION share/doc/hcs-mem-${VERSION_MAJOR}.${VERSION_MINOR}
         COMPONENT documentation
 )
 
@@ -191,12 +191,12 @@ add_subdirectory(test)
 # ------------------------------------------------------------
 # Installing stuff
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/headcode/memtool DESTINATION include/headcode COMPONENT header)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/headcode/mem DESTINATION include/headcode COMPONENT header)
 
 
 # ---- CPack global definitions ----
 
-set(CPACK_PACKAGE_NAME "headcode-memtool")
+set(CPACK_PACKAGE_NAME "hcs-mem")
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})

@@ -1,5 +1,5 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
@@ -12,7 +12,7 @@
 
 #include <gtest/gtest.h>
 
-#include <headcode/memtool/memtool.hpp>
+#include <headcode/mem/mem.hpp>
 
 #include <shared/ipsum_lorem.hpp>
 
@@ -25,7 +25,7 @@ TEST(BenchmarkManipulator, IpsumLorem1000) {
     std::vector<std::byte> data;
 
     auto time_start = std::chrono::high_resolution_clock::now();
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < loop_count; ++i) {
         manipulator << IPSUM_LOREM_TEXT;
     }
@@ -44,7 +44,7 @@ TEST(BenchmarkManipulator, IpsumLorem1000PreReserve) {
 
     auto time_start = std::chrono::high_resolution_clock::now();
 
-    headcode::memtool::MemoryManipulator manipulator{data};
+    headcode::mem::MemoryManipulator manipulator{data};
     for (std::uint64_t i = 0; i < loop_count; ++i) {
         manipulator << IPSUM_LOREM_TEXT;
     }

@@ -1,13 +1,13 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_MANIPULATOR_HPP
-#define HEADCODE_SPACE_MEMTOOL_MEMTOOL_MANIPULATOR_HPP
+#ifndef HEADCODE_SPACE_MEM_MEM_MANIPULATOR_HPP
+#define HEADCODE_SPACE_MEM_MEM_MANIPULATOR_HPP
 
 #include <cstdint>
 #include <cstddef>
@@ -22,9 +22,9 @@
 
 
 /**
- * @brief   The headcode memtool namespace
+ * @brief   The headcode mem namespace
  */
-namespace headcode::memtool {
+namespace headcode::mem {
 
 /**
  * @brief   This is a read/write mechanism of arbitrary data on a memory area which can handle endian encoding.
@@ -32,7 +32,7 @@ namespace headcode::memtool {
  * @code
  *      std::vector<std::byte> blob;
  *      {
- *          headcode::memtool::MemoryManipulator buffer{blob};
+ *          headcode::mem::MemoryManipulator buffer{blob};
  *          buffer << "foo";
  *          buffer << 42ul;
  *      }
@@ -657,7 +657,7 @@ private:
  * @param   c           char
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, char c) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, char c) {
     lhs.Write(c);
     return lhs;
 }
@@ -668,7 +668,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   uc          unsigned char
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, unsigned char uc) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, unsigned char uc) {
     lhs.Write(uc);
     return lhs;
 }
@@ -679,7 +679,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   b           byte
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::byte b) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::byte b) {
     lhs.Write(b);
     return lhs;
 }
@@ -690,7 +690,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   i           int16_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::int16_t i) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::int16_t i) {
     lhs.Write(i);
     return lhs;
 }
@@ -701,7 +701,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   ui          uint16_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::uint16_t ui) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::uint16_t ui) {
     lhs.Write(ui);
     return lhs;
 }
@@ -712,7 +712,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   i           int32_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::int32_t i) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::int32_t i) {
     lhs.Write(i);
     return lhs;
 }
@@ -723,7 +723,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   ui          uint32_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::uint32_t ui) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::uint32_t ui) {
     lhs.Write(ui);
     return lhs;
 }
@@ -734,7 +734,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   i           int64_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::int64_t i) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::int64_t i) {
     lhs.Write(i);
     return lhs;
 }
@@ -745,7 +745,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   ui          uint64_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::uint64_t ui) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::uint64_t ui) {
     lhs.Write(ui);
     return lhs;
 }
@@ -756,7 +756,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   f           float
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, float f) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, float f) {
     lhs.Write(f);
     return lhs;
 }
@@ -767,7 +767,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   d           double
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, double d) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, double d) {
     lhs.Write(d);
     return lhs;
 }
@@ -778,7 +778,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   m           memory
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
                                                          std::vector<std::byte> const & m) {
     lhs.Write(m);
     return lhs;
@@ -790,7 +790,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   s           string
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
                                                          std::string const & s) {
     lhs.Write(s);
     return lhs;
@@ -802,7 +802,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   s           string
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, char const * s) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, char const * s) {
     lhs.Write(std::string{s});
     return lhs;
 }
@@ -814,7 +814,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::list<T> const & l) {
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::list<T> const & l) {
     lhs.Write(l);
     return lhs;
 }
@@ -826,7 +826,7 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class K, class T>
-headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
                                                   std::map<K, T> const & m) {
     lhs.Write(m);
     return lhs;
@@ -839,7 +839,7 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, std::set<T> const & s) {
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::set<T> const & s) {
     lhs.Write(s);
     return lhs;
 }
@@ -851,7 +851,7 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs,
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
                                                   std::vector<T> const & v) {
     lhs.Write(v);
     return lhs;
@@ -863,7 +863,7 @@ headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManip
  * @param   b           bool
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::MemoryManipulator & lhs, bool b) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, bool b) {
     lhs.Write(b);
     return lhs;
 }
@@ -874,7 +874,7 @@ inline headcode::memtool::MemoryManipulator & operator<<(headcode::memtool::Memo
  * @param   c           char
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, char & c) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, char & c) {
     lhs.Read(c);
     return lhs;
 }
@@ -885,7 +885,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   uc          unsigned char
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
                                                          unsigned char & uc) {
     lhs.Read(uc);
     return lhs;
@@ -897,7 +897,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   b           byte
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::byte & b) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::byte & b) {
     lhs.Read(b);
     return lhs;
 }
@@ -908,7 +908,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   i           int16_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::int16_t & i) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::int16_t & i) {
     lhs.Read(i);
     return lhs;
 }
@@ -919,7 +919,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   ui          uint16_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
                                                          std::uint16_t & ui) {
     lhs.Read(ui);
     return lhs;
@@ -931,7 +931,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   i           int32_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::int32_t & i) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::int32_t & i) {
     lhs.Read(i);
     return lhs;
 }
@@ -942,7 +942,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   ui          uint32_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
                                                          std::uint32_t & ui) {
     lhs.Read(ui);
     return lhs;
@@ -954,7 +954,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   i           int64_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::int64_t & i) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::int64_t & i) {
     lhs.Read(i);
     return lhs;
 }
@@ -965,7 +965,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   ui          uint64_t
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
                                                          std::uint64_t & ui) {
     lhs.Read(ui);
     return lhs;
@@ -977,7 +977,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   f           float
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, float & f) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, float & f) {
     lhs.Read(f);
     return lhs;
 }
@@ -988,7 +988,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   d           double
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, double & d) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, double & d) {
     lhs.Read(d);
     return lhs;
 }
@@ -999,7 +999,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   m           memory
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs,
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
                                                          std::vector<std::byte> & m) {
     lhs.Read(m);
     return lhs;
@@ -1011,7 +1011,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @param   s           string
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::string & s) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::string & s) {
     lhs.Read(s);
     return lhs;
 }
@@ -1023,7 +1023,7 @@ inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::Memo
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::list<T> & l) {
+headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::list<T> & l) {
     lhs.Read(l);
     return lhs;
 }
@@ -1035,7 +1035,7 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class K, class T>
-headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::map<K, T> & m) {
+headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::map<K, T> & m) {
     lhs.Read(m);
     return lhs;
 }
@@ -1047,7 +1047,7 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::set<T> & s) {
+headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::set<T> & s) {
     lhs.Read(s);
     return lhs;
 }
@@ -1059,7 +1059,7 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
  * @return  lhs
  */
 template <class T>
-headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, std::vector<T> & v) {
+headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::vector<T> & v) {
     lhs.Read(v);
     return lhs;
 }
@@ -1070,7 +1070,7 @@ headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManip
  * @param   b           bool
  * @return  lhs
  */
-inline headcode::memtool::MemoryManipulator & operator>>(headcode::memtool::MemoryManipulator & lhs, bool & b) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, bool & b) {
     lhs.Read(b);
     return lhs;
 }

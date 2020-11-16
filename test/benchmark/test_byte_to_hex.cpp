@@ -1,5 +1,5 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
@@ -12,7 +12,7 @@
 
 #include <gtest/gtest.h>
 
-#include <headcode/memtool/memtool.hpp>
+#include <headcode/mem/mem.hpp>
 
 #include <shared/ipsum_lorem.hpp>
 
@@ -27,7 +27,7 @@ TEST(BenchmarkByteToHex, ByteToHex1000000) {
 
     auto time_start = std::chrono::high_resolution_clock::now();
     for (std::uint64_t i = 0; i < loop_count; ++i) {
-        hex = headcode::memtool::ByteToHex(value);
+        hex = headcode::mem::ByteToHex(value);
     }
     
     Throughput throughput{GetElapsedMicroSeconds(time_start), loop_count};

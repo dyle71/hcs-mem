@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ------------------------------------------------------------
-# This file is a Dockerfile of memtool of headcode.space
+# This file is a Dockerfile of mem of headcode.space
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020 headcode.space
@@ -13,14 +13,14 @@
 #   create-containers.sh [PREFIX]
 #
 # The created container images will be labeled PREFIX:PLATFORM.
-# * If no PREFIX is submitted, then "headcode-memtool" will be used.
+# * If no PREFIX is submitted, then "hcs-mem" will be used.
 # * The PLATFORM is the suffix of the Dockerfile name found.
 
 cd $(dirname $(readlink -f ${0}))
 
 PREFIX="${1}"
 if [[ -z ${PREFIX} ]]; then
-    PREFIX="headcode-memtool"
+    PREFIX="hcs-mem"
 fi
 PLATFORMS=$(ls -1 Dockerfile.build.* | cut -d '.' -f 3 | xargs echo)
 

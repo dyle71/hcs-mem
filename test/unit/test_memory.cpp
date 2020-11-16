@@ -1,5 +1,5 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
@@ -8,9 +8,9 @@
 
 #include <gtest/gtest.h>
 
-#include <headcode/memtool/memtool.hpp>
+#include <headcode/mem/mem.hpp>
 
-using namespace headcode::memtool;
+using namespace headcode::mem;
 
 
 TEST(Memory, MemoryToHex) {

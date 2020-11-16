@@ -1,13 +1,13 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef HEADCODE_SPACE_MEMTOOL_TEST_SHARED_IPSUM_LOREM_HPP
-#define HEADCODE_SPACE_MEMTOOL_TEST_SHARED_IPSUM_LOREM_HPP
+#ifndef HEADCODE_SPACE_MEM_TEST_SHARED_IPSUM_LOREM_HPP
+#define HEADCODE_SPACE_MEM_TEST_SHARED_IPSUM_LOREM_HPP
 
 #include <string>
 

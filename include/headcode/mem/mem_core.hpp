@@ -1,13 +1,13 @@
 /*
- * This file is part of the headcode.space memtool.
+ * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
  * Copyright (C) 2020 headcode.space
  * https://www.headcode.space, <info@headcode.space>
  */
 
-#ifndef HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_HPP
-#define HEADCODE_SPACE_MEMTOOL_MEMTOOL_CORE_HPP
+#ifndef HEADCODE_SPACE_MEM_MEM_CORE_HPP
+#define HEADCODE_SPACE_MEM_MEM_CORE_HPP
 
 #include <cstddef>
 #include <string>
@@ -15,9 +15,9 @@
 
 
 /**
- * @brief   The headcode memtool namespace
+ * @brief   The headcode mem namespace
  */
-namespace headcode::memtool {
+namespace headcode::mem {
 
 /**
  * @brief   Convenient function to quickly convert a char array to a memory block.
@@ -91,7 +91,7 @@ inline std::vector<std::byte> StringToMemory(std::string const & str);
 }
 
 
-#include "memtool_core_bits.hpp"
+#include "mem_core_bits.hpp"
 
 
 #endif
