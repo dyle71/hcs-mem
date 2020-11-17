@@ -66,6 +66,32 @@ std::cout << data.size() << std::endl;      // will hold the bytes needed fot th
 
 Stream in and out is provided.
 
+**NOTE** I'm using the Googletest Suite for my test. Therefore I strongly recommend 
+examining the source code in the test, since they are also meant for documentation 
+and show how this code is intended to be used. Look for instance at this:
+
+```c++
+#include <gtest/gtest.h>
+#include <headcode/mem/mem.hpp>
+using namespace headcode::mem;
+
+TEST(Memory, CharArrayToMemory) {
+
+    auto text = "The quick brown fox jumps over the lazy dog";
+    auto memory = CharArrayToMemory(text, strlen(text));
+
+    auto canonical = MemoryToCanonicalString(memory);
+    auto expected =
+            "\
+0x0000000000000000   54 68 65 20 71 75 69 63  6b 20 62 72 6f 77 6e 20   |The quic k brown |\n\
+0x0000000000000010   66 6f 78 20 6a 75 6d 70  73 20 6f 76 65 72 20 74   |fox jump s over t|\n\
+0x0000000000000020   68 65 20 6c 61 7a 79 20  64 6f 67                  |he lazy  dog     |\n";
+
+    EXPECT_STREQ(canonical.c_str(), expected);
+}
+```
+IMHO this is very clear and expressive. 
+
 
 ## Project layout
 
