@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/mem/-/tree/develop
+[1.1.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.1
 [1.1.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.0
 [1.0.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.3
 [1.0.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.2
