@@ -82,6 +82,14 @@ inline std::string MemoryToCanonicalString(std::vector<std::byte> const & memory
 inline std::string MemoryToHex(std::vector<std::byte> const & memory);
 
 /**
+ * @brief   Converts a memory area to a hex-string.
+ * @param   memory      the memory to convert.
+ * @param   size        size of the memory to convert.
+ * @return  A hex string representing this memory.
+ */
+inline std::string MemoryToHex(char const * memory, std::uint64_t size);
+
+/**
  * @brief   Convenient function to quickly convert a string to a memory block.
  * @param   str         the string to convert
  * @return  A memory block based on this hex string.

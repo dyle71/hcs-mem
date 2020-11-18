@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2020-11-18
+### Added
+- Added headcode::mem::MemoryToHex(char const * memory, std::uint64_t size) function.
+
+
 ## [1.1.0] - 2020-11-16
 ### Changed
 - Renamed whole project from 'memtool' to simply 'mem'
