@@ -12,11 +12,10 @@
 
 #include <gtest/gtest.h>
 
+#include <headcode/benchmark/benchmark.hpp>
 #include <headcode/mem/mem.hpp>
 
 #include <shared/ipsum_lorem.hpp>
-
-#include "benchmark_tool.hpp"
 
 
 TEST(BenchmarkByteToHex, ByteToHex1000000) {
@@ -30,6 +29,6 @@ TEST(BenchmarkByteToHex, ByteToHex1000000) {
         hex = headcode::mem::ByteToHex(value);
     }
     
-    Throughput throughput{GetElapsedMicroSeconds(time_start), loop_count};
+    headcode::benchmark::Throughput throughput{headcode::benchmark::GetElapsedMicroSeconds(time_start), loop_count};
     std::cout << StreamPerformanceIndicators(throughput, "BenchmarkByteToHex::ByteToHex1000000 ");
 }

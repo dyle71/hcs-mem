@@ -161,6 +161,24 @@ find_package(GTest REQUIRED)
 
 
 # ------------------------------------------------------------
+# headcode/mem as submodule hcs-benchmark
+#
+# Download https://gitlab.com/headcode.space/benchmark.git as
+#
+#   $ git submodule add https://gitlab.com/headcode.space/benchmark.git 3rd/hcs-benchmark
+
+if (NOT EXISTS "${CMAKE_SOURCE_DIR}/3rd/hcs-benchmark/CMakeLists.txt")
+    message(FATAL_ERROR "The git submodule for hcs-benchmark has not been downloaded!")
+endif ()
+
+execute_process(COMMAND "${CMAKE_COMMAND}" --build .
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/3rd/hcs-benchmark"
+)
+
+include_directories(${CMAKE_SOURCE_DIR}/3rd/hcs-benchmark/include)
+
+
+# ------------------------------------------------------------
 # Doxygen
 
 find_package(Doxygen)

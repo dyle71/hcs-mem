@@ -13,11 +13,10 @@
 
 #include <gtest/gtest.h>
 
+#include <headcode/benchmark/benchmark.hpp>
 #include <headcode/mem/mem.hpp>
 
 #include <shared/ipsum_lorem.hpp>
-
-#include "benchmark_tool.hpp"
 
 
 TEST(BenchmarkCanonical, IpsumLorem1000) {
@@ -30,6 +29,7 @@ TEST(BenchmarkCanonical, IpsumLorem1000) {
         headcode::mem::MemoryToCanonicalString(mem, "ipsum-lorem: ");
     }
 
-    Throughput throughput{GetElapsedMicroSeconds(time_start), IPSUM_LOREM_TEXT.size() * loop_count};
+    headcode::benchmark::Throughput throughput{headcode::benchmark::GetElapsedMicroSeconds(time_start),
+                                               IPSUM_LOREM_TEXT.size() * loop_count};
     std::cout << StreamPerformanceIndicators(throughput, "BenchmarkCanonical::IpsumLorem1000 ");
 }
