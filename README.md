@@ -103,10 +103,10 @@ IMHO this is very clear and expressive.
 │   └── rpm-package.cmake       Building instructions for RPM packages.
 ├── include                     Public header files. Add the path to this folder to your C++ search path.
 │   └── headcode                
-│       └── mem             Include this: <headcode/mem/mem.hpp>
+│       └── mem                 Include this: <headcode/mem/mem.hpp>
 ├── test                        Tests.
 │   ├── benchmark               Benchmark tests.
-│   ├── integration             Integration tests.
+│   ├── shared                  Shared test data.
 │   └── unit                    Unit tests.
 ├── tools                       Various tools for run-time or build-time.
 │   └── docker                  Docker builder image definitions: Dockerfiles for various platforms to build.
