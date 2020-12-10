@@ -134,7 +134,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS} ${LINKER_FLAGS_PROFILING}")
 # headcode/benchmark as submodule
 
 include(hcs-benchmark)
-message(STATUS "+++ HCS_BENCHMARK_INCLUDE_DIR: ${HCS_BENCHMARK_INCLUDE_DIR} +++")
+message(STATUS "HCS_BENCHMARK_INCLUDE_DIR: ${HCS_BENCHMARK_INCLUDE_DIR}")
 include_directories(${HCS_BENCHMARK_INCLUDE_DIR})
 
 
@@ -196,15 +196,31 @@ set(CPACK_SOURCE_IGNORE_FILES "./build/*;/.git/;/.idea/;/.scannerwork/;/.sonar/;
 set(CPACK_SOURCE_GENERATOR "TGZ")
 
 if ("${CPACK_GENERATOR}" STREQUAL "DEB")
+
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
     set(PACKAGE_DEB_CONTROL_DIR "tools/package/deb")
     include(cmake/deb-package.cmake)
+
+    # only works inside a GitLab CI/CD runner
+    set(GITLAB_PACKAGE_BASE_URL "https://gitlab.com/api/v4/projects/20847137/packages/generic/hcs-mem")
+    set(PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}.deb")
+    set(PACKAGE_FILE "${CMAKE_BINARY_DIR}/${PACKAGE_FILE_NAME}")
+    include(gitlab-package-push)
+
 endif()
 
 if ("${CPACK_GENERATOR}" STREQUAL "RPM")
+
     set(CPACK_RPM_PACKAGE_REQUIRES "")
     set(PACKAGE_RPM_CONTROL_DIR "tools/package/rpm")
     include(cmake/rpm-package.cmake)
+
+    # only works inside a GitLab CI/CD runner
+    set(GITLAB_PACKAGE_BASE_URL "https://gitlab.com/api/v4/projects/20847137/packages/generic/hcs-mem")
+    set(PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}.rpm")
+    set(PACKAGE_FILE "${CMAKE_BINARY_DIR}/${PACKAGE_FILE_NAME}")
+    include(gitlab-package-push)
+
 endif()
 
 include(CPack)
