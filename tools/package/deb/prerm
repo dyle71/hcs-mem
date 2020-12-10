@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# ------------------------------------------------------------
+# This script is called before removing a package.
+#
+# The 'LICENSE.txt' file in the project root holds the software license.
+# Copyright (C) 2020 headcode.space
+# https://www.headcode.space, <info@headcode.space>
+# ------------------------------------------------------------
+
+set -e
