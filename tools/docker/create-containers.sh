@@ -13,19 +13,19 @@
 #   create-containers.sh [PREFIX]
 #
 # The created container images will be labeled PREFIX:PLATFORM.
-# * If no PREFIX is submitted, then "hcs-mem" will be used.
+# * If no PREFIX is submitted, then "hcs-benchmark" will be used.
 # * The PLATFORM is the suffix of the Dockerfile name found.
 
 cd $(dirname $(readlink -f ${0}))
 
 PREFIX="${1}"
 if [[ -z ${PREFIX} ]]; then
-    PREFIX="hcs-mem"
+    PREFIX="hcs-benchmark"
 fi
-PLATFORMS=$(ls -1 Dockerfile.build.* | cut -d '.' -f 3 | xargs echo)
+PLATFORMS=$(find . -type f -name 'Dockerfile.build.*' | cut -d '.' -f 4 | xargs echo)
 
 for PLATFORM in ${PLATFORMS}; do
     BUILDER_IMAGE="${PREFIX}:${PLATFORM}"
     echo "Creating ${BUILDER_IMAGE}..."
-    docker build --tag ${BUILDER_IMAGE} --file Dockerfile.build.${PLATFORM} .
+    docker build --tag "${BUILDER_IMAGE}" --file "Dockerfile.build.${PLATFORM}" .
 done
