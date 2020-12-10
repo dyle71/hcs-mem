@@ -1,5 +1,5 @@
 # ------------------------------------------------------------
-# This file is the main CMakeLists of memtool of headcode.space
+# This file is the main CMakeLists of mem of headcode.space
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020 headcode.space
@@ -19,7 +19,7 @@ build:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Debug -DPROFILING_MODE_ENABLED:Bool=On ..
+    - cmake -DBUILD_TESTING=On -DCMAKE_BUILD_TYPE=Debug -DPROFILING_MODE_ENABLED:Bool=On ..
     - make
     - ctest -VV -F --timeout 10.0
     - make run-gcovr
@@ -41,9 +41,12 @@ package-debian-buster:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB ..
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB -DCPACK_SYSTEM_NAME=debian-buster ..
     - make
     - make package
+    - export CPACK_PACKAGE_FILE_NAME=`grep CPACK_PACKAGE_FILE_NAME CPackConfig.cmake | cut -d \" -f 2`
+    - export CPACK_PACKAGE_VERSION=`grep 'set(CPACK_PACKAGE_VERSION ' CPackConfig.cmake | cut -d \" -f 2`
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "${CPACK_PACKAGE_FILE_NAME}.deb" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hcs-mem/${CPACK_PACKAGE_VERSION}/${CPACK_PACKAGE_FILE_NAME}.deb"'
   artifacts:
     paths:
       - build/*.deb
@@ -58,9 +61,12 @@ package-ubuntu-bionic:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB ..
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB -DCPACK_SYSTEM_NAME=ubuntu-bionic ..
     - make
     - make package
+    - export CPACK_PACKAGE_FILE_NAME=`grep CPACK_PACKAGE_FILE_NAME CPackConfig.cmake | cut -d \" -f 2`
+    - export CPACK_PACKAGE_VERSION=`grep 'set(CPACK_PACKAGE_VERSION ' CPackConfig.cmake | cut -d \" -f 2`
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "${CPACK_PACKAGE_FILE_NAME}.deb" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hcs-mem/${CPACK_PACKAGE_VERSION}/${CPACK_PACKAGE_FILE_NAME}.deb"'
   artifacts:
     paths:
       - build/*.deb
@@ -75,9 +81,12 @@ package-ubuntu-focal:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB ..
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB -DCPACK_SYSTEM_NAME=ubuntu-focal ..
     - make
     - make package
+    - export CPACK_PACKAGE_FILE_NAME=`grep CPACK_PACKAGE_FILE_NAME CPackConfig.cmake | cut -d \" -f 2`
+    - export CPACK_PACKAGE_VERSION=`grep 'set(CPACK_PACKAGE_VERSION ' CPackConfig.cmake | cut -d \" -f 2`
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "${CPACK_PACKAGE_FILE_NAME}.deb" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hcs-mem/${CPACK_PACKAGE_VERSION}/${CPACK_PACKAGE_FILE_NAME}.deb"'
   artifacts:
     paths:
       - build/*.deb
@@ -92,9 +101,12 @@ package-fedora32:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=RPM ..
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=RPM -DCPACK_SYSTEM_NAME=fedora32 ..
     - make
     - make package
+    - export CPACK_PACKAGE_FILE_NAME=`grep CPACK_PACKAGE_FILE_NAME CPackConfig.cmake | cut -d \" -f 2`
+    - export CPACK_PACKAGE_VERSION=`grep 'set(CPACK_PACKAGE_VERSION ' CPackConfig.cmake | cut -d \" -f 2`
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "${CPACK_PACKAGE_FILE_NAME}.rpm" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/hcs-benchmark/${CPACK_PACKAGE_VERSION}/${CPACK_PACKAGE_FILE_NAME}.rpm"'
   artifacts:
     paths:
       - build/*.rpm

@@ -6,6 +6,11 @@
 # https://www.headcode.space, <info@headcode.space>
 # ------------------------------------------------------------
 
+# activate Google Tests
+set(GTEST_SOURCE_DIR "${CMAKE_SOURCE_DIR}/3rd/googletest")
+include(${CMAKE_SOURCE_DIR}/cmake/gtest.cmake)
+
+
 # ------------------------------------------------------------ 
 # Workload
 

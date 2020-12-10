@@ -92,6 +92,7 @@ add_definitions(-D_DEFAULT_SOURCE)
 set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
 
+
 # ---- fix C++ standard used ----
 
 set(CMAKE_CXX_STANDARD 17)
@@ -106,6 +107,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     message(STATUS "Turning on compiler command export for CLang: ${CMAKE_BINARY_DIR}/compile_commands.json")
 endif ()
+
 
 # ---- callgrind integration ----
 
@@ -129,53 +131,11 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS} ${LINKER_FLAGS_PROFILING}")
 
 
 # ------------------------------------------------------------
-# googletest (internally handled as git submodule)
+# headcode/benchmark as submodule
 
-check_library_exists(pthread pthread_kill "/usr/local/lib;/usr/lib;/lib" HAVE_PTHREAD_LIB)
-if (HAVE_PTHREAD_LIB)
-    set(CMAKE_REQUIRED_LIBRARIES "pthread;${CMAKE_REQUIRED_LIBRARIES}")
-endif ()
-
-if (NOT EXISTS "${CMAKE_SOURCE_DIR}/3rd/googletest/CMakeLists.txt")
-    message(FATAL_ERROR "The git submodule for googletest has not been downloaded!")
-endif ()
-
-file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/3rd/googletest")
-execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" "${CMAKE_SOURCE_DIR}/3rd/googletest"
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/3rd/googletest"
-)
-execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/3rd/googletest"
-)
-set(GTEST_INCLUDE_DIR
-    "${CMAKE_SOURCE_DIR}/3rd/googletest/googletest/include"
-    "${CMAKE_SOURCE_DIR}/3rd/googletest/googlemock/include"
-)
-set(GTEST_LIBRARY_PATH  "${CMAKE_BINARY_DIR}/3rd/googletest/lib")
-set(GTEST_LIBRARY       "${GTEST_LIBRARY_PATH}/libgtest.a")
-set(GTEST_MAIN_LIBRARY  "${GTEST_LIBRARY_PATH}/libgtest_main.a")
-set(GMOCK_LIBRARY       "${GTEST_LIBRARY_PATH}/libgmock.a")
-set(GMOCK_MAIN_LIBRARY  "${GTEST_LIBRARY_PATH}/libgmock_main.a")
-
-find_package(GTest REQUIRED)
-
-
-# ------------------------------------------------------------
-# headcode/mem as submodule hcs-benchmark
-#
-# Download https://gitlab.com/headcode.space/benchmark.git as
-#
-#   $ git submodule add https://gitlab.com/headcode.space/benchmark.git 3rd/hcs-benchmark
-
-if (NOT EXISTS "${CMAKE_SOURCE_DIR}/3rd/hcs-benchmark/CMakeLists.txt")
-    message(FATAL_ERROR "The git submodule for hcs-benchmark has not been downloaded!")
-endif ()
-
-execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/3rd/hcs-benchmark"
-)
-
-include_directories(${CMAKE_SOURCE_DIR}/3rd/hcs-benchmark/include)
+include(hcs-benchmark)
+message(STATUS "+++ HCS_BENCHMARK_INCLUDE_DIR: ${HCS_BENCHMARK_INCLUDE_DIR} +++")
+include_directories(${HCS_BENCHMARK_INCLUDE_DIR})
 
 
 # ------------------------------------------------------------
@@ -188,22 +148,29 @@ endif ()
 
 configure_file(${CMAKE_SOURCE_DIR}/Doxyfile ${CMAKE_BINARY_DIR}/Doxyfile)
 add_custom_target(doxygen ALL
-        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-        COMMENT "Doxygen running ...")
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    COMMENT "Doxygen running ..."
+)
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES api-doc)
 
 add_custom_target(doc)
 add_dependencies(doc doxygen)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/html
-        DESTINATION share/doc/hcs-mem-${VERSION_MAJOR}.${VERSION_MINOR}
-        COMPONENT documentation
+    DESTINATION share/doc/hcs-mem-${VERSION_MAJOR}.${VERSION_MINOR}
+    COMPONENT documentation
 )
 
 
 # ------------------------------------------------------------ 
 # Workload
 
-add_subdirectory(test)
+if (BUILD_TESTING)
+    message(STATUS "Building tests")
+    add_subdirectory(test)
+else()
+    message(STATUS "Building without tests")
+    message(STATUS "To enable tests invoke cmake with \"-D BUILD_TESTING=on\" arguments.")
+endif ()
 
 
 # ------------------------------------------------------------
@@ -229,12 +196,15 @@ set(CPACK_SOURCE_IGNORE_FILES "./build/*;/.git/;/.idea/;/.scannerwork/;/.sonar/;
 set(CPACK_SOURCE_GENERATOR "TGZ")
 
 if ("${CPACK_GENERATOR}" STREQUAL "DEB")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "")
+    set(PACKAGE_DEB_CONTROL_DIR "tools/package/deb")
     include(cmake/deb-package.cmake)
 endif()
 
 if ("${CPACK_GENERATOR}" STREQUAL "RPM")
+    set(CPACK_RPM_PACKAGE_REQUIRES "")
+    set(PACKAGE_RPM_CONTROL_DIR "tools/package/rpm")
     include(cmake/rpm-package.cmake)
 endif()
 
 include(CPack)
-
