@@ -283,9 +283,10 @@ public:
     float const & Read(float & f) const {
         Pick(&f, sizeof(f));
         if (IsEndianAware()) {
-            std::uint32_t v = *(reinterpret_cast<std::uint32_t *>(&f));
+            std::uint32_t v;
+            std::memcpy(&v, &f, sizeof(v));
             v = be32toh(v);
-            f = *(reinterpret_cast<float *>(&v));
+            std::memcpy(&f, &v, sizeof(f));
         }
         return f;
     }
@@ -298,9 +299,10 @@ public:
     double const & Read(double & d) const {
         Pick(&d, sizeof(d));
         if (IsEndianAware()) {
-            std::uint64_t v = *(reinterpret_cast<std::uint64_t *>(&d));
+            std::uint64_t v;
+            std::memcpy(&v, &d, sizeof(v));
             v = be64toh(v);
-            d = *(reinterpret_cast<double *>(&v));
+            std::memcpy(&d, &v, sizeof(d));
         }
         return d;
     }
@@ -546,9 +548,10 @@ public:
     void Write(float f) {
 
         if (IsEndianAware()) {
-            std::uint32_t v = *(reinterpret_cast<std::uint32_t *>(&f));
+            std::uint32_t v;
+            std::memcpy(&v, &f, sizeof(v));
             v = htobe32(v);
-            f = *(reinterpret_cast<float *>(&v));
+            std::memcpy(&f, &v, sizeof(f));
         }
 
         Add(&f, sizeof(f));
@@ -561,9 +564,10 @@ public:
     void Write(double d) {
 
         if (IsEndianAware()) {
-            std::uint64_t v = *(reinterpret_cast<std::uint64_t *>(&d));
+            std::uint64_t v;
+            std::memcpy(&v, &d, sizeof(v));
             v = htobe64(v);
-            d = *(reinterpret_cast<double *>(&v));
+            std::memcpy(&d, &v, sizeof(d));
         }
 
         Add(&d, sizeof(d));
