@@ -99,8 +99,6 @@ IMHO this is very clear and expressive.
 .
 ├── 3rd                         3rd party libraries needed (likely as git submodules).
 ├── cmake                       CMake additional files.
-│   ├── deb-package.cmake       Building instructions for DEB packages.
-│   └── rpm-package.cmake       Building instructions for RPM packages.
 ├── include                     Public header files. Add the path to this folder to your C++ search path.
 │   └── headcode                
 │       └── mem                 Include this: <headcode/mem/mem.hpp>
@@ -109,7 +107,8 @@ IMHO this is very clear and expressive.
 │   ├── shared                  Shared test data.
 │   └── unit                    Unit tests.
 ├── tools                       Various tools for run-time or build-time.
-│   └── docker                  Docker builder image definitions: Dockerfiles for various platforms to build.
+│   ├── docker                  Docker builder image definitions: Dockerfiles for various platforms to build.
+│   └── package                 Package related files.
 ├── Changes.md                  Changes file.
 ├── CMakeLists.txt              The overall CMakeLists.txt.
 ├── Doxyfile                    Doxgen API documentation configuration.
