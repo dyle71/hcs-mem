@@ -282,6 +282,11 @@ public:
      */
     float const & Read(float & f) const {
         Pick(&f, sizeof(f));
+        if (IsEndianAware()) {
+            std::uint32_t v = *(reinterpret_cast<std::uint32_t *>(&f));
+            v = be32toh(v);
+            f = *(reinterpret_cast<float *>(&v));
+        }
         return f;
     }
 
@@ -292,6 +297,11 @@ public:
      */
     double const & Read(double & d) const {
         Pick(&d, sizeof(d));
+        if (IsEndianAware()) {
+            std::uint64_t v = *(reinterpret_cast<std::uint64_t *>(&d));
+            v = be64toh(v);
+            d = *(reinterpret_cast<double *>(&v));
+        }
         return d;
     }
 
@@ -534,6 +544,13 @@ public:
      * @param   f       the float to add
      */
     void Write(float f) {
+
+        if (IsEndianAware()) {
+            std::uint32_t v = *(reinterpret_cast<std::uint32_t *>(&f));
+            v = htobe32(v);
+            f = *(reinterpret_cast<float *>(&v));
+        }
+
         Add(&f, sizeof(f));
     }
 
@@ -542,6 +559,13 @@ public:
      * @param   d       the double to add
      */
     void Write(double d) {
+
+        if (IsEndianAware()) {
+            std::uint64_t v = *(reinterpret_cast<std::uint64_t *>(&d));
+            v = htobe64(v);
+            d = *(reinterpret_cast<double *>(&v));
+        }
+
         Add(&d, sizeof(d));
     }
 
