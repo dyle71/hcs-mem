@@ -50,24 +50,6 @@ package-debian-buster:
       - build/*.deb
     name: ${CI_PROJECT_NAME}-debian-buster
 
-package-ubuntu-bionic:
-  stage: package
-  image: registry.gitlab.com/headcode.space/memtool:ubuntu-bionic
-  script:
-    - git submodule init
-    - git submodule update
-    - rm -rf build &> /dev/null
-    - mkdir -p build
-    - cd build
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCPACK_GENERATOR=DEB -DCPACK_SYSTEM_NAME=ubuntu-bionic -DCI_JOB_TOKEN=$CI_JOB_TOKEN ..
-    - make
-    - make package
-    - make gitlab_push_package
-  artifacts:
-    paths:
-      - build/*.deb
-    name: ${CI_PROJECT_NAME}-ubuntu-bionic
-
 package-ubuntu-focal:
   stage: package
   image: registry.gitlab.com/headcode.space/memtool:ubuntu-focal
