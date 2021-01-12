@@ -47,3 +47,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.2
 [1.0.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.1
 [1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0
+
+---
+
+Copyright (C) 2020-2021 headcode.space e.U.  
+Oliver Maurhart <info@headcode.space>  
+[https://headcode.space](https://www.headcode.space)  

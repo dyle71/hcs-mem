@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (C) 2020-2021 headcode.space, Oliver Maurhart <oliver.maurhart@headcode.space>, https://www.headcode.space
+Copyright (C) 2020-2021 headcode.space e.U., Oliver Maurhart <info@headcode.space>, https://www.headcode.space
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
