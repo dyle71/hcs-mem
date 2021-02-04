@@ -27,7 +27,7 @@ inline std::uint32_t GetHCSMemVersion_1_1_0() {
 }
 
 /**
- * @brief   Version check for 1.1.0
+ * @brief   Version check for 1.1.1
  * @return  A value, representing the version.
  */
 inline std::uint32_t GetHCSMemVersion_1_1_1() {
@@ -35,16 +35,25 @@ inline std::uint32_t GetHCSMemVersion_1_1_1() {
 }
 
 /**
+ * @brief   Version check for 1.1.2
+ * @return  A value, representing the version.
+ */
+inline std::uint32_t GetHCSMemVersion_1_1_2() {
+    return MAKE_VERSION(1, 1, 2);
+}
+
+/**
  * @brief   The headcode mem namespace
  */
 namespace headcode::mem {
+
 
 /**
  * @brief   Returns the current version of the headcode-mem.
  * @return  A value, representing the current version.
  */
 inline std::uint32_t GetCurrentVersion() {
-    return GetHCSMemVersion_1_1_1();
+    return GetHCSMemVersion_1_1_2();
 }
 
 /**
@@ -52,8 +61,9 @@ inline std::uint32_t GetCurrentVersion() {
  * @return  a string holding the current version.
  */
 inline std::string GetVersionString() {
-    return "1.1.1";
+    return "1.1.2";
 }
+
 
 }
 

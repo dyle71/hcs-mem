@@ -5,8 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+
+## [1.1.2] - 2021-02-04
+### Added
+- Completed the rule of 5 for `MemoryManipulator`.
+- SonarQube support for profiling.
 ### Changed
-- Droped internal benchmark tool and replaced it with 3rd/ gitlab link
+- Dropped internal benchmark tool and replaced it with 3rd/ gitlab link.
+- Enforces some more strict type conversion.
+
 
 ## [1.1.1] - 2020-11-18
 ### Added
@@ -41,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/mem/-/tree/develop
+[1.1.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.2
 [1.1.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.1
 [1.1.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.0
 [1.0.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.3

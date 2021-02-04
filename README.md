@@ -219,6 +219,8 @@ This will give you the test coverage on stdout as well as:
 * `gcovr-report.xml`: this is the gcovr report file in xml
 * `coverge-html`: this is the folder in which detailed html info of collected coverage resides
   (open up the file `coverage-html/index.html` in a browser of your choice)
+* `gcovr-sonarqube-report.xml`: the same as the `gcov-report.xml` but sprinkled with enough
+  fairy dust to make SonarQube swallow it.
 
 in the build folder.
 
