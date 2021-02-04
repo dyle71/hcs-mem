@@ -2,7 +2,7 @@
  * This file is part of the headcode.space mem.
  *
  * The 'LICENSE.txt' file in the project root holds the software license.
- * Copyright (C) 2020-2021 headcode.space e.U.  
+ * Copyright (C) 2020-2021 headcode.space e.U.
  * Oliver Maurhart <info@headcode.space>, https://www.headcode.space
  */
 
@@ -63,9 +63,32 @@ public:
     }
 
     /**
+     * @brief   Move constructor.
+     */
+    MemoryManipulator(MemoryManipulator &&) = default;
+
+    /**
      * @brief   Destructor
      */
     virtual ~MemoryManipulator() = default;
+
+    /**
+     * @brief   Assignment.
+     * @param   rhs         right hand side manipulator
+     * @return  this
+     */
+    MemoryManipulator & operator=(MemoryManipulator const & rhs) {
+        endian_aware_ = rhs.endian_aware_;
+        position_ = 0;
+        memory_ = rhs.memory_;
+        return *this;
+    }
+
+    /**
+     * @brief   Move Assignment.
+     * @return  this
+     */
+    MemoryManipulator & operator=(MemoryManipulator &&) = delete;
 
     /**
      * @brief   Puts another data particle on top of the manipulator at the read/write position.
@@ -205,7 +228,7 @@ public:
     std::int16_t const & Read(std::int16_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
-            i = be16toh(i);
+            i = be16toh(static_cast<std::uint16_t>(i));
         }
         return i;
     }
@@ -231,7 +254,7 @@ public:
     std::int32_t const & Read(int32_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
-            i = be32toh(i);
+            i = be32toh(static_cast<std::uint32_t>(i));
         }
         return i;
     }
@@ -257,7 +280,7 @@ public:
     std::int64_t const & Read(std::int64_t & i) const {
         Pick(&i, sizeof(i));
         if (IsEndianAware()) {
-            i = be64toh(i);
+            i = be64toh(static_cast<std::uint64_t>(i));
         }
         return i;
     }
@@ -481,7 +504,7 @@ public:
      */
     void Write(std::int16_t i) {
         if (IsEndianAware()) {
-            i = htobe16(i);
+            i = htobe16(static_cast<std::uint16_t>(i));
         }
         Add(&i, sizeof(i));
     }
@@ -503,7 +526,7 @@ public:
      */
     void Write(std::int32_t i) {
         if (IsEndianAware()) {
-            i = htobe32(i);
+            i = htobe32(static_cast<std::uint32_t>(i));
         }
         Add(&i, sizeof(i));
     }
@@ -525,7 +548,7 @@ public:
      */
     void Write(std::int64_t i) {
         if (IsEndianAware()) {
-            i = htobe64(i);
+            i = htobe64(static_cast<std::uint64_t>(i));
         }
         Add(&i, sizeof(i));
     }
@@ -807,7 +830,7 @@ inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipu
  * @return  lhs
  */
 inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
-                                                         std::vector<std::byte> const & m) {
+                                                     std::vector<std::byte> const & m) {
     lhs.Write(m);
     return lhs;
 }
@@ -818,8 +841,7 @@ inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipu
  * @param   s           string
  * @return  lhs
  */
-inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
-                                                         std::string const & s) {
+inline headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::string const & s) {
     lhs.Write(s);
     return lhs;
 }
@@ -854,8 +876,7 @@ headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator &
  * @return  lhs
  */
 template <class K, class T>
-headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
-                                                  std::map<K, T> const & m) {
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::map<K, T> const & m) {
     lhs.Write(m);
     return lhs;
 }
@@ -879,8 +900,7 @@ headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator &
  * @return  lhs
  */
 template <class T>
-headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs,
-                                                  std::vector<T> const & v) {
+headcode::mem::MemoryManipulator & operator<<(headcode::mem::MemoryManipulator & lhs, std::vector<T> const & v) {
     lhs.Write(v);
     return lhs;
 }
@@ -913,8 +933,7 @@ inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipu
  * @param   uc          unsigned char
  * @return  lhs
  */
-inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
-                                                         unsigned char & uc) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, unsigned char & uc) {
     lhs.Read(uc);
     return lhs;
 }
@@ -947,8 +966,7 @@ inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipu
  * @param   ui          uint16_t
  * @return  lhs
  */
-inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
-                                                         std::uint16_t & ui) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::uint16_t & ui) {
     lhs.Read(ui);
     return lhs;
 }
@@ -970,8 +988,7 @@ inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipu
  * @param   ui          uint32_t
  * @return  lhs
  */
-inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
-                                                         std::uint32_t & ui) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::uint32_t & ui) {
     lhs.Read(ui);
     return lhs;
 }
@@ -993,8 +1010,7 @@ inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipu
  * @param   ui          uint64_t
  * @return  lhs
  */
-inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
-                                                         std::uint64_t & ui) {
+inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs, std::uint64_t & ui) {
     lhs.Read(ui);
     return lhs;
 }
@@ -1028,7 +1044,7 @@ inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipu
  * @return  lhs
  */
 inline headcode::mem::MemoryManipulator & operator>>(headcode::mem::MemoryManipulator & lhs,
-                                                         std::vector<std::byte> & m) {
+                                                     std::vector<std::byte> & m) {
     lhs.Read(m);
     return lhs;
 }
