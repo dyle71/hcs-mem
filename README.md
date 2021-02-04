@@ -1,4 +1,4 @@
-# mem
+# hcs-mem
 
 This tiny header-only C++17 project to enhance working with memory as of `std::vector<std::byte>`: 
 
@@ -7,12 +7,15 @@ This tiny header-only C++17 project to enhance working with memory as of `std::v
 * manipulate the memory as a stream
 
 This project is heavily inspired by my own libait-memory library I created for the 
-AIT, Austrian Institute of Technology
+AIT, Austrian Institute of Technology, some time ago in the past.
+
+Rational: `std::byte` is a good idea, but - heck! - sometimes cumbersome to work with. And sometimes you just 
+want to dump a memory area to `stderr` to inspect what is going on (or not going on for that matter).
 
 
 ## Usage example
 
-A mem comes along with these methods and functions:
+hcs-mem comes along with these methods and functions:
 
 * `headcode::mem::CharArrayToMemory` --> convert an old-school C character array to `std::vector<std::byte>`
 * `headcode::mem::HexToMemory` --> convert a hex string to `std::vector<std::byte>` like
@@ -93,6 +96,31 @@ TEST(Memory, CharArrayToMemory) {
 IMHO this is very clear and expressive. 
 
 
+## Philosophy
+
+All `headcode.space` software follows these directives:
+
+1. Provide very **high quality** C++ software. That's the topmost goal.
+
+2. Provide appealing C++ software, i.e. software which is **easily read and understood**.
+   Second goal.
+
+3. Provide software with **super minimal public interfaces**. I try to really provide the absolute
+   minimum without any bloat. The users of the software should only include the main header file
+   (e.g. `#include <headcode/mem/mem.hpp>`) and nothing else. These are self-contained and
+   rely only on C++ standard headers. No additional 3rd party headers required. Third goal.
+
+4. Provide libraries and binaries with **little to no runtime dependencies**. Yet, linkage might
+   require additional libraries (sometimes from `headcode.space` sometimes else). Whenever
+   possible I strive to go for the *static libraries*, because a) the resulting binaries when
+   linked against these libraries have little to no runtime dependency and can be installed
+   directly with a mere `copy` and b) they are smaller too, since the linkers tend to strip off
+   stuff which is not needed.
+
+I'm by no means perfect. There's always room for improvements and there are sure still bugs.
+If you have any suggestions please drop in an email at https://gitlab.com/headcode.space/memtool/-/issues.
+
+
 ## Project layout
 
 ```
@@ -101,7 +129,7 @@ IMHO this is very clear and expressive.
 ├── cmake                       CMake additional files.
 ├── include                     Public header files. Add the path to this folder to your C++ search path.
 │   └── headcode                
-│       └── mem                 Include this: <headcode/mem/mem.hpp>
+│       └── mem                 Here is the main include: <headcode/mem/mem.hpp>
 ├── test                        Tests.
 │   ├── benchmark               Benchmark tests.
 │   ├── shared                  Shared test data.
@@ -115,6 +143,12 @@ IMHO this is very clear and expressive.
 ├── LICENSE.txt                 The software license.
 └── README.md                   This file.
 ```
+
+## Installation
+
+I provide binary installation packages for some operating systems
+[here](https://gitlab.com/headcode.space/memtool/-/packages).
+
 
 ## Build
 

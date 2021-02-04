@@ -59,9 +59,11 @@ if (PROFILING_MODE_ENABLED)
     set(COVERAGE_EXCLUDE_DIRS "'/usr/include/*' '/usr/lib/*' '${CMAKE_SOURCE_DIR}/3rd/*'")
     set(COVERAGE_INFO_FILE ${CMAKE_BINARY_DIR}/gcovr-coverage.info)
     set(COVERAGE_REPORT_FILE ${CMAKE_BINARY_DIR}/gcovr-report.xml)
+    set(COVERAGE_SONARQUBE_REPORT_FILE ${CMAKE_BINARY_DIR}/gcovr-sonarqube-report.xml)
 
     add_custom_target(run-gcovr
         COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/3rd -e ${CMAKE_SOURCE_DIR}/test -x -o ${COVERAGE_REPORT_FILE}
+        COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/3rd -e ${CMAKE_SOURCE_DIR}/test -x --sonarqube ${COVERAGE_SONARQUBE_REPORT_FILE}
         COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/3rd -e ${CMAKE_SOURCE_DIR}/test
         COMMAND lcov -c --directory ${CMAKE_BINARY_DIR} --output-file ${COVERAGE_INFO_FILE}
         COMMAND lcov --remove ${COVERAGE_INFO_FILE} '/usr/include/*' --output-file ${COVERAGE_INFO_FILE} -q
@@ -71,7 +73,7 @@ if (PROFILING_MODE_ENABLED)
         COMMAND genhtml ${COVERAGE_INFO_FILE} --output-directory coverage-html
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Running gcovr"
-    )
+        )
 else ()
     message(STATUS "Profiling mode disabled")
 endif ()
@@ -87,11 +89,6 @@ add_definitions(-DVERSION=\"${VERSION}\")
 add_definitions(-D_GNU_SOURCE)
 add_definitions(-D_DEFAULT_SOURCE)
 
-# define __FILENAME__ as macro like __FILE__ but relativ to CMAKE_SOURCE_DIR
-# note: $(subst ....) and $(abspath ....) are GNU Make commands (!) passed on 1:1 by CMake
-set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
-
 
 # ---- fix C++ standard used ----
 
@@ -106,6 +103,10 @@ endif ()
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
     message(STATUS "Turning on compiler command export for CLang: ${CMAKE_BINARY_DIR}/compile_commands.json")
+endif ()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions("DEBUG")
 endif ()
 
 
@@ -156,7 +157,7 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES api-doc)
 add_custom_target(doc)
 add_dependencies(doc doxygen)
 install(DIRECTORY ${CMAKE_BINARY_DIR}/html
-    DESTINATION share/doc/hcs-mem-${VERSION_MAJOR}.${VERSION_MINOR}
+    DESTINATION share/doc/hcs-mem-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
     COMPONENT documentation
 )
 
@@ -164,6 +165,7 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/html
 # ------------------------------------------------------------ 
 # Workload
 
+option(BUILD_TESTING "enable testing" off)
 if (BUILD_TESTING)
     message(STATUS "Building tests")
     add_subdirectory(test)
