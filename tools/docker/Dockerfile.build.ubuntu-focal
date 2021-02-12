@@ -21,12 +21,16 @@ RUN apt-get update && apt-get install -y \
     graphviz \
     curl \
     wget \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # install non repository packages
 #COPY install/*.deb /
 #COPY install/ubuntu-focal/*.deb /
 #RUN dpkg --install /*.deb
+COPY install/sonar-scanner-cli*.zip /
+RUN unzip sonar-scanner-cli*.zip
+RUN ln -s /sonar-scanner-*-linux/bin/sonar-scanner /usr/local/bin/
 
 RUN mkdir -p /build
 WORKDIR /build

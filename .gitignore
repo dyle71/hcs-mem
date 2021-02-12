@@ -216,3 +216,8 @@ build/
 
 # ---- qtCreator.gitignore ----
 CMakeLists.txt.user*
+
+# ---- tools/docker install packages ----
+tools/docker/install/**/*.dpkg
+tools/docker/install/**/*.zip
+
