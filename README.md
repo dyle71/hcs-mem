@@ -120,6 +120,8 @@ All `headcode.space` software follows these directives:
 I'm by no means perfect. There's always room for improvements and there are sure still bugs.
 If you have any suggestions please drop in an email at https://gitlab.com/headcode.space/memtool/-/issues.
 
+SonarQube instance for hcs-mem: https://sonar.ddns.headcode.space/dashboard?id=hcs-mem.
+
 
 ## Project layout
 
