@@ -23,9 +23,9 @@ build:
     - make
     - ctest -VV -F --timeout 10.0
     - make run-gcovr
-    - sonar-scanner -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_LOGIN}
     - make package_source
     - cd ${CI_PROJECT_DIR}
+    - sonar-scanner -Dsonar.host.url=${SONAR_HOST} -Dsonar.login=${SONAR_LOGIN}
   artifacts:
     paths:
       - build/*.tar.gz
