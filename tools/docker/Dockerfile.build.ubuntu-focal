@@ -22,9 +22,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     unzip \
+    ninja-build \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # install non repository packages
+RUN pip3 install conan
 #COPY install/*.deb /
 #COPY install/ubuntu-focal/*.deb /
 #RUN dpkg --install /*.deb

@@ -21,7 +21,8 @@ RUN yum -y install \
     doxygen \
     unzip \
     curl \
-    wget
+    wget \
+    ninja-build
 RUN yum clean all
 
 # install non repository packages
