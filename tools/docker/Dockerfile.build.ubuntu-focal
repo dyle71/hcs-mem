@@ -26,8 +26,12 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
-# install non repository packages
 RUN pip3 install conan
+RUN conan profile new default --detect
+RUN conan profile update settings.compiler.libcxx=libstdc++11 default
+RUN conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+
+# install non repository packages
 #COPY install/*.deb /
 #COPY install/ubuntu-focal/*.deb /
 #RUN dpkg --install /*.deb
