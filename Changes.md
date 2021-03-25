@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.1.3] - 2021-03-25
+### Added
+- Support for Ninja builder.
+- Support for conan package manager.
+### Changed
+- Dropped git submodules which can be substituted with conan
+
+
 ## [1.1.2] - 2021-02-04
 ### Added
 - Completed the rule of 5 for `MemoryManipulator`.

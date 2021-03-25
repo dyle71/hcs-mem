@@ -162,6 +162,10 @@ I provide binary installation packages for some operating systems
 - make
 - doxygen (with graphviz)
 - [googletest](https://github.com/google/googletest) (as submodule)
+- ninja-build
+- conan
+
+(You may not use conan or ninja but is highly recommended to do so)
 
 When cloning this project execute the following to clone submodules as well:
 
@@ -178,12 +182,31 @@ $ git clone --recurse-submodules
 #### Native build
 
 mem is a [cmake](https://cmake.org) project with out-of-source builds in
-a dedicated folder, usually labeled "build".
+a dedicated folder, usually labeled "build". It also uses conan for dependency 
+resolution.
+
+Setup conan (initial one-time; skip this if you have prepared conan locally already):
+```bash
+$ conan profile new default --detect
+$ conan profile update settings.compiler.libcxx=libstdc++11 default
+$ conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+```
+
+Pull in dependencies:
+```bash
+$ mkdir conan &> /dev/null; cd conan && conan install ..
+```
 
 ```bash
 $ mkdir build && cd build
 $ cmake ..
 $ make
+```
+or with `ninja` installed:
+```bash
+$ mkdir build && cd build
+$ cmake -GNinja ..
+$ ninja
 ```
 
 ## Test
@@ -197,6 +220,11 @@ Or
 ```bash
 $ cd build
 $ make test
+```
+or with `ninja` installed:
+```bash
+$ cd build
+$ ninja test
 ```
 
 _Note: Please check the test files for documentation. 
@@ -215,6 +243,11 @@ Then compile as usual and run the tests. After the tests make the `run-gcovr` ta
 $ make test
 $ make run-gcovr
 ```
+or with `ninja` installed:
+```bash
+$ ninja test
+$ ninja run-gcovr
+```
 
 This will give you the test coverage on stdout as well as:
 * `gcovr-coverage.info`:  this is the coverage info file created by gcovr
@@ -225,6 +258,43 @@ This will give you the test coverage on stdout as well as:
   fairy dust to make SonarQube swallow it.
 
 in the build folder.
+
+
+## Installable package creation
+
+This project supports the creation of `DEB` and `RPM` files. This is done by specifying
+the `CPACK_GENERATOR` while configuring the project.
+
+To create an installable `DEB`:
+```bash
+$ cd build
+$ cmake -D CMAKE_BUILD_TYPE=Release -D CPACK_GENERATOR=DEB ..
+...
+$ make
+...
+$ make package
+```
+(or use `ninja` in place of `make` if you use the Ninja generator)
+
+To create an installable `RPM`:
+```bash
+$ cd build
+$ cmake -D CMAKE_BUILD_TYPE=Release -D CPACK_GENERATOR=RPM ..
+...
+$ make
+...
+$ make package
+```
+(or use `ninja` in place of `make` if you use the Ninja generator)
+
+
+### Conan
+
+We support Conan package manger too. You may call
+```bash
+$ conan create tools/conan/
+```
+To create and locally install the conan package.
 
 
 ## Notable guidelines
