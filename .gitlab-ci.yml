@@ -120,6 +120,6 @@ package-conan:
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
-    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCONAN_USER=headcode.space+mem -DCONAN_CHANNEL=stable -DCONAN_REMOTE=gitlab ..
+    - cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCONAN_USER=headcode.space+memtool -DCONAN_CHANNEL=stable -DCONAN_REMOTE=gitlab ..
     - ninja conan
     - CONAN_LOGIN_USERNAME=ci_user CONAN_PASSWORD=${CI_JOB_TOKEN} ninja conan_upload
