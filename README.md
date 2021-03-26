@@ -98,16 +98,18 @@ IMHO this is very clear and expressive.
 
 ## Philosophy
 
-All `headcode.space` software follows these directives:
+All `headcode.space` software follows these directives in that order:
 
-1. Provide very **high quality** C++ software. That's the topmost goal.
+1. Provide very **high quality** C++ software: the software does what it is meant to do
+   and never ever crashes or reports false results. It has a minimum of 90% testing code
+   coverage. That's the topmost goal.
 
 2. Provide appealing C++ software, i.e. software which is **easily read and understood**.
    Second goal.
 
 3. Provide software with **super minimal public interfaces**. I try to really provide the absolute
    minimum without any bloat. The users of the software should only include the main header file
-   (e.g. `#include <headcode/mem/mem.hpp>`) and nothing else. These are self-contained and
+   (e.g. `#include <headcode/logger/logger.hpp>`) and nothing else. These are self-contained and
    rely only on C++ standard headers. No additional 3rd party headers required. Third goal.
 
 4. Provide libraries and binaries with **little to no runtime dependencies**. Yet, linkage might
@@ -116,6 +118,12 @@ All `headcode.space` software follows these directives:
    linked against these libraries have little to no runtime dependency and can be installed
    directly with a mere `copy` and b) they are smaller too, since the linkers tend to strip off
    stuff which is not needed.
+
+5. In reverse, using and `headcode.space` library or software should not impose and intrusive
+   dependencies on this particular software. It should be fairly easy to replace this software
+   with something else.
+
+6. Be performant. Yes, speed is impressive too.
 
 I'm by no means perfect. There's always room for improvements and there are sure still bugs.
 If you have any suggestions please drop in an email at https://gitlab.com/headcode.space/memtool/-/issues.
@@ -128,19 +136,21 @@ SonarQube instance for hcs-mem: https://sonar.ddns.headcode.space/dashboard?id=h
 ```
 .
 ├── 3rd                         3rd party libraries needed (likely as git submodules).
-├── cmake                       CMake additional files.
-├── include                     Public header files. Add the path to this folder to your C++ search path.
+├── cmake                       CMake additional files (git submodule).
+├── include                     Public header files. Add this folder to your C++ search path.
 │   └── headcode                
 │       └── mem                 Here is the main include: <headcode/mem/mem.hpp>
 ├── test                        Tests.
 │   ├── benchmark               Benchmark tests.
-│   ├── shared                  Shared test data.
+│   ├── shared                  Shared input data files for tests.
 │   └── unit                    Unit tests.
 ├── tools                       Various tools for run-time or build-time.
-│   ├── docker                  Docker builder image definitions: Dockerfiles for various platforms to build.
+│   ├── conan                   Conan package manager files.
+│   ├── docker                  Dockerfiles for various platforms to build.
 │   └── package                 Package related files.
 ├── Changes.md                  Changes file.
 ├── CMakeLists.txt              The overall CMakeLists.txt.
+├── conanfile.txt               Conan package file.
 ├── Doxyfile                    Doxgen API documentation configuration.
 ├── LICENSE.txt                 The software license.
 └── README.md                   This file.
@@ -161,11 +171,9 @@ I provide binary installation packages for some operating systems
 - git
 - make
 - doxygen (with graphviz)
+- [conan](https://conan.io) (Conan package manger)
 - [googletest](https://github.com/google/googletest) (as submodule)
-- ninja-build
-- conan
-
-(You may not use conan or ninja but is highly recommended to do so)
+- optional: ninja-build (as an alternative to make)
 
 When cloning this project execute the following to clone submodules as well:
 
@@ -179,6 +187,21 @@ or simply clone with the `--recurse-submodule` option:
 $ git clone --recurse-submodules
 ```
 
+You may collect and install all dependencies on your own or use the [conan](https://conan.io) system.
+For the latter setup conan (initial one-time; skip this if you have prepared conan locally already)
+to bind to libstdc++11 ABI and add the official GitLab.com as remote:
+```bash
+$ conan profile new default --detect
+$ conan profile update settings.compiler.libcxx=libstdc++11 default
+$ conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+```
+
+Then pull in all missing dependencies via
+```bash
+$ ( mkdir -p conan &> /dev/null && cd conan && conan install .. ) 
+```
+
+
 #### Native build
 
 mem is a [cmake](https://cmake.org) project with out-of-source builds in
@@ -187,16 +210,10 @@ resolution.
 
 Setup conan (initial one-time; skip this if you have prepared conan locally already):
 ```bash
-$ conan profile new default --detect
-$ conan profile update settings.compiler.libcxx=libstdc++11 default
-$ conan remote add gitlab https://gitlab.com/api/v4/packages/conan
+$ ( mkdir conan &> /dev/null; cd conan && conan install .. )
 ```
 
-Pull in dependencies:
-```bash
-$ mkdir conan &> /dev/null; cd conan && conan install ..
-```
-
+Prepare the build folder:
 ```bash
 $ mkdir build && cd build
 $ cmake ..
@@ -209,6 +226,46 @@ $ cmake -GNinja ..
 $ ninja
 ```
 
+
+#### Docker build images
+
+The `tools/docker` folder contains Dockerfiles along with necessary software
+to be installed into the docker containers to create docker builder containers.
+These docker containers should be capable to build the software.
+
+The build target `docker_images` will build these images, provided the docker
+command is found on the system and the `SHELL` environment variable points to some
+POSIX like shell (bash, sh, zsh, ...). The variable `DOCKER_TAG` will be used as
+docker container tags.
+
+Example:
+```bash
+$ cd build
+$ cmake -GNinja -D DOCKER_TAG=foo_builder
+...
+$ ninja docker_images
+...
+$ docker images | grep hcs-benchmark
+REPOSITORY            TAG             IMAGE ID       CREATED         SIZE
+foo                   debian-buster   5db480e2bcd8   2 minutes ago   810MB
+foo                   fedora32        7f87de7b5e7b   2 minutes ago   1.48GB
+foo                   ubuntu-focal    64b74231cd90   2 minutes ago   885MB 
+```
+
+Then launch a docker builder like this:
+```bash
+$ docker run -it --rm --name foo-builder foo:debian-buster /bin/bash
+root@d192869e6fe6:/build#
+```
+
+In second terminal copy all sources into the container and run a "native" build
+there:
+```bash
+$ cd PROJECT-SOURCES
+$ docker cp . foo-builder:/build
+``` 
+
+
 ## Test
 
 After compilation run ctest
@@ -216,7 +273,7 @@ After compilation run ctest
 $ cd build
 $ ctest
 ```
-Or
+or
 ```bash
 $ cd build
 $ make test
@@ -227,8 +284,9 @@ $ cd build
 $ ninja test
 ```
 
-_Note: Please check the test files for documentation. 
-The tests are easy to read and tell you how the code is intended to be used._ 
+_Note: Please check the [test files](test/unit/) for documentation.
+The tests are easy to read and tell you how the code is intended to be used._
+
 
 ### Test Coverage
 
@@ -260,7 +318,7 @@ This will give you the test coverage on stdout as well as:
 in the build folder.
 
 
-## Installable package creation
+## Installable system package creation
 
 This project supports the creation of `DEB` and `RPM` files. This is done by specifying
 the `CPACK_GENERATOR` while configuring the project.
@@ -288,13 +346,21 @@ $ make package
 (or use `ninja` in place of `make` if you use the Ninja generator)
 
 
-### Conan
+## Conan packages
 
-We support Conan package manger too. You may call
+To create and install conan packages locally, call
 ```bash
-$ conan create tools/conan/
+$ cd build
+$ make conan 
 ```
-To create and locally install the conan package.
+
+You may want to tweak the package labeling by setting `CONAN_USER` and `CONAN_CHANNEL` arguments
+in cmake call prior like this:
+```bash
+$ cd build
+$ cmake -D CONAN_USER=${USER} -D CONAN_CHANNEL="testing" ..
+$ make conan 
+```
 
 
 ## Notable guidelines
@@ -305,7 +371,9 @@ To create and locally install the conan package.
 * How to write a clever "Changes" file: https://keepachangelog.com/en/1.0.0/
 * Folder Convention: https://github.com/KriaSoft/Folder-Structure-Conventions
 
+
 ---
+
 
 Copyright (C) 2020-2021 headcode.space e.U.  
 Oliver Maurhart <info@headcode.space>  

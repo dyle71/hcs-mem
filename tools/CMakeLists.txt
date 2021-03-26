@@ -1,13 +1,10 @@
 # ------------------------------------------------------------
-# This file is part of mem of headcode.space
+# This file is the main CMakeLists of mem of headcode.space
 #
 # The 'LICENSE.txt' file in the project root holds the software license.
 # Copyright (C) 2020-2021 headcode.space e.U.
 # Oliver Maurhart <info@headcode.space>, https://www.headcode.space
 # ------------------------------------------------------------
 
-[requires]
-hcs-benchmark/1.1.0@headcode.space+benchmark/stable
-
-[generators]
-cmake
+add_subdirectory(conan)
+add_subdirectory(docker)

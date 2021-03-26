@@ -102,8 +102,6 @@ set(CMAKE_EXE_LINKER_FLAGS "${LINKER_FLAGS} ${LINKER_FLAGS_PROFILING}")
 check_include_file_cxx("headcode/benchmark/benchmark.hpp" HCS_BENCHMARK_INCLUDE)
 if (NOT "${HCS_BENCHMARK_INCLUDE}")
     message(FATAL_ERROR "Failed to find headcode benchmark files.")
-else ()
-    message(STATUS "HCS_BENCHMARK_INCLUDE: ${HCS_BENCHMARK_INCLUDE}")
 endif ()
 
 
@@ -141,6 +139,7 @@ else()
     message(STATUS "Building without tests")
     message(STATUS "To enable tests invoke cmake with \"-D BUILD_TESTING=on\" arguments.")
 endif ()
+add_subdirectory(tools)
 
 
 # ------------------------------------------------------------
