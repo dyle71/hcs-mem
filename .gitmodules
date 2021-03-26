@@ -1,9 +1,6 @@
 [submodule "3rd/googletest"]
 	path = 3rd/googletest
 	url = https://github.com/google/googletest
-[submodule "3rd/hcs-benchmark"]
-	path = 3rd/hcs-benchmark
-	url = https://gitlab.com/headcode.space/benchmark.git
 [submodule "cmake"]
 	path = cmake
 	url = https://gitlab.com/headcode.space/cmake.git
