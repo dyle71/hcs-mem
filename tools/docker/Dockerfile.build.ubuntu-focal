@@ -22,7 +22,14 @@ RUN apt-get update && apt-get install -y \
     curl \
     wget \
     unzip \
+    ninja-build \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install conan
+RUN conan profile new default --detect
+RUN conan profile update settings.compiler.libcxx=libstdc++11 default
+RUN conan remote add gitlab https://gitlab.com/api/v4/packages/conan
 
 # install non repository packages
 #COPY install/*.deb /

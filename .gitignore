@@ -212,7 +212,8 @@ tags
 .scannerwork/
 
 # ---- no tool related ----
-build/
+/build/
+/conan/
 
 # ---- qtCreator.gitignore ----
 CMakeLists.txt.user*
@@ -220,4 +221,3 @@ CMakeLists.txt.user*
 # ---- tools/docker install packages ----
 tools/docker/install/**/*.dpkg
 tools/docker/install/**/*.zip
-
