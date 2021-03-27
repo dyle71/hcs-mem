@@ -7,7 +7,10 @@
 # ------------------------------------------------------------
 
 [requires]
-hcs-benchmark/1.1.0@headcode.space+benchmark/stable
+hcs-benchmark/1.1.2@headcode.space+benchmark/stable
+
+[build_requires]
+gtest/1.10.0
 
 [generators]
 cmake

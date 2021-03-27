@@ -135,7 +135,6 @@ SonarQube instance for hcs-mem: https://sonar.ddns.headcode.space/dashboard?id=h
 
 ```
 .
-├── 3rd                         3rd party libraries needed (likely as git submodules).
 ├── cmake                       CMake additional files (git submodule).
 ├── include                     Public header files. Add this folder to your C++ search path.
 │   └── headcode                
@@ -172,7 +171,6 @@ I provide binary installation packages for some operating systems
 - make
 - doxygen (with graphviz)
 - [conan](https://conan.io) (Conan package manger)
-- [googletest](https://github.com/google/googletest) (as submodule)
 - optional: ninja-build (as an alternative to make)
 
 When cloning this project execute the following to clone submodules as well:

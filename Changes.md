@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.1.5] - 2021-03-27
+### Removed
+- No need for GoogleTest as submodule
+
+
 ## [1.1.4] - 2021-03-27
 ### Removed
 - No need for top level conan folder any longer
@@ -62,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/mem/-/tree/develop
+[1.1.5]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.5
 [1.1.4]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.4
 [1.1.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.3
 [1.1.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.2
@@ -72,7 +78,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.1
 [1.0.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.0.0
 
+
 ---
+
 
 Copyright (C) 2020-2021 headcode.space e.U.  
 Oliver Maurhart <info@headcode.space>  
