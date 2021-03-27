@@ -213,7 +213,6 @@ tags
 
 # ---- no tool related ----
 /build/
-/conan/
 
 # ---- qtCreator.gitignore ----
 CMakeLists.txt.user*

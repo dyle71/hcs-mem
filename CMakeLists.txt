@@ -11,10 +11,7 @@ cmake_minimum_required(VERSION 3.13.4)
 
 cmake_policy(SET CMP0075 NEW)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake;${HCS_CMAKE}")
-
-include(${CMAKE_SOURCE_DIR}/conan/conanbuildinfo.cmake)
-conan_basic_setup()
-set(CMAKE_REQUIRED_INCLUDES ${CONAN_INCLUDE_DIRS})
+include(conan)
 
 if (CMAKE_BUILD_TYPE STREQUAL "")
     set(CMAKE_BUILD_TYPE "Debug")

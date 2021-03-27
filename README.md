@@ -196,11 +196,6 @@ $ conan profile update settings.compiler.libcxx=libstdc++11 default
 $ conan remote add gitlab https://gitlab.com/api/v4/packages/conan
 ```
 
-Then pull in all missing dependencies via
-```bash
-$ ( mkdir -p conan &> /dev/null && cd conan && conan install .. ) 
-```
-
 
 #### Native build
 

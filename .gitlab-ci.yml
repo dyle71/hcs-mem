@@ -16,11 +16,6 @@ build:
   script:
     - git submodule init
     - git submodule update
-    - rm -rf conan &> /dev/null
-    - mkdir -p conan
-    - cd conan
-    - conan install ..
-    - cd ..
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
@@ -44,11 +39,6 @@ package-debian-buster:
   script:
     - git submodule init
     - git submodule update
-    - rm -rf conan &> /dev/null
-    - mkdir -p conan
-    - cd conan
-    - conan install ..
-    - cd ..
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
@@ -67,11 +57,6 @@ package-ubuntu-focal:
   script:
     - git submodule init
     - git submodule update
-    - rm -rf conan &> /dev/null
-    - mkdir -p conan
-    - cd conan
-    - conan install ..
-    - cd ..
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
@@ -90,11 +75,6 @@ package-fedora32:
   script:
     - git submodule init
     - git submodule update
-    - rm -rf conan &> /dev/null
-    - mkdir -p conan
-    - cd conan
-    - conan install ..
-    - cd ..
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
@@ -113,10 +93,6 @@ package-conan:
   script:
     - git submodule init
     - git submodule update
-    - mkdir -p conan
-    - cd conan
-    - conan install ..
-    - cd ..
     - rm -rf build &> /dev/null
     - mkdir -p build
     - cd build
