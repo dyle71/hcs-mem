@@ -44,3 +44,10 @@ TEST(Version, V1_1_3) {
     EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (1) << 16 | (3)), version);
     EXPECT_EQ(GetHCSMemVersion_1_1_3(), version);
 }
+
+
+TEST(Version, V1_1_4) {
+    std::uint32_t version = MAKE_VERSION(1, 1, 4);
+    EXPECT_EQ(static_cast<unsigned int>((1) << 24 | (1) << 16 | (4)), version);
+    EXPECT_EQ(GetHCSMemVersion_1_1_4(), version);
+}

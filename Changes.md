@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [1.1.4] - 2021-03-27
+### Removed
+- No need for top level conan folder any longer
+
+
 ## [1.1.3] - 2021-03-25
 ### Added
 - Support for Ninja builder.
@@ -57,6 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [Unreleased]: https://gitlab.com/headcode.space/mem/-/tree/develop
+[1.1.4]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.4
+[1.1.3]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.3
 [1.1.2]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.2
 [1.1.1]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.1
 [1.1.0]: https://gitlab.com/headcode.space/memtool/-/releases/v1.1.0
